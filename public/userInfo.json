@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "66e33c37e3ce3248b036800f",
+    "user_name": "Md Ridoy: 2০০34",
+    "user_age": "42",
+    "bloodGroup": "ABPositive",
+    "phone_number": "01845933409",
+    "user_email": "alsafa024@gmail.com",
+    "user_whatsapp": "42",
+    "user_messenger": "42",
+    "user_nationality": "Bangladeshi",
+    "user_address": "42",
+    "user_activeStatus": "active",
+    "user_maritalStatus": "widowed",
+    "user_religious": "hindu",
+    "user_password": "123456A@",
+    "imageFile": {
+      "image": {}
+    },
+    "user_image": "https://i.ibb.co.com/v3N3MDs/blood-donation-form.png",
+    "user_role": "user",
+    "account_createdTime": "September 13th 2024, 1:08:21 am"
+  }
+]

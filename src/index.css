@@ -2,3 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+.bg-primary {
+    /* background-color: #FCF4F4; */
+    /* background-color: #B5C99A; */
+    /* background-color: #97A97C; */
+    /* background-color: #87986A; */
+    /* background-color: #CFE1B9; */
+    background-color: #B5C99A;
+    /* background-color: #63B2EC; */
+    /* background: rgb(181, 212, 60); */
+    /* background: linear-gradient(90deg, rgba(181, 212, 60, 1) 0%, rgba(236, 255, 159, 1) 100%); */
+}
+
+.calculator-p-border {
+    border: 1px solid #D8D2D2;
+}
+
+.btn-bg {
+    /* background-color: #FCF4F4; */
+    /* background-color: #CFE1B9; */
+    /* background-color: #87986A; */
+    /* background-color: #B5C99A; */
+    background-color: #97A97C;
+    color: whitesmoke;
+    /* padding: 5px 0px; */
+    border: none;
+}
+.p-text{
+    color: hsl(119, 21%, 43%);
+}
+
+.p-border {
+    border: 1px solid #CFE1B9;
+}
+
+.nav-lists-border {
+    border-bottom: 1px solid #87986A;
+
+}
+
+.nav-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.p-black {
+    color: #000000;
+}
+
+.input-field {
+    border-radius: 0.5rem;
+    border: 1px solid #CFE1B9;
+    background-color: transparent;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #CFE1B9;
+    color: #87986A;
+    transition-duration: 200ms;
+    outline: none;
+}
+
+.input-field:focus {
+    box-shadow: 0 0 0 2px #87986A;
+    outline-offset: 1px;
+}
+
+.input-radio {
+    padding: 0.5rem;
+    cursor: pointer;
+    appearance: none;
+    width: "14px";
+    height: "14px";
+    border: "none";
+    border-radius: "0";
+
+}
+
+/* hover:bg-[#CFE1B9] */

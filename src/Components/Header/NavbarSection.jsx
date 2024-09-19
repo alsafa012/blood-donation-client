@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 const navData = [
   {
@@ -21,7 +21,7 @@ const navData = [
 ];
 const NavbarSection = () => {
   const [toggle, setToggle] = useState(false);
-  const { userSignOut } = useAuth();
+  const { user, userSignOut } = useAuth();
   const [openDropdown, setOpenDropdown] = useState(false);
   const navigate = useNavigate();
   // const items = ["Profile", "Dashboard", "Log Out"];
@@ -105,7 +105,7 @@ const NavbarSection = () => {
                 width={40}
                 height={40}
                 className="size-10 rounded-full bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop"
+                src={user?.photoURL}
                 alt="avatar drop down navigate ui"
               />
             </button>

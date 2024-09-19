@@ -35,7 +35,7 @@ const ShowAvailableDonorDetails = () => {
             Contact Via Whatsapp: {donorDetails?.user_whatsapp}
           </p>
           <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Contact Via Messenger: {donorDetails?.user_messenger}
+            Contact Via Messenger:
           </p>
           <p className="text-lg lg:text-xl xl:text-2xl font-medium">
             Nationality: {donorDetails?.user_nationality}

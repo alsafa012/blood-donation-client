@@ -3,7 +3,54 @@ import { useEffect, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-
+const district = [
+  { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
+  { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
+];
+const upazila = [
+  {
+    id: "1",
+    district_id: "1",
+    name: "Mohammadpur",
+    bn_name: "দেবিদ্বার",
+    url: "debidwar.comilla.gov.bd",
+  },
+  {
+    id: "2",
+    district_id: "1",
+    name: "Dhanmondi",
+    bn_name: "বরুড়া",
+    url: "barura.comilla.gov.bd",
+  },
+  {
+    id: "3",
+    district_id: "1",
+    name: "Shankar",
+    bn_name: "ব্রাহ্মণপাড়া",
+    url: "brahmanpara.comilla.gov.bd",
+  },
+  {
+    id: "4",
+    district_id: "1",
+    name: "Banani",
+    bn_name: "চান্দিনা",
+    url: "chandina.comilla.gov.bd",
+  },
+  {
+    id: "18",
+    district_id: "2",
+    name: "Chhagalnaiya",
+    bn_name: "ছাগলনাইয়া",
+    url: "chhagalnaiya.feni.gov.bd",
+  },
+  {
+    id: "19",
+    district_id: "2",
+    name: "Feni Sadar",
+    bn_name: "ফেনী সদর",
+    url: "sadar.feni.gov.bd",
+  },
+];
 const AvailableDonorPage = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -11,9 +58,19 @@ const AvailableDonorPage = () => {
   console.log("searchParams", searchParams);
   const [bloodGroup, setBloodGroup] = useState("");
   const [userReligious, setUserReligious] = useState("");
-  const [division, setDivision] = useState("");
   const [availableDonor, setAvailableDonor] = useState([]);
   console.log("availableDonor", availableDonor);
+  const [division, setDivision] = useState("");
+  const [selectedDistrictName, setSelectedDistrictName] = useState("");
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
+  console.log(selectedDistrict);
+  console.log("selectedDistrictName", selectedDistrictName);
+  console.log("selectedDistrict", selectedUpazila);
+  const filteredUpazilas = upazila?.filter(
+    (upz) => upz.district_id === selectedDistrict
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +80,9 @@ const AvailableDonorPage = () => {
         // Add only non-empty filters to the params
         if (bloodGroup) params.blood = bloodGroup;
         if (userReligious) params.religious = userReligious;
-        if (division) params.division = division;
+        if (selectedDistrictName) params.district = selectedDistrictName;
+        if (selectedUpazila) params.area = selectedUpazila;
+        // if (division) params.division = division;
 
         // Update the search params in the URL, only including non-empty values
         setSearchParams(params);
@@ -34,7 +93,7 @@ const AvailableDonorPage = () => {
           search: new URLSearchParams(params).toString(), // Convert params to query string
         });
         const response = await fetch(
-          `http://localhost:5000/available-donor?blood=${bloodGroup}&religious=${userReligious}&division=${division}`
+          `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}`
         );
         const data = await response.json();
         setAvailableDonor(data); // Update state with fetched users based on filters
@@ -45,7 +104,14 @@ const AvailableDonorPage = () => {
     };
 
     fetchData();
-  }, [bloodGroup, division, userReligious, navigate, setSearchParams]);
+  }, [
+    bloodGroup,
+    selectedDistrictName,
+    selectedUpazila,
+    userReligious,
+    navigate,
+    setSearchParams,
+  ]);
 
   // const handleSearch = () => {
   //   const params = {};
@@ -82,28 +148,38 @@ const AvailableDonorPage = () => {
     });
   };
 
+  const handleClearSearchText = () => {
+    setBloodGroup("");
+    setUserReligious("");
+    setSelectedDistrictName("");
+    setSelectedDistrict("");
+    setSelectedUpazila("");
+  };
   const handleDelete = () => {
     axios
-      .delete("http://localhost:5000/users")
+      .delete("https://blood-donation-server-ebon.vercel.app/users")
       .then((res) => console.log(res.data));
   };
 
   return (
     <MyContainer>
       {/* filter section */}
-      <h1>
+      {/* <h1>
         {bloodGroup} {userReligious}
       </h1>
+      <p>Selected District ID: {selectedDistrict}</p>
+      <p>Selected Upazila: {selectedUpazila}</p> */}
       <div className=" flex justify-center gap-5 my-5">
         {/* blood group */}
         <select
-          defaultValue="default"
+          // defaultValue="default"
+          value={bloodGroup}
           id="bloodGroup"
           // value={bloodGroup}
           onChange={(e) => setBloodGroup(e.target.value)}
           className="input-field text-lg md:text-xl font-medium"
         >
-          <option disabled value="default">
+          <option disabled value="">
             Select bloodGroup
           </option>
           <option value="All">All</option>
@@ -118,13 +194,14 @@ const AvailableDonorPage = () => {
         </select>
         {/* filter by Region */}
         <select
-          defaultValue="default"
+          // defaultValue="default"
+          value={userReligious}
           id="region"
           // value={bloodGroup}
           onChange={(e) => setUserReligious(e.target.value)}
           className="input-field text-lg md:text-xl font-medium"
         >
-          <option disabled value="default">
+          <option disabled value="">
             Select Region
           </option>
           <option value="All">All</option>
@@ -132,21 +209,68 @@ const AvailableDonorPage = () => {
           <option value="hindu">Hindu</option>
           <option value="others">others</option>
         </select>
-        {/* filter by division */}
+        {/* District select dropdown */}
         <select
-          defaultValue="default"
-          id="division"
-          // value={bloodGroup}
-          onChange={(e) => setDivision(e.target.value)}
+          value={selectedDistrict}
+          onChange={(e) => {
+            const selectedDistrictId = e.target.value; // Get the district ID from the option value
+            setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
+
+            const selectedDistrictObj = district?.find(
+              (d) => d.id === selectedDistrictId
+            );
+            setSelectedDistrictName(selectedDistrictObj?.name || ""); // Store the district name in a separate state
+
+            setSelectedUpazila(""); // Reset selected upazila when district changes
+          }}
           className="input-field text-lg md:text-xl font-medium"
         >
-          <option disabled value="default">
-            Select division
+          <option disabled value="">
+            Select District
           </option>
           <option value="All">All</option>
-          <option value="dhaka">dhaka</option>
-          <option value="barishal">Barishal</option>
-          <option value="khulna">khulna</option>
+          {district.map((data) => (
+            <option key={data.id} value={data.id}>
+              {data.name}
+            </option>
+          ))}
+        </select>
+        {/* <select
+          // defaultValue="default"
+          value={selectedDistrict}
+          onChange={(e) => {
+            setSelectedDistrict(e.target.value); // Set selected district's id
+            setSelectedUpazila(""); // Reset selected upazila when district changes
+          }}
+          className="input-field text-lg md:text-xl font-medium"
+        >
+          <option disabled value="">
+            Select District
+          </option>
+          <option value="All">All</option>
+          {district.map((data) => (
+            <option key={data.id} value={data.id}>
+              {data.name}
+            </option>
+          ))}
+        </select> */}
+        {/* Upazila select dropdown */}
+        <select
+          // defaultValue="default"
+          value={selectedUpazila}
+          onChange={(e) => setSelectedUpazila(e.target.value)}
+          className="input-field text-lg md:text-xl font-medium"
+          disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
+        >
+          <option disabled value="">
+            Select Upazila
+          </option>
+          <option value="All">All</option>
+          {filteredUpazilas.map((data) => (
+            <option key={data.id} value={data.name}>
+              {data.name}
+            </option>
+          ))}
         </select>
         <button
           onClick={handleSearch}
@@ -154,13 +278,23 @@ const AvailableDonorPage = () => {
         >
           Search
         </button>
+        <button
+          onClick={handleClearSearchText}
+          className="btn-bg rounded-md px-[1rem] py-[0.5rem]"
+        >
+          Clear
+        </button>
         <button onClick={handleDelete} className="btn btn-primary">
           Delete
         </button>
       </div>
 
-      {availableDonor.length > 100 ? (
-        <div>Select</div>
+      {availableDonor.length === 0 ? (
+        <div>
+          <h1 className="text-center text-3xl font-semibold">
+            No search result
+          </h1>
+        </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 my-5 px-1">
           {/* show searchable data */}
@@ -200,167 +334,3 @@ const AvailableDonorPage = () => {
 };
 
 export default AvailableDonorPage;
-
-// import React, { useEffect, useState } from "react";
-
-// // const district = [
-// //   { id: "1", division_id: "1", name: "Comilla", bn_name: "কুমিল্লা" },
-// //   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
-// //   {
-// //     id: "3",
-// //     division_id: "1",
-// //     name: "Brahmanbaria",
-// //     bn_name: "ব্রাহ্মণবাড়িয়া",
-// //   },
-// //   { id: "4", division_id: "1", name: "Rangamati", bn_name: "রাঙ্গামাটি" },
-// //   { id: "5", division_id: "1", name: "Noakhali", bn_name: "নোয়াখালী" },
-// //   { id: "6", division_id: "1", name: "Chandpur", bn_name: "চাঁদপুর" },
-// // ];
-
-// // const upazila = [
-// //   {
-// //     id: "1",
-// //     district_id: "1",
-// //     name: "Debidwar",
-// //     bn_name: "দেবিদ্বার",
-// //     url: "debidwar.comilla.gov.bd",
-// //   },
-// //   {
-// //     id: "2",
-// //     district_id: "1",
-// //     name: "Barura",
-// //     bn_name: "বরুড়া",
-// //     url: "barura.comilla.gov.bd",
-// //   },
-// //   {
-// //     id: "3",
-// //     district_id: "1",
-// //     name: "Brahmanpara",
-// //     bn_name: "ব্রাহ্মণপাড়া",
-// //     url: "brahmanpara.comilla.gov.bd",
-// //   },
-// //   {
-// //     id: "4",
-// //     district_id: "1",
-// //     name: "Chandina",
-// //     bn_name: "চান্দিনা",
-// //     url: "chandina.comilla.gov.bd",
-// //   },
-// //   {
-// //     id: "18",
-// //     district_id: "2",
-// //     name: "Chhagalnaiya",
-// //     bn_name: "ছাগলনাইয়া",
-// //     url: "chhagalnaiya.feni.gov.bd",
-// //   },
-// //   {
-// //     id: "19",
-// //     district_id: "2",
-// //     name: "Feni Sadar",
-// //     bn_name: "ফেনী সদর",
-// //     url: "sadar.feni.gov.bd",
-// //   },
-// //   {
-// //     id: "27",
-// //     district_id: "3",
-// //     name: "Sarail",
-// //     bn_name: "সরাইল",
-// //     url: "sarail.brahmanbaria.gov.bd",
-// //   },
-// //   {
-// //     id: "28",
-// //     district_id: "3",
-// //     name: "Ashuganj",
-// //     bn_name: "আশুগঞ্জ",
-// //     url: "ashuganj.brahmanbaria.gov.bd",
-// //   },
-// //   {
-// //     id: "41",
-// //     district_id: "4",
-// //     name: "Juraichari",
-// //     bn_name: "জুরাছড়ি",
-// //     url: "juraichari.rangamati.gov.bd",
-// //   },
-// //   {
-// //     id: "42",
-// //     district_id: "4",
-// //     name: "Naniarchar",
-// //     bn_name: "নানিয়ারচর",
-// //     url: "naniarchar.rangamati.gov.bd",
-// //   },
-// //   {
-// //     id: "43",
-// //     district_id: "5",
-// //     name: "Noakhali Sadar",
-// //     bn_name: "নোয়াখালী সদর",
-// //     url: "sadar.noakhali.gov.bd",
-// //   },
-// // ];
-
-// const AvailableDonorPage = () => {
-//   const [selectedDistrict, setSelectedDistrict] = useState("");
-//   const [selectedUpazila, setSelectedUpazila] = useState("");
-//   const [district, setDistrict] = useState([]);
-//   const [upazila, setUpazila] = useState([]);
-//   useEffect(() => {
-//     fetch("./district.json")
-//       .then((res) => res.json())
-//       .then((data) => setDistrict(data));
-//   }, []);
-//   useEffect(() => {
-//     fetch("./upazila.json")
-//       .then((res) => res.json())
-//       .then((data) => setUpazila(data));
-//   }, []);
-//   // Filter Upazilas based on the selected district
-//   const filteredUpazilas = upazila?.filter(
-//     (upz) => upz.district_id === selectedDistrict
-//   );
-
-//   return (
-//     <div>
-//       <p>Selected District ID: {selectedDistrict}</p>
-//       <p>Selected Upazila: {selectedUpazila}</p>
-
-//       {/* District select dropdown */}
-//       <select
-//         defaultValue="default"
-//         onChange={(e) => {
-//           setSelectedDistrict(e.target.value); // Set selected district's id
-//           setSelectedUpazila(""); // Reset selected upazila when district changes
-//         }}
-//         className="input-field text-lg md:text-xl font-medium"
-//       >
-//         <option disabled value="default">
-//           Select District
-//         </option>
-//         <option value="All">All</option>
-//         {district.map((data) => (
-//           <option key={data.id} value={data.id}>
-//             {data.name}
-//           </option>
-//         ))}
-//       </select>
-
-//       {/* Upazila select dropdown */}
-//       <select
-//         defaultValue="default"
-//         onChange={(e) => setSelectedUpazila(e.target.value)}
-//         className="input-field text-lg md:text-xl font-medium"
-//         disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
-//       >
-//         <option disabled value="default">
-//           Select Upazila
-//         </option>
-//         <option value="All">All</option>
-//         {filteredUpazilas.map((data) => (
-//           <option key={data.id} value={data.name}>
-//             {data.name}
-//           </option>
-//         ))}
-//       </select>
-//     </div>
-//   );
-// };
-
-// export default AvailableDonorPage;

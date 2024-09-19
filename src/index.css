@@ -9,6 +9,9 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+.hover-bg {
+    background-color: #B5C99A;
+}
 
 .bg-primary {
     /* background-color: #FCF4F4; */
@@ -36,7 +39,8 @@ body {
     /* padding: 5px 0px; */
     border: none;
 }
-.p-text{
+
+.p-text {
     color: hsl(119, 21%, 43%);
 }
 

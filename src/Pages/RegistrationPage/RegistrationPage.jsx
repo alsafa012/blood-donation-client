@@ -24,27 +24,79 @@ const activeStatus = [
   { id: "Yes", label: "Yes" },
   { id: "No", label: "No" },
 ];
+const district = [
+  { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
+  { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
+];
+const upazila = [
+  {
+    id: "1",
+    district_id: "1",
+    name: "Mohammadpur",
+    bn_name: "দেবিদ্বার",
+    url: "debidwar.comilla.gov.bd",
+  },
+  {
+    id: "2",
+    district_id: "1",
+    name: "Dhanmondi",
+    bn_name: "বরুড়া",
+    url: "barura.comilla.gov.bd",
+  },
+  {
+    id: "3",
+    district_id: "1",
+    name: "Shankar",
+    bn_name: "ব্রাহ্মণপাড়া",
+    url: "brahmanpara.comilla.gov.bd",
+  },
+  {
+    id: "4",
+    district_id: "1",
+    name: "Banani",
+    bn_name: "চান্দিনা",
+    url: "chandina.comilla.gov.bd",
+  },
+  {
+    id: "18",
+    district_id: "2",
+    name: "Chhagalnaiya",
+    bn_name: "ছাগলনাইয়া",
+    url: "chhagalnaiya.feni.gov.bd",
+  },
+  {
+    id: "19",
+    district_id: "2",
+    name: "Feni Sadar",
+    bn_name: "ফেনী সদর",
+    url: "sadar.feni.gov.bd",
+  },
+];
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const RegistrationPage = () => {
   const [showName, setShowName] = useState({});
-  // console.log(showName);
   const [showImagePreview, setShowImagePreview] = useState({});
   const [userMaritalStatus, setUserMaritalStatus] = useState("");
   const [userReligious, setUserReligious] = useState("");
   const [userActiveStatus, setUserActiveStatus] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
-  console.log(userMaritalStatus.toLowerCase());
-  console.log(userReligious);
-  console.log(bloodGroup);
-  // const location = useLocation();
-  const navigate = useNavigate();
-  // const from = location?.state?.from?.pathname || "/";
+  // console.log(userMaritalStatus.toLowerCase());
+  // console.log(userReligious);
+  // console.log(bloodGroup);
 
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   // const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const { user, createUser, updateUserProfile } = useAuth();
+
+  const [selectedDistrictName, setSelectedDistrictName] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
+  const filteredUpazilas = upazila?.filter(
+    (upz) => upz.district_id === selectedDistrict
+  );
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -132,6 +184,8 @@ const RegistrationPage = () => {
             user_maritalStatus: userActiveStatus.toLowerCase(),
             user_religious: userReligious.toLowerCase(),
             user_password: password,
+            user_district: selectedDistrictName,
+            user_area: selectedUpazila,
             imageFile: imageFile,
             user_image: photoUrl,
             user_role: "user",
@@ -139,9 +193,13 @@ const RegistrationPage = () => {
           };
           console.log(userInfo);
           axios
-            .post("http://localhost:5000/users", userInfo, {
-              headers: { "Content-Type": "application/json" },
-            })
+            .post(
+              "https://blood-donation-server-ebon.vercel.app/users",
+              userInfo,
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            )
             .then((res) => {
               console.log("User added successfully:", res.data);
               if (res.data.insertedId) {
@@ -170,7 +228,7 @@ const RegistrationPage = () => {
           //  <LoadingAnimation />
           // <div className="min-h-screen bg-[url('https://i.ibb.co/10kGMgs/Cover-EBE-1170x675.jpg')] bg-no-repeat bg-cover">
           <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
-          {/* <div className="min-h-screen bg-[url('https://img.freepik.com/premium-photo/hope-word-is-written-wooden-cubes-green-summer-background-closeup-wooden-elements_661495-5652.jpg')] bg-no-repeat bg-cover"> */}
+            {/* <div className="min-h-screen bg-[url('https://img.freepik.com/premium-photo/hope-word-is-written-wooden-cubes-green-summer-background-closeup-wooden-elements_661495-5652.jpg')] bg-no-repeat bg-cover"> */}
             <WebsiteTitle name={"Registration"} />
             <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
               <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
@@ -359,6 +417,66 @@ const RegistrationPage = () => {
                         className="input-field text-sm md:text-xl font-medium"
                       />
                     </div>
+
+                    {/* user District or Division */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="text-base md:text-xl font-semibold">
+                        Division:*
+                      </label>
+                      {/* District select dropdown */}
+                      <select
+                        value={selectedDistrict}
+                        onChange={(e) => {
+                          const selectedDistrictId = e.target.value; // Get the district ID from the option value
+                          setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
+
+                          const selectedDistrictObj = district?.find(
+                            (d) => d.id === selectedDistrictId
+                          );
+                          setSelectedDistrictName(
+                            selectedDistrictObj?.name || ""
+                          ); // Store the district name in a separate state
+
+                          setSelectedUpazila(""); // Reset selected upazila when district changes
+                        }}
+                        className="input-field text-lg md:text-xl font-medium"
+                      >
+                        <option disabled value="">
+                          Select District
+                        </option>
+                        <option value="All">All</option>
+                        {district?.map((data) => (
+                          <option key={data.id} value={data.id}>
+                            {data.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* user upazila or Area */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="text-base md:text-xl font-semibold">
+                        Area:*
+                      </label>
+                      {/* Upazila select dropdown */}
+                      <select
+                        // defaultValue="default"
+                        value={selectedUpazila}
+                        onChange={(e) => setSelectedUpazila(e.target.value)}
+                        className="input-field text-lg md:text-xl font-medium"
+                        disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
+                      >
+                        <option disabled value="">
+                          Select Upazila
+                        </option>
+                        <option value="All">All</option>
+                        {filteredUpazilas.map((data) => (
+                          <option key={data.id} value={data.name}>
+                            {data.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     {/* Marital Status */}
                     <div className="grid grid-cols-2 gap-2">
                       <label className="text-base md:text-xl font-semibold">
@@ -471,10 +589,11 @@ const RegistrationPage = () => {
                       </div>
                     </div>
                   </div>
-                  {/* input fields */}
-                  <button className="btn-b w-full text-[#97A97C text-white bg-[#87986A] py-3 text-xl font-semibold mt-4">
-                    Submit
-                  </button>
+                  <div className="mx-auto w-full text-center pt-8 pb-3 overflow-hidden">
+                    <button className="btn- w-[65%] hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-xl font-semibold">
+                      Submit
+                    </button>
+                  </div>
                   {/* <button className="btn-b w-full text-[#87986A] bg-[#97A97C] py-3 text-xl font-semibold mt-4">Submit</button> */}
                 </form>
                 <p>{errorMessage}</p>
@@ -638,7 +757,7 @@ export default RegistrationPage;
 //           };
 //           console.log(userInfo);
 //           axios
-//             .post("http://localhost:5000/users", userInfo, {
+//             .post("https://blood-donation-server-ebon.vercel.app/users", userInfo, {
 //               headers: { "Content-Type": "application/json" },
 //             })
 //             .then((res) => {

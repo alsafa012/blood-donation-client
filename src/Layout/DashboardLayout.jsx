@@ -14,9 +14,8 @@ const DashboardLayout = () => {
   return (
     <MyContainer>
       <div className="drawer lg:drawer-open min-h-screen">
-        {/* <div className="drawer lg:drawer-open min-h-screen overflow-hidden max-h-screen"> */}
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content relative max-h-screen overflow-y-auto">
+        <div className="drawer-content relative max-h-screen overflow-hidden">
           {/* Page content here */}
           <label
             onClick={() => setToggle(!toggle)}
@@ -40,7 +39,7 @@ const DashboardLayout = () => {
             className="drawer-overlay"
           ></label>
           {/* side bar content */}
-          <ul className="menu p-4 w-[300px] md:w-[300px] lg:w-[250px] xl:w-[300px] min-h-full clg text-white font-medium">
+          <ul className="menu p-4 w-[300px] md:w-[300px] lg:w-[250px] xl:w-[300px] min-h-full bg-primary text-black font-medium">
             <>
               {user && (
                 <div className="w-full my-3">
@@ -57,11 +56,34 @@ const DashboardLayout = () => {
               )}
               {user && (
                 <li>
-                  <NavLink to="/dashboard/userProfile">
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                        : "cursor-pointer pb-[6px]"
+                    }
+                    to="/dashboard/userProfile"
+                  >
                     <BiSolidHomeHeart size={25} /> Admin Home
                   </NavLink>
                 </li>
               )}
+              <li>
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
+                  to="/dashboard/myActivities"
+                >
+                  <BiSolidHomeHeart size={25} /> My Activities
+                </NavLink>
+              </li>
             </>
             {/* // )} */}
             <div className="divider divider-info"></div>

@@ -181,14 +181,14 @@ const RegistrationPage = () => {
             user_nationality: nationality,
             user_address: address,
             user_activeStatus: activeStatus === "Yes" ? "active" : "inactive",
-            user_maritalStatus: userActiveStatus.toLowerCase(),
+            user_maritalStatus: userMaritalStatus.toLowerCase(),
             user_religious: userReligious.toLowerCase(),
             user_password: password,
             user_district: selectedDistrictName,
             user_area: selectedUpazila,
-            imageFile: imageFile,
+            // imageFile: imageFile,
             user_image: photoUrl,
-            user_role: "user",
+            user_role: "donor",
             account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
           };
           console.log(userInfo);

@@ -65,7 +65,7 @@ const NavbarSection = () => {
   };
   return (
     <nav className="max-w-screen-2xl mx-auto bg-primary sticky top-0 border-b border-[rgb(210,216,211)] z-50">
-      <div className="md:h-[93px] grid grid-cols-2 md:grid-cols-4 place-content-end px-3 py-5">
+      <div className="md:h-[93px] grid grid-cols-2 md:grid-cols-4 items-center px-3 py-5">
         {/* logo div */}
         <div className="col-span-1">
           {/* <img
@@ -76,7 +76,7 @@ const NavbarSection = () => {
           <h1 className="text-2xl font-bold p-text">HOPE</h1>
         </div>
         {/* lists */}
-        <div className="hidden md:block place-content-end text-center mx-auto w-ful col-span-2">
+        <div className="hidden md:block text-center mx-auto w-ful col-span-2">
           <ul className="flex gap-5 items-center">
             {navData.map((info) => (
               <NavLink
@@ -96,11 +96,11 @@ const NavbarSection = () => {
           </ul>
         </div>
         {/* cart && fav */}
-        <div className="col-span-1 flex justify-end">
+        <div className="col-span-1 flex justify-end items-center gap-2">
           {/* profile icon */}
 
           <div className="relative w-fit text-black">
-            <button onClick={() => setOpenDropdown(!openDropdown)}>
+            <div onClick={() => setOpenDropdown(!openDropdown)}>
               <img
                 width={40}
                 height={40}
@@ -108,7 +108,7 @@ const NavbarSection = () => {
                 src={user?.photoURL}
                 alt="avatar drop down navigate ui"
               />
-            </button>
+            </div>
             <ul
               className={` ${
                 openDropdown ? "" : "hidden"
@@ -147,9 +147,9 @@ const NavbarSection = () => {
                 id="check"
                 className="peer/check hidden"
               />
-              <span className="w-8 h-1 rounded-lg inline-block red-bg peer-checked/check:rotate-45 peer-checked/check:translate-y-2 duration-300"></span>
-              <span className="w-8 h-1 rounded-lg inline-block red-bg peer-checked/check:scale-0 duration-300"></span>
-              <span className="w-8 h-1 rounded-lg inline-block red-bg peer-checked/check:-rotate-45 peer-checked/check:-translate-y-2 duration-300"></span>
+              <span className="w-8 h-1 rounded-lg inline-block bg-[#87986A] peer-checked/check:rotate-45 peer-checked/check:translate-y-2 duration-300"></span>
+              <span className="w-8 h-1 rounded-lg inline-block bg-[#87986A] peer-checked/check:scale-0 duration-300"></span>
+              <span className="w-8 h-1 rounded-lg inline-block bg-[#87986A] peer-checked/check:-rotate-45 peer-checked/check:-translate-y-2 duration-300"></span>
             </label>
           </button>
         </div>
@@ -157,8 +157,8 @@ const NavbarSection = () => {
       {/* list items for mobile device */}
       <div className={`md:hidden`}>
         <ul
-          className={`flex overflow-hidden flex-col gap-5 transition-all duration-300 items-center bg-primary border absolute w-full  ${
-            toggle ? "h-[250px] pt-3" : "h-0"
+          className={`flex overflow-hidden flex-col gap-7 justify-center transition-all duration-300 items-center bg-primary bg-[#CFE1B9 border absolute w-full ${
+            toggle ? "h-[220px]" : "h-0"
           }`}
         >
           {navData.map((info) => (

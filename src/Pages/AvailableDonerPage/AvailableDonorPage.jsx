@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -307,20 +308,23 @@ const AvailableDonorPage = () => {
             >
               <div className="overflow-hidden h-[200px] w-full">
                 <img
-                  className="h-[200px] w-full group-hover:scale-105 transition-transform duration-300"
+                  className="h-[200px] w-full object-cover group-hover:scale-105 transition-transform duration-300"
                   src={info?.user_image}
                   alt="user_image"
                 />
               </div>
 
               <div className="p-2">
-                <p className="text-lg md:text-lg font-medium">
+                <p className="text-lg md:text-lg font-semibold">
                   {info?.user_name}
                 </p>
+                <div className="text-base md:text-lg font-medium">
+                  <ShowBloodGroup blood={info?.bloodGroup} />
+                </div>
                 {/* <p className="text-lg md:text-lg font-medium">{info?.user_age}</p> */}
-                <p className="text-lg md:text-lg font-medium">
+                {/* <p className="text-lg md:text-lg font-medium">
                   {info?.bloodGroup}
-                </p>
+                </p> */}
               </div>
               <Link to={`/availableDonors/${info._id}`}>
                 <button className="btn-bg py-2 w-full">View Details</button>

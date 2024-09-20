@@ -1,54 +1,112 @@
 import { useLoaderData } from "react-router-dom";
 import MyContainer from "../../Shared/MyContainer";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
+import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 
 const ShowAvailableDonorDetails = () => {
   const donorDetails = useLoaderData();
+  const handleMessengerContact = () => {
+    if (donorDetails?.user_messenger) {
+      const messengerUrl = `https://m.me/${donorDetails.user_messenger}`;
+      window.open(messengerUrl, "_blank");
+    } else {
+      alert("Messenger contact not available.");
+    }
+  };
+  const handleWhatsAppContact = () => {
+    if (donorDetails?.user_whatsapp) {
+      // Convert the phone number to international format
+      const whatsappNumber = `+880${donorDetails.user_whatsapp}`;
+      const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+      window.open(whatsappUrl, "_blank");
+    } else {
+      alert("WhatsApp contact not available.");
+    }
+  };
   return (
     <MyContainer>
       <WebsiteTitle name={`${donorDetails?.user_name}'s Details`} />
-      <div className="px-1 flex gap-2 flex-col lg:flex-row justify-center mt-5">
-        <div className="mx-aut border">
+      <div className="px-1 w-full md:w-[80%] lg:w-[65%] mx-auto flex gap-2 flex-col justify-center mt-2 mb-5">
+        <div className="">
           <img
-            className="h-[180px] w-full md:h-[300px] lg:h-[350px] object-fill rounded-md"
+            className="h-[300px] w-auto md:h-[380px] lg:h-[350px] object-contain rounded-md cursor-pointer"
             src={donorDetails?.user_image}
-            alt=""
+            alt="user_image.png"
           />
         </div>
-        <div className="grid md:grid-cols-2 gap-5">
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Name: {donorDetails?.user_name}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Age:{donorDetails?.user_age}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Blood Group: {donorDetails?.bloodGroup}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Phone No: {donorDetails?.phone_number}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Contact Via Email: {donorDetails?.user_email}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Contact Via Whatsapp: {donorDetails?.user_whatsapp}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Contact Via Messenger:
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Nationality: {donorDetails?.user_nationality}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Address: {donorDetails?.user_address}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            MaritalStatus: {donorDetails?.user_maritalStatus}
-          </p>
-          <p className="text-lg lg:text-xl xl:text-2xl font-medium">
-            Religion: {donorDetails?.user_religious}
-          </p>
+        <div className="flex flex-col gap-2 px-2">
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Name</p> <p>: {donorDetails?.user_name}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Age</p>
+            <p>: {donorDetails?.user_age}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Blood Group</p>
+            <div className="flex gap-1">
+              <p>:</p> <ShowBloodGroup blood={donorDetails?.bloodGroup} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Phone No</p>
+            <p>: {donorDetails?.phone_number}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Contact Via Email</p>
+            <p>: {donorDetails?.user_email}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Contact Via Whatsapp</p>
+            {donorDetails?.user_whatsapp ? (
+              <div>
+                <span>:</span>
+                <button
+                  className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
+                  onClick={handleWhatsAppContact}
+                >
+                  click here
+                  {/* {donorDetails?.user_whatsapp} */}
+                </button>
+              </div>
+            ) : (
+              <p>: Not available</p>
+            )}
+            {/* <p>: {donorDetails?.user_whatsapp}</p> */}
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Contact Via Messenger</p>
+            {donorDetails?.user_messenger ? (
+              <div>
+                <span>:</span>
+                <button
+                  className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
+                  onClick={handleMessengerContact}
+                >
+                  click here
+                  {/* {donorDetails?.user_messenger} */}
+                </button>
+              </div>
+            ) : (
+              <p>: Not available</p>
+            )}
+            {/* <p>: {donorDetails?.user_messenger}</p> */}
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p> MaritalStatus</p> <p>: {donorDetails?.user_maritalStatus}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Religion</p> <p>: {donorDetails?.user_religious}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p> Address</p>{" "}
+            <p>
+              : {donorDetails?.user_area}, {donorDetails?.user_district}
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+            <p>Nationality</p> <p>: {donorDetails?.user_nationality}</p>
+          </div>
         </div>
       </div>
     </MyContainer>

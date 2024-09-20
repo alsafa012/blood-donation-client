@@ -82,20 +82,25 @@ const AllPostPage = () => {
         <button className="btn w-full my-3">Add A Post</button>
       </Link>
       <div className="flex justify-center w-full mx-auto items-center">
-        <div className="grid grid-cols-3 gap-5 mx-auto px-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-1 mx-auto md:px-5 lg:px-28">
           {allPostsInfo?.map((user, ind) => (
             <div className="p-border rounded-sm overflow-hidden" key={ind}>
               {/* image and info */}
               <div className="flex gap-4 border-b px-1 py-1">
-                <img
-                  className="w-[50px] h-[50px] rounded-full"
-                  src={user?.creator_image}
-                  alt={user?.creator_image}
-                />
+                <Link to={`/availableDonors/${user?.creator_id}`}>
+                  <img
+                    className="w-[50px] h-[50px] rounded-full"
+                    src={user?.creator_image}
+                    alt={user?.creator_image}
+                  />
+                </Link>
                 <div>
-                  <p className="text-[14px] font-semibold">
+                  <Link
+                    to={`/availableDonors/${user?.creator_id}`}
+                    className="text-[14px] font-semibold"
+                  >
                     {user?.creator_name}
-                  </p>
+                  </Link>
                   <p className="text-[10px]">
                     {user?.post_created_date} at {user?.post_created_time}
                   </p>
@@ -106,12 +111,15 @@ const AllPostPage = () => {
               </div>
               {/* content */}
               <div className="min-h-[100px] px-1 py-2">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum
-                  officiis deserunt distinctio vel harum sequi suscipit. Porro
-                  ad, aliquid repellat dolorum, atque molestiae excepturi
-                  laborum expedita maxime quam dolor est?
-                </p>
+                {user?.comment?.split("\n")?.map((com, ind) =>
+                  com?.trim() !== "" ? (
+                    <p className="text-[14px] mt-1" key={ind}>
+                      {com}
+                    </p>
+                  ) : (
+                    <br key={ind} />
+                  )
+                )}
               </div>
               {/* react & comment */}
               <div className="flex items-center btn-bg gap-2 justify-between text-[14px] p-1">

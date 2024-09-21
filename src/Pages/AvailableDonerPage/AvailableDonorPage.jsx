@@ -94,7 +94,7 @@ const AvailableDonorPage = () => {
           search: new URLSearchParams(params).toString(), // Convert params to query string
         });
         const response = await fetch(
-          `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}`
+          `http://localhost:5000/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}`
         );
         const data = await response.json();
         setAvailableDonor(data); // Update state with fetched users based on filters
@@ -158,7 +158,7 @@ const AvailableDonorPage = () => {
   };
   const handleDelete = () => {
     axios
-      .delete("https://blood-donation-server-ebon.vercel.app/users")
+      .delete("http://localhost:5000/users")
       .then((res) => console.log(res.data));
   };
 

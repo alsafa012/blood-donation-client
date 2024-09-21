@@ -3,7 +3,7 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useAllPostsInfo = () => {
   const axiosPublic = useAxiosPublic();
-  const { data: allPostsInfo = [], refetch } = useQuery({
+  const { data: allPostsData = [], refetch } = useQuery({
     queryKey: ["allPosts"],
     queryFn: async () => {
       const res = await axiosPublic.get("/allPosts");
@@ -11,59 +11,23 @@ const useAllPostsInfo = () => {
     },
   });
 
+  // Filter and sort posts
+  const allPostsInfo = allPostsData
+    ?.filter((post) => {
+      const today = new Date().getDate();
+      console.log("today", today);
+      const postDeadline = new Date(post.post_deadline).getDate();
+      console.log("postDeadline", postDeadline);
+      return postDeadline >= today;
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.postCreatedDate).getTime() -
+        new Date(a.postCreatedDate).getTime()
+    );
+  console.log("allPostsInfo", allPostsInfo);
+
   return [allPostsInfo, refetch];
 };
 
 export default useAllPostsInfo;
-
-// import { useQuery } from "@tanstack/react-query";
-// import useAxiosPublic from "./useAxiosPublic";
-
-// const useAllPostsInfo = () => {
-//   const axiosPublic = useAxiosPublic();
-//   const { data: allPostsInfo = [], refetch } = useQuery({
-//     queryKey: ["allPosts"],
-//     queryFn: async () => {
-//       const res = await axiosPublic.get("/allPosts");
-//       return res.data;
-//     },
-//   });
-
-//   // Filter posts that have a valid deadline (posts where the deadline hasn't passed)
-//   const filteredPosts = allPostsInfo.filter((post) => {
-//     const today = new Date();
-//     const postDeadline = new Date(post.post_deadline);
-//     return postDeadline >= today; // Show only posts whose deadline is today or in the future
-//   });
-
-//   return [filteredPosts, refetch];
-// };
-
-// export default useAllPostsInfo;
-
-// import { useQuery } from "@tanstack/react-query";
-// import useAxiosPublic from "./useAxiosPublic";
-
-// const useAllPostsInfo = () => {
-//   const axiosPublic = useAxiosPublic();
-//   const { data: allPostsInfo = [], refetch } = useQuery({
-//     queryKey: ["allPosts"],
-//     queryFn: async () => {
-//       const res = await axiosPublic.get("/allPosts");
-//       return res.data;
-//     },
-//   });
-
-//   // Filter and sort posts
-//   const filteredAndSortedPosts = allPostsInfo
-//     .filter((post) => {
-//       const today = new Date();
-//       const postDeadline = new Date(post.post_deadline);
-//       return postDeadline >= today; // Keep only posts with future deadlines
-//     })
-//     .sort((a, b) => new Date(b.postCreatedDate) - new Date(a.postCreatedDate)); // Sort by post creation date (newest first)
-
-//   return [filteredAndSortedPosts, refetch];
-// };
-
-// export default useAllPostsInfo;

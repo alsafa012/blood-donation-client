@@ -193,13 +193,9 @@ const RegistrationPage = () => {
           };
           console.log(userInfo);
           axios
-            .post(
-              "https://blood-donation-server-ebon.vercel.app/users",
-              userInfo,
-              {
-                headers: { "Content-Type": "application/json" },
-              }
-            )
+            .post("http://localhost:5000/users", userInfo, {
+              headers: { "Content-Type": "application/json" },
+            })
             .then((res) => {
               console.log("User added successfully:", res.data);
               if (res.data.insertedId) {
@@ -757,7 +753,7 @@ export default RegistrationPage;
 //           };
 //           console.log(userInfo);
 //           axios
-//             .post("https://blood-donation-server-ebon.vercel.app/users", userInfo, {
+//             .post("http://localhost:5000/users", userInfo, {
 //               headers: { "Content-Type": "application/json" },
 //             })
 //             .then((res) => {

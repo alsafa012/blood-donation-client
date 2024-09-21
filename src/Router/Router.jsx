@@ -13,7 +13,7 @@ import UpdateUserProfile from "../Pages/Dashboard/UserDashboard/UserProfilePage/
 import CreatePostPage from "../Pages/AllPostPage/CreatePostPage";
 import MyActivities from "../Pages/Dashboard/UserDashboard/MyActivities/MyActivities";
 const myCreatedRouter = createBrowserRouter([
-  // https://blood-donation-server-ebon.vercel.app
+  // http://localhost:5000
   // https://blood-donation-server-ebon.vercel.app
   {
     path: "/",
@@ -44,17 +44,13 @@ const myCreatedRouter = createBrowserRouter([
         path: "/availableDonors/:id",
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/available-donor/${params.id}`
-          ),
+          fetch(`http://localhost:5000/available-donor/${params.id}`),
       },
       {
         path: "/updateProfile/:id",
         element: <UpdateUserProfile />,
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/users/${params.id}`
-          ),
+          fetch(`http://localhost:5000/users/${params.id}`),
       },
     ],
   },

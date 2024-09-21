@@ -24,7 +24,7 @@ const UserProfile = () => {
     // const updateRole = { status: newStatus };
 
     axios
-      .patch(`https://blood-donation-server-ebon.vercel.app/users/${id}`, {
+      .patch(`http://localhost:5000/users/${id}`, {
         status: newStatus,
       })
       .then((res) => {

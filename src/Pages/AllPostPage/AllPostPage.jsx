@@ -28,7 +28,7 @@ const AllPostPage = () => {
     }
   }, [openComment, selectedPostDetail._id, allCommentsInfo]);
   // useEffect(() => {
-  //   fetch("https://blood-donation-server-ebon.vercel.app/allComments")
+  //   fetch("http://localhost:5000/allComments")
   //     .then((res) => res.json())
   //     .then((data) => setShowComments(data));
   // }, []);
@@ -52,23 +52,18 @@ const AllPostPage = () => {
       comment: textAreaValue,
     };
     console.log(commentData);
-    axios
-      .post(
-        "https://blood-donation-server-ebon.vercel.app/allComments",
-        commentData
-      )
-      .then((res) => {
-        if (res.data.insertedId) {
-          commentTextAreaValue.value = "";
-          refetchComments();
-          Swal.fire("Good job!", "comment created successfully", "success");
-        }
-      });
+    axios.post("http://localhost:5000/allComments", commentData).then((res) => {
+      if (res.data.insertedId) {
+        commentTextAreaValue.value = "";
+        refetchComments();
+        Swal.fire("Good job!", "comment created successfully", "success");
+      }
+    });
   };
 
   const handleDeleteAllComments = () => {
     axios
-      .delete("https://blood-donation-server-ebon.vercel.app/allComments")
+      .delete("http://localhost:5000/allComments")
       .then((res) => console.log(res.data));
   };
 
@@ -78,6 +73,7 @@ const AllPostPage = () => {
       <button onClick={handleDeleteAllComments} className="btn">
         DeleteAllComments
       </button>
+      <p>{allPostsInfo.length}</p>
       <Link to={"/createPost"}>
         <button className="btn w-full my-3">Add A Post</button>
       </Link>
@@ -89,9 +85,9 @@ const AllPostPage = () => {
               <div className="flex gap-4 border-b px-1 py-1">
                 <Link to={`/availableDonors/${user?.creator_id}`}>
                   <img
-                    className="w-[50px] h-[50px] rounded-full"
+                    className="w-[50px] h-[50px] object-cover rounded-full"
                     src={user?.creator_image}
-                    alt={user?.creator_image}
+                    alt={"creator_image.png"}
                   />
                 </Link>
                 <div>

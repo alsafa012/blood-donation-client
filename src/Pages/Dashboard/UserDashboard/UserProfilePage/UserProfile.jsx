@@ -11,7 +11,7 @@ import { CgProfile } from "react-icons/cg";
 
 const UserProfile = () => {
   const [allUsers, refetch] = useAllUsersInfo();
-  console.log(allUsers);
+  // console.log(allUsers);
   const { user } = useAuth();
   const [toggle, setToggle] = useState(false);
   const filterData = allUsers?.filter(
@@ -53,9 +53,9 @@ const UserProfile = () => {
           {filterData.map((info) => (
             <div className="" key={info._id}>
               {/* img div */}
-              <div className="w-[200px]">
+              <div className="max-w-[300px]">
                 <img
-                  className="w-[200px] h-[300px] rounded-md object-fill"
+                  className="h-[300px] rounded-md object-cover"
                   src={info?.user_image}
                   alt="img"
                 />
@@ -90,7 +90,7 @@ const UserProfile = () => {
               {/* ------- */}
               <div className="flex flex-col gap-2 md:gap-3 px-2 border-y py-2 mb-5">
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Name</p> <p>: {info?.user_name}</p>
+                  <p>Name</p> <p className="capitalize">: {info?.user_name}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p>Age</p>
@@ -147,10 +147,12 @@ const UserProfile = () => {
                   {/* <p>: {info?.user_messenger}</p> */}
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p> MaritalStatus</p> <p>: {info?.user_maritalStatus}</p>
+                  <p> MaritalStatus</p>{" "}
+                  <p className="capitalize">: {info?.user_maritalStatus}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Religion</p> <p>: {info?.user_religious}</p>
+                  <p>Religion</p>{" "}
+                  <p className="capitalize">: {info?.user_religious}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p> Address</p>{" "}

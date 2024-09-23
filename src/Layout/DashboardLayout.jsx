@@ -44,7 +44,7 @@ const DashboardLayout = () => {
               {user && (
                 <div className="w-full my-3">
                   <img
-                    className="rounded-full h-[100px] w-[100px] object-fill mx-auto"
+                    className="rounded-full h-[100px] w-[100px] object-cover mx-auto"
                     src={user?.photoURL}
                     alt=""
                   />

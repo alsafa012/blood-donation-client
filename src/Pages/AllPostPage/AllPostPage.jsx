@@ -69,16 +69,14 @@ const AllPostPage = () => {
 
   return (
     <MyContainer>
-      <h2>Blood Donation Request</h2>
-      <button onClick={handleDeleteAllComments} className="btn">
+      {/* <button onClick={handleDeleteAllComments} className="btn">
         DeleteAllComments
-      </button>
-      <p>{allPostsInfo.length}</p>
+      </button> */}
       <Link to={"/createPost"}>
         <button className="btn w-full my-3">Add A Post</button>
       </Link>
-      <div className="flex justify-center w-full mx-auto items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-1 mx-auto md:px-5 lg:px-28">
+      <div className="w-full mx-auto">
+        <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50%] lg:w-[45%]">
           {allPostsInfo?.map((user, ind) => (
             <div className="p-border rounded-sm overflow-hidden" key={ind}>
               {/* image and info */}
@@ -106,15 +104,32 @@ const AllPostPage = () => {
                 </div>
               </div>
               {/* content */}
-              <div className="min-h-[100px] px-1 py-2">
-                {user?.comment?.split("\n")?.map((com, ind) =>
-                  com?.trim() !== "" ? (
-                    <p className="text-[14px] mt-1" key={ind}>
-                      {com}
-                    </p>
-                  ) : (
-                    <br key={ind} />
-                  )
+              <div>
+                {/* texts */}
+                <div className="min-h-[50px] px-1 py-2">
+                  {user?.comment?.split("\n")?.map((com, ind) =>
+                    com?.trim() !== "" ? (
+                      <p className="text-[14px] mt-1" key={ind}>
+                        {com}
+                      </p>
+                    ) : (
+                      <br key={ind} />
+                    )
+                  )}
+                </div>
+                {/* image */}
+                {user?.post_images && (
+                  <div className="border-t border-[#CFE1B9] flex gap-2 flex-wrap items-center justify-center py-1">
+                    {user?.post_images?.map((image, ind) => (
+                      <div className="" key={ind}>
+                        <img
+                          className="size-28 object-cover"
+                          src={image}
+                          alt=""
+                        />
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
               {/* react & comment */}

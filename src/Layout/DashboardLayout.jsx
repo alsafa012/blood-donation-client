@@ -46,7 +46,7 @@ const DashboardLayout = () => {
                   <img
                     className="rounded-full h-[100px] w-[100px] object-cover mx-auto"
                     src={user?.photoURL}
-                    alt=""
+                    alt="user_img.png"
                   />
                   <p className="font-medium text-center p-2">
                     {/* {user && isAdmin ? "Admin" : "Customer"} */}
@@ -82,6 +82,20 @@ const DashboardLayout = () => {
                   to="/dashboard/myActivities"
                 >
                   <BiSolidHomeHeart size={25} /> My Activities
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
+                  to="/dashboard/review"
+                >
+                  <BiSolidHomeHeart size={25} /> Write a Review
                 </NavLink>
               </li>
             </>

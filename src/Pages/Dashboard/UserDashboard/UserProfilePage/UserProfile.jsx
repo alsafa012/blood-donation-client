@@ -17,7 +17,7 @@ const UserProfile = () => {
   const filterData = allUsers?.filter(
     (item) => item.user_email === user?.email
   );
-  console.log(filterData);
+  // console.log(filterData);
   const handleUpdateStatus = (id, status) => {
     console.log(id);
     const newStatus = status === "active" ? "inactive" : "active";
@@ -46,7 +46,7 @@ const UserProfile = () => {
       <WebsiteTitle name={"Hope || My Profile"}></WebsiteTitle>
       {/* <p>user dashboard</p> */}
       <div className="">
-        <h1 className="bg-[#B5C99A bg-[#CFE1B9] text-lg md:text-[24px] text-cente font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
+        <h1 className="bg-[#B5C99A sticky top-0 z-50 bg-[#CFE1B9] text-lg md:text-[24px] text-cente font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
           <CgProfile /> User profile
         </h1>
         <div className="w-[85%] mt-5 mx-auto">

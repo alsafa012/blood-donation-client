@@ -33,8 +33,36 @@ const ShowAvailableDonorDetails = () => {
             src={donorDetails?.user_image}
             alt="user_image.png"
           />
+          {/* Social icons */}
+          <div className="flex gap-2 items-center pt-2">
+            {donorDetails?.user_messenger && (
+              <div
+                className="size-8 cursor-pointer md:hover:rotate-45 duration-300 rounded-full"
+                onClick={handleMessengerContact}
+              >
+                <img
+                  className="size-8 rounded-full"
+                  src="https://i.ibb.co.com/3zzvw7k/logo-512.webp"
+                  alt=""
+                />
+              </div>
+            )}
+            {donorDetails?.user_whatsapp && (
+              <div
+                className="size-7 cursor-pointer md:hover:rotate-45 duration-300 rounded-full"
+                onClick={handleWhatsAppContact}
+              >
+                <img
+                  className="size-7 rounded-full"
+                  src="https://i.ibb.co.com/BBxHZdG/whatsapp-512.webp"
+                  alt=""
+                />
+              </div>
+            )}
+          </div>
+          {/* ------------- */}
         </div>
-        <div className="flex flex-col gap-2 px-2">
+        <div className="flex flex-col gap-2 px-2 border-y py-2">
           <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
             <p>Name</p> <p>: {donorDetails?.user_name}</p>
           </div>
@@ -56,7 +84,7 @@ const ShowAvailableDonorDetails = () => {
             <p>Contact Via Email</p>
             <p>: {donorDetails?.user_email}</p>
           </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+          {/* <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
             <p>Contact Via Whatsapp</p>
             {donorDetails?.user_whatsapp ? (
               <div>
@@ -66,13 +94,11 @@ const ShowAvailableDonorDetails = () => {
                   onClick={handleWhatsAppContact}
                 >
                   click here
-                  {/* {donorDetails?.user_whatsapp} */}
                 </button>
               </div>
             ) : (
               <p>: Not available</p>
             )}
-            {/* <p>: {donorDetails?.user_whatsapp}</p> */}
           </div>
           <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
             <p>Contact Via Messenger</p>
@@ -84,14 +110,12 @@ const ShowAvailableDonorDetails = () => {
                   onClick={handleMessengerContact}
                 >
                   click here
-                  {/* {donorDetails?.user_messenger} */}
                 </button>
               </div>
             ) : (
               <p>: Not available</p>
             )}
-            {/* <p>: {donorDetails?.user_messenger}</p> */}
-          </div>
+          </div> */}
           <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
             <p> MaritalStatus</p> <p>: {donorDetails?.user_maritalStatus}</p>
           </div>
@@ -108,6 +132,9 @@ const ShowAvailableDonorDetails = () => {
             <p>Nationality</p> <p>: {donorDetails?.user_nationality}</p>
           </div>
         </div>
+        {/* image modal as absolute */}
+        <div className="hidden"></div>
+        {/* --------- */}
       </div>
     </MyContainer>
   );

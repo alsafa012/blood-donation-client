@@ -1,15 +1,66 @@
-import React from "react";
-
 const ReviewSection = () => {
+  const handleSendEmail = (e) => {
+    e.preventDefault();
+    const formInput = e.target;
+    const formData = {
+      email: formInput.email.value,
+      subject: formInput.subject.value,
+      body: formInput.body.value,
+    };
+    console.log(formData);
+
+    fetch("https://yourmailsender.pythonanywhere.com/send/mail/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        alert(data);
+        console.log(data);
+        // You can add a success message or further processing here
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+        // You can handle the error with a user notification here
+      });
+  };
   return (
     <div className="min-h-[50vh] bg-[#B5C99A] mt-5">
       ReviewSection
-      <img src="https://i.ibb.co.com/S7vw7fm/logo-with-heart-hand.png" alt="" />
-      <img src="https://i.ibb.co.com/YyGvpXC/png-transparent-hope-culture-church-louisville-eucharist-faith-hope-text-logo-monochrome-thumbnail.png" alt="" />
-      <img src="https://i.ibb.co.com/KVzSGtk/imgbin-bird-eagle-logo-bird-FHufwj8n-WKvu-Qw-YRRG3za-Kpek.jpg" alt="" />
-      <img className='w-full h-[60vh object-fill' src="https://i.ibb.co.com/c87GhR9/347-3471954-hands-of-hope-logo.jpg" alt="" />
-      <img  src="https://ibb.co.com/PWf7GJy" alt="" />
-
+      <form
+        onSubmit={handleSendEmail}
+        className="flex flex-col gap-5 w-[40%] mx-auto border p-5"
+      >
+        <input
+          id="email"
+          placeholder="email"
+          className="px-2 h-[30px] border"
+          type="text"
+        />
+        <input
+          id="subject"
+          placeholder="subject"
+          className="px-2 h-[30px] border"
+          type="text"
+        />
+        <textarea
+          className="w-full min-h-[80px] md:min-h-[100px] max-h-[100px] border border-[#CFE1B9] px-2 py-2 focus:outline-none focus:ring-1 focus:ring-[#CFE1B9]"
+          id="body"
+          cols={5}
+          placeholder="body"
+          name="body"
+          required
+        />
+        <button className="btn w-full">Send</button>
+      </form>
     </div>
   );
 };

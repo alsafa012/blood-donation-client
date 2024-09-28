@@ -84,5 +84,4 @@ const myCreatedRouter = createBrowserRouter([
     element: <LoginPage />,
   },
 ]);
-
 export default myCreatedRouter;

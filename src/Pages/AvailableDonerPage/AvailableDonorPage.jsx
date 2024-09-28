@@ -72,6 +72,8 @@ const AvailableDonorPage = () => {
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
+  const getEmail = availableDonor.map((email) => email.user_email);
+  console.log("getEmail", getEmail);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,7 +172,7 @@ const AvailableDonorPage = () => {
       </h1>
       <p>Selected District ID: {selectedDistrict}</p>
       <p>Selected Upazila: {selectedUpazila}</p> */}
-      <div className=" flex justify-center gap-5 my-5">
+      <div className="flex flex-wrap justify-center gap-5 my-5">
         {/* blood group */}
         <select
           // defaultValue="default"
@@ -285,9 +287,9 @@ const AvailableDonorPage = () => {
         >
           Clear
         </button>
-        <button onClick={handleDelete} className="btn btn-primary">
+        {/* <button onClick={handleDelete} className="btn btn-primary">
           Delete
-        </button>
+        </button> */}
       </div>
 
       {availableDonor.length === 0 ? (

@@ -24,7 +24,7 @@ const AllPostPage = () => {
         (comment) => selectedPostDetail._id === comment.selected_post_id
       );
       setShowComments1(filtered);
-      console.log(filtered);
+      // console.log(filtered);
     }
   }, [openComment, selectedPostDetail._id, allCommentsInfo]);
   // useEffect(() => {
@@ -237,7 +237,7 @@ const AllPostPage = () => {
                   className="relative w-full min-h-[80px] max-h-[80px] border px-2 py-2 focus:outline-none focus:ring-1 focus:ring-[#D8D2D2] text-lg rounded-[10px]"
                   id="comment_box"
                   cols={5}
-                  placeholder={`comment as ${selectedPostDetail?.name}`}
+                  placeholder={`comment as ${loggedUserInfo?.user_name}`}
                   name="comment_box"
                   required
                 />

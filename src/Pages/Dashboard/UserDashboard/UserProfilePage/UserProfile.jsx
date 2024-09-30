@@ -77,7 +77,7 @@ const UserProfile = () => {
       <WebsiteTitle name={"Hope || My Profile"}></WebsiteTitle>
       {/* <p>user dashboard</p> */}
       <div className="">
-        <h1 className="bg-[#B5C99A sticky top-0 z-50 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
+        <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
           <CgProfile /> My profile
         </h1>
         <div className="w-[85%] mt-2 mx-auto">
@@ -194,49 +194,15 @@ const UserProfile = () => {
                   <p>: {info?.user_email}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Contact Via Whatsapp</p>
-                  {info?.user_whatsapp ? (
-                    <div>
-                      <span>:</span>
-                      <button
-                        className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
-                        // onClick={handleWhatsAppContact}
-                      >
-                        click here
-                      </button>
-                    </div>
-                  ) : (
-                    <p>: Not available</p>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Contact Via Messenger</p>
-                  {info?.user_messenger ? (
-                    <div>
-                      <span>:</span>
-                      <button
-                        className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
-                        // onClick={handleMessengerContact}
-                      >
-                        click here
-                        {/* {info?.user_messenger} */}
-                      </button>
-                    </div>
-                  ) : (
-                    <p>: Not available</p>
-                  )}
-                  {/* <p>: {info?.user_messenger}</p> */}
-                </div>
-                <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p> MaritalStatus</p>{" "}
+                  <p> MaritalStatus</p>
                   <p className="capitalize">: {info?.user_maritalStatus}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Religion</p>{" "}
+                  <p>Religion</p>
                   <p className="capitalize">: {info?.user_religious}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p> Address</p>{" "}
+                  <p> Address</p>
                   <p>
                     : {info?.user_area}, {info?.user_district}
                   </p>

@@ -2,9 +2,12 @@ import { useLoaderData } from "react-router-dom";
 import MyContainer from "../../Shared/MyContainer";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
+import { useState } from "react";
+import ShowImage from "./ShowImage";
 
 const ShowAvailableDonorDetails = () => {
   const donorDetails = useLoaderData();
+  const [showImage, setShowImage] = useState(false);
   const handleMessengerContact = () => {
     if (donorDetails?.user_messenger) {
       const messengerUrl = `https://m.me/${donorDetails.user_messenger}`;
@@ -28,11 +31,14 @@ const ShowAvailableDonorDetails = () => {
       <WebsiteTitle name={`${donorDetails?.user_name}'s Details`} />
       <div className="px-1 w-full md:w-[80%] lg:w-[65%] mx-auto flex gap-2 flex-col justify-center mt-2 mb-5">
         <div className="">
-          <img
-            className="h-[300px] w-auto md:h-[380px] lg:h-[350px] object-contain rounded-md cursor-pointer"
-            src={donorDetails?.user_image}
-            alt="user_image.png"
-          />
+          <div className="">
+            <img
+              onClick={() => setShowImage(true)}
+              className="h-[300px] w-auto md:h-[380px] lg:h-[350px] object-contain rounded-md cursor-pointer"
+              src={donorDetails?.user_image}
+              alt="user_image.png"
+            />
+          </div>
           {/* Social icons */}
           <div className="flex gap-2 items-center pt-2">
             {donorDetails?.user_messenger && (
@@ -62,78 +68,46 @@ const ShowAvailableDonorDetails = () => {
           </div>
           {/* ------------- */}
         </div>
+        {/* User details display */}
         <div className="flex flex-col gap-2 px-2 border-y py-2">
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Name</p> <p>: {donorDetails?.user_name}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Age</p>
-            <p>: {donorDetails?.user_age}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Blood Group</p>
-            <div className="flex gap-1">
-              <p>:</p> <ShowBloodGroup blood={donorDetails?.bloodGroup} />
+          {[
+            { label: "Name", value: donorDetails?.user_name },
+            { label: "Age", value: donorDetails?.user_age },
+            {
+              label: "Blood Group",
+              value: <ShowBloodGroup blood={donorDetails?.bloodGroup} />,
+            },
+            { label: "Phone No", value: donorDetails?.phone_number },
+            { label: "Contact Via Email", value: donorDetails?.user_email },
+            {
+              label: "Marital Status",
+              value: donorDetails?.user_maritalStatus,
+            },
+            { label: "Religion", value: donorDetails?.user_religious },
+            {
+              label: "Address",
+              value: `${donorDetails?.user_area}, ${donorDetails?.user_district}`,
+            },
+            { label: "Nationality", value: donorDetails?.user_nationality },
+          ].map(({ label, value }) => (
+            <div
+              className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium"
+              key={label}
+            >
+              <p>{label}</p>{" "}
+              <div className="flex items-center gap-1">
+                <span>:</span>
+                <span>{value}</span>
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Phone No</p>
-            <p>: {donorDetails?.phone_number}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Contact Via Email</p>
-            <p>: {donorDetails?.user_email}</p>
-          </div>
-          {/* <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Contact Via Whatsapp</p>
-            {donorDetails?.user_whatsapp ? (
-              <div>
-                <span>:</span>
-                <button
-                  className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
-                  onClick={handleWhatsAppContact}
-                >
-                  click here
-                </button>
-              </div>
-            ) : (
-              <p>: Not available</p>
-            )}
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Contact Via Messenger</p>
-            {donorDetails?.user_messenger ? (
-              <div>
-                <span>:</span>
-                <button
-                  className="text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-start ml-1 hover:underline hover:text-[#97A97C]"
-                  onClick={handleMessengerContact}
-                >
-                  click here
-                </button>
-              </div>
-            ) : (
-              <p>: Not available</p>
-            )}
-          </div> */}
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p> MaritalStatus</p> <p>: {donorDetails?.user_maritalStatus}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Religion</p> <p>: {donorDetails?.user_religious}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p> Address</p>{" "}
-            <p>
-              : {donorDetails?.user_area}, {donorDetails?.user_district}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-            <p>Nationality</p> <p>: {donorDetails?.user_nationality}</p>
-          </div>
+          ))}
         </div>
-        {/* image modal as absolute */}
-        <div className="hidden"></div>
+        {/* show selected image */}
+        <ShowImage
+          displayImage={donorDetails?.user_image}
+          showImage={showImage}
+          setShowImage={setShowImage}
+        />
         {/* --------- */}
       </div>
     </MyContainer>

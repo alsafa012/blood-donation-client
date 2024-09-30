@@ -441,7 +441,7 @@ const RegistrationPage = () => {
                         <option disabled value="">
                           Select District
                         </option>
-                        <option value="All">All</option>
+                        {/* <option value="All">All</option> */}
                         {district?.map((data) => (
                           <option key={data.id} value={data.id}>
                             {data.name}
@@ -465,7 +465,7 @@ const RegistrationPage = () => {
                         <option disabled value="">
                           Select Upazila
                         </option>
-                        <option value="All">All</option>
+                        {/* <option value="All">All</option> */}
                         {filteredUpazilas.map((data) => (
                           <option key={data.id} value={data.name}>
                             {data.name}

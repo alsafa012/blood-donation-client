@@ -1,11 +1,28 @@
+import useLoggedUserInfo from "../hooks/useLoggedUserInfo";
+
 const ReviewSection = () => {
+  const [loggedUserInfo] = useLoggedUserInfo()
+  console.log(loggedUserInfo);
   const handleSendEmail = (e) => {
     e.preventDefault();
     const formInput = e.target;
     const formData = {
-      email: formInput.email.value,
+      email: [
+        "alsafa012@gmail.com",
+        "alsafa024@gmail.com",
+        "rjridoy012@gmail.com",
+      ],
+      // email: formInput.email.value,
       subject: formInput.subject.value,
-      body: formInput.body.value,
+      body: `
+        My name is ${loggedUserInfo?.user_name}.\n
+        ${formInput.body.value}\n
+        Please contact me via:
+        Phone: ${loggedUserInfo?.phone_number}
+        Email: ${loggedUserInfo?.user_email}
+        WhatsApp: ${loggedUserInfo?.user_whatsapp}
+        Messenger: ${loggedUserInfo?.user_messenger}
+      `,
     };
     console.log(formData);
 

@@ -34,7 +34,7 @@ const NavbarSection = () => {
     {
       id: 2,
       name: "Dashboard",
-      navigate: "/posts",
+      navigate: "/dashboard/userProfile",
     },
     {
       id: 3,

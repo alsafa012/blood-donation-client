@@ -4,6 +4,7 @@ import MyContainer from "../../Shared/MyContainer";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
+import WebsiteTitle from "../../Shared/WebsiteTitle";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -166,12 +167,7 @@ const AvailableDonorPage = () => {
 
   return (
     <MyContainer>
-      {/* filter section */}
-      {/* <h1>
-        {bloodGroup} {userReligious}
-      </h1>
-      <p>Selected District ID: {selectedDistrict}</p>
-      <p>Selected Upazila: {selectedUpazila}</p> */}
+      <WebsiteTitle name={"Hope || Available Donors"} />
       <div className="flex flex-wrap justify-center gap-5 my-5">
         {/* blood group */}
         <select

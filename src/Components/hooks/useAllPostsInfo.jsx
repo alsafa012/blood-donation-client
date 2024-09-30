@@ -15,9 +15,9 @@ const useAllPostsInfo = () => {
   const allPostsInfo = allPostsData
     ?.filter((post) => {
       const today = new Date().getDate();
-      console.log("today", today);
+      // console.log("today", today);
       const postDeadline = new Date(post.post_deadline).getDate();
-      console.log("postDeadline", postDeadline);
+      // console.log("postDeadline", postDeadline);
       return postDeadline >= today;
     })
     .sort(

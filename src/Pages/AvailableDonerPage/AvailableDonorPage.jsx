@@ -5,6 +5,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
+import LoadingAnimation from "../../Shared/LoadingAnimation";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -57,6 +58,7 @@ const AvailableDonorPage = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   console.log("searchParams", searchParams);
   const [bloodGroup, setBloodGroup] = useState("");
   const [userReligious, setUserReligious] = useState("");
@@ -64,12 +66,11 @@ const AvailableDonorPage = () => {
   console.log("availableDonor", availableDonor);
   const [division, setDivision] = useState("");
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
-
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedUpazila, setSelectedUpazila] = useState("");
-  console.log(selectedDistrict);
-  console.log("selectedDistrictName", selectedDistrictName);
-  console.log("selectedDistrict", selectedUpazila);
+  // console.log(selectedDistrict);
+  // console.log("selectedDistrictName", selectedDistrictName);
+  // console.log("selectedDistrict", selectedUpazila);
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
@@ -78,6 +79,7 @@ const AvailableDonorPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const params = {};
 
@@ -101,6 +103,7 @@ const AvailableDonorPage = () => {
         );
         const data = await response.json();
         setAvailableDonor(data); // Update state with fetched users based on filters
+        setIsLoading(false);
         // console.log("Data received:", data); // Log the fetched data
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -160,9 +163,7 @@ const AvailableDonorPage = () => {
     setSelectedUpazila("");
   };
   const handleDelete = () => {
-    axios
-      .delete("http://localhost:5000/users")
-      .then((res) => console.log(res.data));
+    axiosPublic.delete("/users").then((res) => console.log(res.data));
   };
 
   return (
@@ -234,25 +235,6 @@ const AvailableDonorPage = () => {
             </option>
           ))}
         </select>
-        {/* <select
-          // defaultValue="default"
-          value={selectedDistrict}
-          onChange={(e) => {
-            setSelectedDistrict(e.target.value); // Set selected district's id
-            setSelectedUpazila(""); // Reset selected upazila when district changes
-          }}
-          className="input-field text-lg md:text-xl font-medium"
-        >
-          <option disabled value="">
-            Select District
-          </option>
-          <option value="All">All</option>
-          {district.map((data) => (
-            <option key={data.id} value={data.id}>
-              {data.name}
-            </option>
-          ))}
-        </select> */}
         {/* Upazila select dropdown */}
         <select
           // defaultValue="default"
@@ -287,13 +269,15 @@ const AvailableDonorPage = () => {
           Delete
         </button> */}
       </div>
-
-      {availableDonor.length === 0 ? (
+      {availableDonor.length === 0 && !isLoading && (
         <div>
-          <h1 className="text-center text-3xl font-semibold">
+          <h1 className="text-center text-3xl font-semibold pt-10">
             No search result
           </h1>
         </div>
+      )}
+      {isLoading ? (
+        <LoadingAnimation />
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 my-5 px-1">
           {/* show searchable data */}

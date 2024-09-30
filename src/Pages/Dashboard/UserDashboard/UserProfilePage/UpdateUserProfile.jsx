@@ -12,6 +12,7 @@ import { CiEdit } from "react-icons/ci";
 import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 const userReligiousStatus = [
   { id: "islam", label: "islam" },
   { id: "hindu", label: "hindu" },
@@ -82,6 +83,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 const UpdateUserProfile = () => {
   const location = useLocation();
   console.log(location);
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const from = location.state || "/";
   const { id } = useParams();
@@ -188,10 +190,7 @@ const UpdateUserProfile = () => {
       account_updated_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
     };
     console.log("userUpdatedInfo", userUpdatedInfo);
-    const ProductRes = await axios.put(
-      `http://localhost:5000/users/${id}`,
-      userUpdatedInfo
-    );
+    const ProductRes = await axiosPublic.put(`/users/${id}`, userUpdatedInfo);
     // console.log(ProductRes.data);
     //   console.log("from database",contextRes.data);
     if (ProductRes.data.modifiedCount > 0 || ProductRes.data.acknowledged) {

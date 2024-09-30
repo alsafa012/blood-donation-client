@@ -8,18 +8,36 @@ import { useNavigate } from "react-router-dom";
 import { FcGallery } from "react-icons/fc";
 import { FaEarthAfrica } from "react-icons/fa6";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
+import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const CreatePostPage = () => {
   const [loggedUserInfo] = useLoggedUserInfo();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
   const [showImageDetails, setShowImageDetails] = useState([]);
   const [showImagePreview, setShowImagePreview] = useState([]);
-  console.log("showImageDetails", showImageDetails);
-  console.log("showImagePreview", showImagePreview);
+  // const [loading, setLoading] = useState(true);
+  // console.log("showImageDetails", showImageDetails);
+  // console.log("showImagePreview", showImagePreview);
 
   const handleCreatePost = async (e) => {
     e.preventDefault();
+    // Check if the selected deadline is before today
+    const form = e.target;
+    const post_deadline = form.deadline.value;
+    const comment = form.comment.value;
+    // Get today's date in 'YYYY-MM-DD' format
+    const today = moment().format("YYYY-MM-DD");
+    console.log("today", today);
+    if (moment(post_deadline).isBefore(today)) {
+      Swal.fire(
+        "Invalid deadline!",
+        "Deadline cannot be in the past.",
+        "error"
+      );
+      return; // Stop further execution if deadline is invalid
+    }
     try {
       const uploadPromises = showImageDetails.map((imageFile) => {
         const formData = new FormData();
@@ -35,22 +53,7 @@ const CreatePostPage = () => {
       );
       console.log(responses.data);
       console.log(imageUrls);
-      const form = e.target;
-      const post_deadline = form.deadline.value;
-      const comment = form.comment.value;
-      // Get today's date in 'YYYY-MM-DD' format
-      const today = moment().format("YYYY-MM-DD");
-      console.log("today", today);
 
-      // Check if the selected deadline is before today
-      if (moment(post_deadline).isBefore(today)) {
-        Swal.fire(
-          "Invalid deadline!",
-          "Deadline cannot be in the past.",
-          "error"
-        );
-        return; // Stop further execution if deadline is invalid
-      }
       const formData = {
         creator_id: loggedUserInfo?._id,
         creator_name: loggedUserInfo?.user_name,
@@ -60,11 +63,12 @@ const CreatePostPage = () => {
         creator_image: loggedUserInfo?.user_image,
         post_deadline: post_deadline,
         comment: comment,
+        found_donor_successfully: false,
         post_images: imageUrls,
       };
       console.log("formData", formData);
-      axios
-        .post("http://localhost:5000/allPosts", formData)
+      axiosPublic
+        .post("/allPosts", formData)
         .then((res) => {
           console.log(res.data);
           if (res.data.insertedId) {

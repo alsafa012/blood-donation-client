@@ -10,11 +10,13 @@ import { FaRegEdit } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import { data } from "autoprefixer";
+import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
 const ReviewPostPage = () => {
   const [userRating, setUserRating] = useState(1);
   const [selectedReviewInfo, setSelectedReviewInfo] = useState({});
   const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
   const [loggedUserInfo] = useLoggedUserInfo();
   // console.log(loggedUserInfo);
   const [openEdit, setOpenEdit] = useState(false);
@@ -26,7 +28,7 @@ const ReviewPostPage = () => {
   const { data: reviewInfo = [], refetch } = useQuery({
     queryKey: [],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/review`);
+      const res = await axiosPublic.get(`/review`);
       return res.data;
     },
   });
@@ -48,10 +50,7 @@ const ReviewPostPage = () => {
       update_status: false,
     };
     console.log(reviewInfo);
-    const response = await axios.post(
-      `http://localhost:5000/review`,
-      reviewInfo
-    );
+    const response = await axiosPublic.post(`/review`, reviewInfo);
     if (response.data.insertedId) {
       setUserRating(1);
       e.target.review.value = "";
@@ -89,9 +88,9 @@ const ReviewPostPage = () => {
       retting: updatedRating,
       review_content: form.updated_review.value,
     };
-    console.log("formData", formData);
-    axios
-      .patch(`http://localhost:5000/review/${id}`, formData)
+    // console.log("formData", formData);
+    axiosPublic
+      .patch(`/review/${id}`, formData)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           Swal.fire({
@@ -119,7 +118,7 @@ const ReviewPostPage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/review/${id}`).then((res) => {
+        axiosPublic.delete(`/review/${id}`).then((res) => {
           refetch();
           if (res.data.deletedCount > 0) {
             // console.log(res.data);
@@ -134,9 +133,7 @@ const ReviewPostPage = () => {
     });
   };
   const handleDelete = () => {
-    axios
-      .delete("http://localhost:5000/review")
-      .then((res) => console.log(res.data));
+    axiosPublic.delete("/review").then((res) => console.log(res.data));
   };
   return (
     <div className="max-h-screen overflow-auto">

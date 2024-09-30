@@ -7,10 +7,11 @@ import { Link, useLocation } from "react-router-dom";
 import ShowBloodGroup from "../../../../Shared/ShowBloodGroup";
 import { FaRegEdit } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
 const UserProfile = () => {
   const [allUsers, refetch] = useAllUsersInfo();
-  // console.log(allUsers);
+  const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const location = useLocation();
   // const [toggle, setToggle] = useState(false);
@@ -23,8 +24,8 @@ const UserProfile = () => {
     const newStatus = status === "active" ? "inactive" : "active";
     // const updateRole = { status: newStatus };
 
-    axios
-      .patch(`http://localhost:5000/users/${id}`, {
+    axiosPublic
+      .patch(`/users/${id}`, {
         status: newStatus,
       })
       .then((res) => {

@@ -7,6 +7,7 @@ import moment from "moment";
 import useAuth from "../../Components/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 const userReligiousStatus = [
   { id: "Islam", label: "Islam" },
   { id: "Hindu", label: "Hindu" },
@@ -87,6 +88,7 @@ const RegistrationPage = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const axiosPublic = useAxiosPublic();
   // const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const { user, createUser, updateUserProfile } = useAuth();
@@ -193,8 +195,8 @@ const RegistrationPage = () => {
             account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
           };
           console.log(userInfo);
-          axios
-            .post("http://localhost:5000/users", userInfo, {
+          axiosPublic
+            .post("/users", userInfo, {
               headers: { "Content-Type": "application/json" },
             })
             .then((res) => {

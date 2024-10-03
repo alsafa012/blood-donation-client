@@ -71,25 +71,48 @@ const ShowAvailableDonorDetails = () => {
         {/* User details display */}
         <div className="flex flex-col gap-2 px-2 border-y py-2">
           {[
-            { label: "Name", value: donorDetails?.user_name },
-            { label: "Age", value: donorDetails?.user_age },
+            {
+              label: "Name",
+              text: "capitalize",
+              value: donorDetails?.user_name,
+            },
+            { label: "Age", text: "capitalize", value: donorDetails?.user_age },
             {
               label: "Blood Group",
+              text: "capitalize",
               value: <ShowBloodGroup blood={donorDetails?.bloodGroup} />,
             },
-            { label: "Phone No", value: donorDetails?.phone_number },
-            { label: "Contact Via Email", value: donorDetails?.user_email },
+            {
+              label: "Phone No",
+              text: "capitalize",
+              value: donorDetails?.phone_number,
+            },
+            {
+              label: "Contact Via Email",
+              text: "",
+              value: donorDetails?.user_email,
+            },
             {
               label: "Marital Status",
+              text: "capitalize",
               value: donorDetails?.user_maritalStatus,
             },
-            { label: "Religion", value: donorDetails?.user_religious },
+            {
+              label: "Religion",
+              text: "capitalize",
+              value: donorDetails?.user_religious,
+            },
             {
               label: "Address",
+              text: "capitalize",
               value: `${donorDetails?.user_area}, ${donorDetails?.user_district}`,
             },
-            { label: "Nationality", value: donorDetails?.user_nationality },
-          ].map(({ label, value }) => (
+            {
+              label: "Nationality",
+              text: "capitalize",
+              value: donorDetails?.user_nationality,
+            },
+          ].map(({ label, value, text }) => (
             <div
               className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium"
               key={label}
@@ -97,7 +120,7 @@ const ShowAvailableDonorDetails = () => {
               <p>{label}</p>{" "}
               <div className="flex items-center gap-1">
                 <span>:</span>
-                <span>{value}</span>
+                <span style={{ textTransform: text }}>{value}</span>
               </div>
             </div>
           ))}

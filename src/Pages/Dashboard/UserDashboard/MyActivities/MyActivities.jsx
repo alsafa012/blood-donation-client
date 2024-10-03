@@ -1,38 +1,41 @@
 import { useEffect, useState } from "react";
-import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
-import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
-import useAuth from "../../../../Components/hooks/useAuth";
+import MyPosts from "./MyPosts";
+import MyComments from "./MyComments";
+
 
 const MyActivities = () => {
-  const [allPostsInfo, refetch] = useAllPostsInfo();
-  const [loggedUserInfo] = useLoggedUserInfo();
-  console.log(loggedUserInfo);
-  const { user } = useAuth();
 
-  const [myPosts, setMyPosts] = useState([]);
-
-  //   useEffect(() => {
-  // loggedUserInfo.user_email ===
-  const filterByEmail = allPostsInfo?.filter(
-    (post) => post?.creator_email === user?.email
-  );
-  //     setMyPosts(filterByEmail)
-  //   }, [allPostsInfo, loggedUserInfo]);
+  const [activities, setActivities] = useState(() => {
+    return localStorage.getItem("activities") || "posts";
+  });
+  useEffect(() => {
+    // Update localStorage whenever activities state changes
+    localStorage.setItem("activities", activities);
+  }, [activities]);
 
   return (
-    <div>
-      <h1>MyActivities</h1>
-      <p>allPostsInfo: {allPostsInfo.length}</p>
-      <p>myPosts: {myPosts.length}</p>
-      <p>myPosts: {filterByEmail.length}</p>
+    <div className="min-h-screen max-h-screen overflow-y-auto">
+      <div className="flex overflow-x-auto justify-center gap-5 overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
+        <button
+          onClick={() => setActivities("posts")}
+          className={`${
+            activities === "posts" ? "border-b-2 border-blue-500" : ""
+          } inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none`}
+        >
+          Posts
+        </button>
 
-      <div className="grid grid-cols-2 gap-2">
-        <button className="w-full btn">Posts</button>
-        <button className="w-full btn">Comments</button>
+        <button
+          onClick={() => setActivities("comments")}
+          className={`${
+            activities === "comments" ? "border-b-2 border-blue-500" : ""
+          } inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none`}
+        >
+          Comments
+        </button>
       </div>
-      {
-        
-      }
+      {activities === "posts" && <MyPosts activities={activities} />}
+      {activities === "comments" && <MyComments />}
     </div>
   );
 };

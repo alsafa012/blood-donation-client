@@ -37,7 +37,7 @@ const useAllPostsInfo = () => {
     );
   // console.log("allPostsInfo", allPostsInfo);
 
-  return [allPostsInfo, refetch, isLoading];
+  return [allPostsData,allPostsInfo, refetch, isLoading];
 };
 
 export default useAllPostsInfo;

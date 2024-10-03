@@ -4,11 +4,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGallery } from "react-icons/fc";
-import { FaEarthAfrica } from "react-icons/fa6";
+import { FaArrowLeft, FaEarthAfrica } from "react-icons/fa6";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const CreatePostPage = () => {
@@ -100,9 +101,12 @@ const CreatePostPage = () => {
         className="flex flex-col gap-3 w-[95%] md:w-[70%] lg:w-[65%] mx-auto p-border my-1 rounded-md"
         onSubmit={handleCreatePost}
       >
-        <h1 className="text-center text-xl font-semibold bg-[#CFE1B9] py-2">
-          Create Post
-        </h1>
+        <div className="text-center text-xl font-semibold bg-[#CFE1B9] py-2 flex items-center gap-2 pl-2">
+          <Link className="cursor-pointer" to="/posts">
+            <FaArrowLeft />
+          </Link>
+          <h1 className="">Create Post</h1>
+        </div>
         <div className="flex gap-2 items-start py-2 px-1">
           <img
             className="size-[50px] rounded-full object-cover"

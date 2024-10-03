@@ -18,7 +18,8 @@ const ShowImage = ({ displayImage, showImage, setShowImage }) => {
         className={`${showImage ? "block" : "hidden"} absolute z-10`}
       >
         <img
-          className="object-cover min-h-[60vh] max-h-[90vh] rounded-sm"
+          // className="object-contain md:object-fill min-h-[60vh] max-h-[90vh] rounded-sm bg-primary"
+          className="object-cover md:min-h-[60vh] max-h-[90vh] rounded-md"
           src={displayImage}
           alt="displayImage.png"
         />

@@ -16,7 +16,7 @@ import useAllComments from "../../Components/hooks/useAllComments";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 const AllPostPage = () => {
-  const [allPostsInfo, refetch, isLoading] = useAllPostsInfo();
+  const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
   const [showComments1, setShowComments1] = useState([]);
@@ -204,12 +204,12 @@ const AllPostPage = () => {
                     )}
                   </div>
                   {/* image */}
-                  {user?.post_images && (
+                  {user?.post_images.length > 0 && (
                     <div className="border-t border-[#CFE1B9] flex gap-2 flex-wrap items-center justify-center py-1">
                       {user?.post_images?.map((image, ind) => (
-                        <div className="" key={ind}>
+                        <div className="size-28" key={ind}>
                           <img
-                            className="size-28 object-cover cursor-pointer"
+                            className="md:hover:scale-y-105 p-border hover:rounded-md duration-300 size-28 object-cover cursor-pointer"
                             src={image}
                             alt=""
                             onClick={() => handleShowSelectedImage(ind, user)}
@@ -259,7 +259,7 @@ const AllPostPage = () => {
                 selectedPostDetail.post_images &&
                 selectedPostDetail.post_images.length > 0 && (
                   <img
-                    className="object-fill min-h-[80vh] max-h-[90vh] rounded-sm border bg-[#CFE1B9]"
+                    className="object-contain md:object-fill min-h-80 md:min-h-[80vh] max-h-[90vh] rounded-md"
                     // src={displayImage}
                     src={selectedPostDetail.post_images[selectedImageIndex]}
                     alt="displayImage.png"

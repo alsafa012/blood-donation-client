@@ -121,7 +121,7 @@ const MyPosts = ({ activities }) => {
                 )}
               </div>
               {/* image */}
-              {post?.post_images && (
+              {post?.post_images.length > 0 && (
                 <div className="border-t border-[#CFE1B9] flex gap-2 flex-wrap items-center justify-center py-1">
                   {post?.post_images?.map((image, ind) => (
                     <div className="size-28" key={ind}>
@@ -135,7 +135,6 @@ const MyPosts = ({ activities }) => {
                   ))}
                 </div>
               )}
-
               {/* react & comment div */}
               <div className="flex items-center btn-bg gap-2 justify-between text-[14px] p-1">
                 <button className="px-2 hover:bg-[#B5C99A] py-1 rounded-md">
@@ -174,7 +173,7 @@ const MyPosts = ({ activities }) => {
             selectedPostDetail.post_images &&
             selectedPostDetail.post_images.length > 0 && (
               <img
-                className="object-contain md:object-fill min-h-80 md:min-h-[80vh] max-h-[90vh] rounded-md"
+                className="object-fill md:object-fill md:min-h-[80vh] max-h-[90vh] rounded-md"
                 // src={displayImage}
                 src={selectedPostDetail.post_images[selectedImageIndex]}
                 alt="displayImage.png"

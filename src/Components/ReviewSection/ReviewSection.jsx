@@ -1,7 +1,9 @@
 import useLoggedUserInfo from "../hooks/useLoggedUserInfo";
 
 const ReviewSection = () => {
-  const [loggedUserInfo] = useLoggedUserInfo()
+  const [loggedUserInfo] = useLoggedUserInfo();
+  // const {loggedUserInfo} = useLoggedUserInfo()
+
   console.log(loggedUserInfo);
   const handleSendEmail = (e) => {
     e.preventDefault();
@@ -40,13 +42,10 @@ const ReviewSection = () => {
         return res.json();
       })
       .then((data) => {
-        alert(data);
         console.log(data);
-        // You can add a success message or further processing here
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
-        // You can handle the error with a user notification here
       });
   };
   return (

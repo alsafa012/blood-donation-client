@@ -35,7 +35,7 @@ const MyActivities = () => {
         </button>
       </div>
       {activities === "posts" && <MyPosts activities={activities} />}
-      {activities === "comments" && <MyComments />}
+      {activities === "comments" && <MyComments activities={activities} />}
     </div>
   );
 };

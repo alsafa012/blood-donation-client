@@ -259,7 +259,7 @@ const AllPostPage = () => {
                 selectedPostDetail.post_images &&
                 selectedPostDetail.post_images.length > 0 && (
                   <img
-                    className="object-contain md:object-fill min-h-80 md:min-h-[80vh] max-h-[90vh] rounded-md"
+                    className="object-contain md:object-fill md:min-h-[80vh] max-h-[90vh] rounded-md"
                     // src={displayImage}
                     src={selectedPostDetail.post_images[selectedImageIndex]}
                     alt="displayImage.png"
@@ -314,7 +314,7 @@ const AllPostPage = () => {
                 }}
                 className={`${
                   openComment ? "block" : "hidden"
-                } absolute w-[90%] md:w-[65%] lg:w-[30%] z-10 bg-primary overflow-y-auto h-[500px] max-h-[500px]`}
+                } absolute w-[90%] md:w-[65%] lg:w-[30%] z-10 bg-primary overflow-y-auto max-h-[500px]`}
               >
                 {/* X btn */}
                 <div
@@ -328,13 +328,13 @@ const AllPostPage = () => {
                 {/* -------- */}
 
                 {/* comments div */}
-                <div className="flex min-h-[350px] flex-col gap-3 py-2 px-1">
+                <div className="flex min-h-[330px] flex-col gap-3 py-2 px-1">
                   {showComments1.length === 0 ? (
                     <div className="text-2xl text-center pt-10">
                       <h1>No comments available</h1>
                     </div>
                   ) : (
-                    <div className="flex min-h-[350px] flex-col gap-3 py-2 px-1">
+                    <div className="flex min-h-[330px] flex-col gap-3 py-2 px-1">
                       {showComments1?.map((comment) => (
                         <div
                           key={comment._id}
@@ -383,7 +383,7 @@ const AllPostPage = () => {
                 {/* ----------- */}
 
                 {/* text input field */}
-                <div className="sticky bottom-0 w-full">
+                <div className="sticky bottom-0 w-full bg-primary px-1">
                   <textarea
                     className="relative w-full min-h-[80px] max-h-[80px] border px-2 py-2 focus:outline-none focus:ring-1 focus:ring-[#D8D2D2] text-lg rounded-[10px]"
                     id="comment_box"

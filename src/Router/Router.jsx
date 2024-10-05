@@ -13,6 +13,7 @@ import UpdateUserProfile from "../Pages/Dashboard/UserDashboard/UserProfilePage/
 import CreatePostPage from "../Pages/AllPostPage/CreatePostPage";
 import MyActivities from "../Pages/Dashboard/UserDashboard/MyActivities/MyActivities";
 import ReviewPostPage from "../Pages/Dashboard/UserDashboard/ReviewPostPage/ReviewPostPage";
+import ShowSelectedPostDetails from "../Pages/ShowSelectedPostDetails/ShowSelectedPostDetails";
 const myCreatedRouter = createBrowserRouter([
   // http://localhost:5000
   // https://blood-donation-server-ebon.vercel.app
@@ -46,6 +47,12 @@ const myCreatedRouter = createBrowserRouter([
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/available-donor/${params.id}`),
+      },
+      {
+        path: "/selected-post/:id",
+        element: <ShowSelectedPostDetails />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/allPosts/${params.id}`),
       },
       {
         path: "/updateProfile/:id",

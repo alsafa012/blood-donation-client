@@ -120,6 +120,7 @@ const CreatePostPage = () => {
             </p>
           </div>
         </div>
+        {/* deadline */}
         <div className="px-1">
           <input
             name="deadline"
@@ -128,6 +129,7 @@ const CreatePostPage = () => {
             type="date"
           />
         </div>
+        {/* comment */}
         <div className="px-1">
           <textarea
             className="w-full min-h-[80px] md:min-h-[100px] border border-[#CFE1B9] px-2 py-2 focus:outline-none focus:ring-1 focus:ring-[#CFE1B9]"
@@ -157,7 +159,7 @@ const CreatePostPage = () => {
                     className="p-border rounded-xl overflow-hidden relative my-2"
                   >
                     <img
-                      className="w-16 md:w-28 lg:w-40 h-16 md:h-28 lg:h-40 object-cover"
+                      className="w-28 lg:w-40 h-28 lg:h-40 object-cover"
                       src={showImagePreview[index]}
                       alt={image?.name}
                     />

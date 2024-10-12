@@ -6,6 +6,8 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAuth from "../Components/hooks/useAuth";
 import { IoClose } from "react-icons/io5";
 import { BiSolidHomeHeart } from "react-icons/bi";
+import { MdOutlineRateReview } from "react-icons/md";
+import { RxActivityLog } from "react-icons/rx";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -66,7 +68,7 @@ const DashboardLayout = () => {
                     }
                     to="/dashboard/userProfile"
                   >
-                    <BiSolidHomeHeart size={25} /> Admin Home
+                    <BiSolidHomeHeart size={25} /> My Home
                   </NavLink>
                 </li>
               )}
@@ -81,7 +83,7 @@ const DashboardLayout = () => {
                   }
                   to="/dashboard/myActivities"
                 >
-                  <BiSolidHomeHeart size={25} /> My Activities
+                  <RxActivityLog size={25} /> My Activities
                 </NavLink>
               </li>
               <li>
@@ -95,7 +97,21 @@ const DashboardLayout = () => {
                   }
                   to="/dashboard/review"
                 >
-                  <BiSolidHomeHeart size={25} /> Write a Review
+                  <MdOutlineRateReview size={25} /> Write a Review
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
+                  to="/dashboard/admin/admin-home"
+                >
+                  <BiSolidHomeHeart size={25} /> Admin Home
                 </NavLink>
               </li>
             </>

@@ -8,6 +8,7 @@ import useAuth from "../../Components/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
+import LoadingAnimation from "../../Shared/LoadingAnimation";
 const userReligiousStatus = [
   { id: "Islam", label: "Islam" },
   { id: "Hindu", label: "Hindu" },
@@ -99,6 +100,8 @@ const RegistrationPage = () => {
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
+  // const hello ={ number: 12 }
+  // console.log("hello",Object.keys(hello).length);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -110,26 +113,40 @@ const RegistrationPage = () => {
         icon: "error",
       });
     }
-    // setIsLoading(true);
-    const form = e.target;
-    const name = form.name.value;
-    const age = form.age.value;
-    const phone_number = form.phone_number.value;
-    const user_email = form.user_email.value;
-    const whatsapp = form.whatsapp.value;
-    const messenger = form.messenger.value;
-    const nationality = "Bangladeshi";
-    const address = form.address.value;
-    const password = form.password.value;
-    const imageFile = { image: showName };
     // Check if an image is selected
     if (!showName) {
+      // if (Object.keys(showName).length === 0) {
       return Swal.fire({
         title: "Error!",
         text: "Please select a profile picture.",
         icon: "error",
       });
     }
+
+    // setIsLoading(true);
+    const form = e.target;
+    const name = form.name.value;
+    const age = form.age.value;
+    const phone_number = form.phone_number.value;
+    const user_email = form.user_email.value;
+    const whatsapp = form.whatsapp.value || "";
+    const messenger = form.messenger.value || "";
+    const nationality = "Bangladeshi";
+    const address = form.address.value;
+    const password = form.password.value;
+    const re_password = form.re_password.value;
+    const imageFile = { image: showName };
+    console.log("img", Object.keys(imageFile).length);
+
+    // Check if passwords match
+    if (password !== re_password) {
+      return Swal.fire({
+        title: "Error!",
+        text: "Passwords do not match. Please enter matching passwords.",
+        icon: "error",
+      });
+    }
+
     // upload image on imgbb
     axios
       .post(image_hosting_api, imageFile, {
@@ -204,27 +221,33 @@ const RegistrationPage = () => {
               if (res.data.insertedId) {
                 console.log("user added successfully in the database");
                 Swal.fire("Good job!", "User created successfully", "success");
+                setIsLoading(false);
               }
               navigate("/");
               // navigate(from, { replace: true });
             })
             .catch((err) => {
+              setIsLoading(false);
               console.error("Error adding user:", err);
             });
         }
       })
       .catch((error) => {
-        // Handle error here
-        return setErrorMessage("please select profile picture first.");
+        // return setErrorMessage("please select profile picture first.");
+        setIsLoading(false);
+        return Swal.fire({
+          title: "Error!",
+          text: "Please select a profile picture.",
+          icon: "error",
+        });
       });
   };
   return (
     <MyContainer>
       <div>
         {isLoading ? (
-          ""
+          <LoadingAnimation />
         ) : (
-          //  <LoadingAnimation />
           // <div className="min-h-screen bg-[url('https://i.ibb.co/10kGMgs/Cover-EBE-1170x675.jpg')] bg-no-repeat bg-cover">
           <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
             {/* <div className="min-h-screen bg-[url('https://img.freepik.com/premium-photo/hope-word-is-written-wooden-cubes-green-summer-background-closeup-wooden-elements_661495-5652.jpg')] bg-no-repeat bg-cover"> */}
@@ -413,6 +436,18 @@ const RegistrationPage = () => {
                         name="password"
                         type="text"
                         placeholder="Enter your password"
+                        className="input-field text-sm md:text-xl font-medium"
+                      />
+                    </div>
+                    {/* Re-Password */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="text-base md:text-xl font-semibold">
+                        Re-Password:*
+                      </label>
+                      <input
+                        name="re_password"
+                        type="text"
+                        placeholder="Re-Enter your password"
                         className="input-field text-sm md:text-xl font-medium"
                       />
                     </div>

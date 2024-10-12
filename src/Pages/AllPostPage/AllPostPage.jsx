@@ -15,6 +15,7 @@ import useAllPostsInfo from "../../Components/hooks/useAllPostsInfo";
 import useAllComments from "../../Components/hooks/useAllComments";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
+import WebsiteTitle from "../../Shared/WebsiteTitle";
 const AllPostPage = () => {
   const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
@@ -139,6 +140,7 @@ const AllPostPage = () => {
       {/* <button onClick={handleDeleteAllComments} className="btn">
         DeleteAllComments
       </button> */}
+      <WebsiteTitle name={"Hope || Posts"} />
       <Link to={"/createPost"}>
         <button className="btn w-full my-3">Add A Post</button>
       </Link>

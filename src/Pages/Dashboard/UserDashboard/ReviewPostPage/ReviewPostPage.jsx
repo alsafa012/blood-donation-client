@@ -8,9 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaRegEdit } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
-import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
+import { MdDeleteForever, MdOutlineCancel, MdOutlineRateReview } from "react-icons/md";
 import { data } from "autoprefixer";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
+import useAllReviewInfo from "../../../../Components/hooks/useAllreviewInfo";
+import WebsiteTitle from "../../../../Shared/WebsiteTitle";
+import { RxActivityLog } from "react-icons/rx";
 
 const ReviewPostPage = () => {
   const [userRating, setUserRating] = useState(1);
@@ -24,14 +27,15 @@ const ReviewPostPage = () => {
   const [updatedRating, setUpdatedRating] = useState(
     selectedReviewInfo?.retting
   );
+  const [reviewInfo, refetchReviews] = useAllReviewInfo();
 
-  const { data: reviewInfo = [], refetch } = useQuery({
-    queryKey: [],
-    queryFn: async () => {
-      const res = await axiosPublic.get(`/review`);
-      return res.data;
-    },
-  });
+  // const { data: reviewInfo = [], refetch: refetchReviews } = useQuery({
+  //   queryKey: [],
+  //   queryFn: async () => {
+  //     const res = await axiosPublic.get(`/review`);
+  //     return res.data;
+  //   },
+  // });
 
   const handleMakeReview = async (e) => {
     e.preventDefault();
@@ -56,7 +60,7 @@ const ReviewPostPage = () => {
       e.target.review.value = "";
       Swal.fire("Good job!", "Review Sent successfully", "success");
     }
-    refetch();
+    refetchReviews();
     console.log(response.data);
   };
   // console.log(moment().format("Do MMM,YYYY"));
@@ -87,6 +91,7 @@ const ReviewPostPage = () => {
     const formData = {
       retting: updatedRating,
       review_content: form.updated_review.value,
+      active_status: false,
     };
     // console.log("formData", formData);
     axiosPublic
@@ -98,7 +103,7 @@ const ReviewPostPage = () => {
             text: `Review updated.`,
             icon: "success",
           });
-          refetch();
+          refetchReviews();
         }
       })
       .catch((err) => {
@@ -119,7 +124,7 @@ const ReviewPostPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosPublic.delete(`/review/${id}`).then((res) => {
-          refetch();
+          refetchReviews();
           if (res.data.deletedCount > 0) {
             // console.log(res.data);
             Swal.fire({
@@ -140,6 +145,10 @@ const ReviewPostPage = () => {
       {/* <button onClick={handleDelete} className="btn w-full my-5">
         Delete All Review
       </button> */}
+      <WebsiteTitle name={"Hope || Add a review"}></WebsiteTitle>
+      <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
+        <MdOutlineRateReview /> Write a Review
+      </h1>
       <form className="w-[80%] mx-auto space-y-3" onSubmit={handleMakeReview}>
         {/* <p>{userRating}</p> */}
         <div className="flex space-x-1 justify-center">
@@ -211,7 +220,6 @@ const ReviewPostPage = () => {
               </div>
               {/* --star Svg------ */}
               <div>
-                {" "}
                 <p className="text-[10px]">{review?.review_date}</p>
                 <p className="text-[10px] text-end">
                   at {review?.review_time}{" "}

@@ -8,7 +8,7 @@ import LoadingAnimation from "../../../../Shared/LoadingAnimation";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
 import useAuth from "../../../../Components/hooks/useAuth";
 
-const MyPosts = ({ activities }) => {
+const MyPosts = () => {
   const { user } = useAuth();
   const [allPostsData, , refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
@@ -77,6 +77,11 @@ const MyPosts = ({ activities }) => {
   };
   return (
     <div className="min-h-[80vh] overflow-y-auto">
+      {myPosts.length === 0 && (
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <h1 className="text-2xl font-semibold">No Post Available</h1>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 my-5 px-10 md:px-2 overflow-auto">
         {myPosts?.map((post, ind) => (
           <div className="p-border rounded-sm max-h-max" key={post._id}>

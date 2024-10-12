@@ -13,6 +13,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
+import LoadingAnimation from "../../../../Shared/LoadingAnimation";
 const userReligiousStatus = [
   { id: "islam", label: "islam" },
   { id: "hindu", label: "hindu" },
@@ -138,80 +139,101 @@ const UpdateUserProfile = () => {
     setShowImagePreview(userInfo?.user_image);
   }, [userInfo?.user_image]);
   // console.log("filteredUpazilas", filteredUpazilas);
+
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
-    // logged user validation
-    if (!user) {
-      return Swal.fire({
+    try {
+      // logged user validation
+      if (!user) {
+        return Swal.fire({
+          title: "Error!",
+          text: "user already logged in",
+          icon: "error",
+        });
+      }
+      setIsLoading(true);
+      const form = e.target;
+      const name = form.name.value;
+      const age = form.age.value;
+      const phone_number = form.phone_number.value;
+      const user_email = form.user_email.value;
+      const whatsapp = form.whatsapp.value;
+      const messenger = form.messenger.value;
+      const nationality = "Bangladeshi";
+      const imageFile = { image: showName };
+      // const address = form.address.value;
+      // const password = form.password.value;
+      // const imageFile = { image: showName };
+      // Check if an image is selected
+      // console.log(userInfo);
+      const response = await axios.post(image_hosting_api, imageFile, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (
+        !response.data ||
+        !response.data.data ||
+        !response.data.data.display_url
+      ) {
+        throw new Error("Failed to upload image or image URL is missing");
+      }
+      console.log(
+        "Image uploaded successfully:",
+        response?.data?.data.display_url
+      );
+      const userUpdatedInfo = {
+        user_name: name,
+        user_age: age,
+        bloodGroup: bloodGroup,
+        phone_number: phone_number,
+        user_email: user_email,
+        user_whatsapp: whatsapp,
+        user_messenger: messenger,
+        user_nationality: nationality,
+        user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
+        user_maritalStatus: userMaritalStatus.toLowerCase(),
+        user_religious: userReligious.toLowerCase(),
+        user_district: selectedDistrictName,
+        user_area: selectedUpazila,
+        // imageFile: imageFile,
+        user_image: response?.data?.data.display_url || userInfo?.user_image,
+        user_role: "donor",
+        account_updated_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+      };
+      console.log("userUpdatedInfo", userUpdatedInfo);
+      const updateRes = await axiosPublic.put(`/users/${id}`, userUpdatedInfo);
+      // console.log(updateRes.data);
+      //   console.log("from database",contextRes.data);
+      if (updateRes.data.modifiedCount > 0 || updateRes.data.acknowledged) {
+        // setLoading(false);
+        updateUserProfile(name, response?.data?.data.display_url);
+        Swal.fire({
+          title: "Good job!",
+          text: "Product successfully updated..",
+          icon: "success",
+        });
+        setIsLoading(false);
+        navigate(from, { replace: true });
+      } else {
+        throw new Error("Failed to update user profile");
+      }
+    } catch (error) {
+      console.error("Error occurred:", error.message);
+      Swal.fire({
         title: "Error!",
-        text: "user already logged in",
+        text: error.message,
         icon: "error",
       });
-    }
-    // setIsLoading(true);
-    const form = e.target;
-    const name = form.name.value;
-    const age = form.age.value;
-    const phone_number = form.phone_number.value;
-    const user_email = form.user_email.value;
-    const whatsapp = form.whatsapp.value;
-    const messenger = form.messenger.value;
-    const nationality = "Bangladeshi";
-    const imageFile = { image: showName };
-    // const address = form.address.value;
-    // const password = form.password.value;
-    // const imageFile = { image: showName };
-    // Check if an image is selected
-    // console.log(userInfo);
-    const response = await axios.post(image_hosting_api, imageFile, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    console.log(
-      "Image uploaded successfully:",
-      response?.data?.data.display_url
-    );
-    const userUpdatedInfo = {
-      user_name: name,
-      user_age: age,
-      bloodGroup: bloodGroup,
-      phone_number: phone_number,
-      user_email: user_email,
-      user_whatsapp: whatsapp,
-      user_messenger: messenger,
-      user_nationality: nationality,
-      user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
-      user_maritalStatus: userMaritalStatus.toLowerCase(),
-      user_religious: userReligious.toLowerCase(),
-      user_district: selectedDistrictName,
-      user_area: selectedUpazila,
-      // imageFile: imageFile,
-      user_image: response?.data?.data.display_url || userInfo?.user_image,
-      user_role: "donor",
-      account_updated_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-    };
-    console.log("userUpdatedInfo", userUpdatedInfo);
-    const ProductRes = await axiosPublic.put(`/users/${id}`, userUpdatedInfo);
-    // console.log(ProductRes.data);
-    //   console.log("from database",contextRes.data);
-    if (ProductRes.data.modifiedCount > 0 || ProductRes.data.acknowledged) {
-      // setLoading(false);
-      updateUserProfile(name, response?.data?.data.display_url);
-      Swal.fire({
-        title: "Good job!",
-        text: "Product successfully updated..",
-        icon: "success",
-      });
-      navigate(from, { replace: true });
+      setIsLoading(false);
     }
   };
   return (
     <MyContainer>
+      <WebsiteTitle name={"Hope || Profile Update Page"} />
       <div>
         {isLoading ? (
-          ""
+          <LoadingAnimation />
         ) : (
           <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
-            <WebsiteTitle name={"Hope || Registration"} />
             <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
               <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
                 <form onSubmit={handleUpdateStatus}>

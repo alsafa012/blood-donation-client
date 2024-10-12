@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
 const UserProfile = () => {
-  const [allUsers, refetch] = useAllUsersInfo();
+  const [allUsers, refetchUser] = useAllUsersInfo();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const location = useLocation();
@@ -35,7 +35,7 @@ const UserProfile = () => {
             text: `User's status changed to ${newStatus}`,
             icon: "success",
           });
-          refetch();
+          refetchUser();
         }
       })
       .catch((err) => {

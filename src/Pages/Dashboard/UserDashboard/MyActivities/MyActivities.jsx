@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import MyPosts from "./MyPosts";
 import MyComments from "./MyComments";
 
-
 const MyActivities = () => {
-
   const [activities, setActivities] = useState(() => {
     return localStorage.getItem("activities") || "posts";
   });
@@ -34,8 +32,8 @@ const MyActivities = () => {
           Comments
         </button>
       </div>
-      {activities === "posts" && <MyPosts activities={activities} />}
-      {activities === "comments" && <MyComments activities={activities} />}
+      {activities === "posts" && <MyPosts />}
+      {activities === "comments" && <MyComments />}
     </div>
   );
 };

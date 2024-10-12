@@ -48,6 +48,11 @@ const ReviewSection = () => {
         console.error("There was a problem with the fetch operation:", error);
       });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const phoneInput = e.target.phone.value;
+    console.log(phoneInput);
+  };
   return (
     <div className="min-h-[50vh] bg-[#B5C99A] mt-5">
       ReviewSection
@@ -77,8 +82,20 @@ const ReviewSection = () => {
         />
         <button className="btn w-full">Send</button>
       </form>
+      <form className="py-10" onSubmit={handleSubmit}>
+        <input
+          type="tel"
+          className=""
+          // pattern="\+8801[3-9]\d{8}" // Adjusting the pattern for Bangladeshi numbers
+          pattern="01[3-9]\d{8}" // Adjusting the pattern for Bangladeshi numbers
+          // pattern="\d{3}-\d{3}-\d{4}"
+          required
+          name="phone"
+          placeholder="+8801845933409"
+        />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 };
-
 export default ReviewSection;

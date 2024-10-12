@@ -14,6 +14,7 @@ import CreatePostPage from "../Pages/AllPostPage/CreatePostPage";
 import MyActivities from "../Pages/Dashboard/UserDashboard/MyActivities/MyActivities";
 import ReviewPostPage from "../Pages/Dashboard/UserDashboard/ReviewPostPage/ReviewPostPage";
 import ShowSelectedPostDetails from "../Pages/ShowSelectedPostDetails/ShowSelectedPostDetails";
+import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome/AdminHome";
 const myCreatedRouter = createBrowserRouter([
   // http://localhost:5000
   // https://blood-donation-server-ebon.vercel.app
@@ -79,6 +80,17 @@ const myCreatedRouter = createBrowserRouter([
         path: "/dashboard/review",
         element: <ReviewPostPage />,
       },
+
+      // admin dashboard
+
+      {
+        path:'/dashboard/admin/admin-home',
+        element:<AdminHome />
+      }
+
+
+
+
     ],
   },
 

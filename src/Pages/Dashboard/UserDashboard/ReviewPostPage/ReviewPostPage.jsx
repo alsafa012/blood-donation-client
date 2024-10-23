@@ -11,9 +11,9 @@ import { IoMdSend } from "react-icons/io";
 import { MdDeleteForever, MdOutlineCancel, MdOutlineRateReview } from "react-icons/md";
 import { data } from "autoprefixer";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
-import useAllReviewInfo from "../../../../Components/hooks/useAllreviewInfo";
 import WebsiteTitle from "../../../../Shared/WebsiteTitle";
 import { RxActivityLog } from "react-icons/rx";
+import useAllReviewInfo from "../../../../Components/hooks/useAllReviewInfo";
 
 const ReviewPostPage = () => {
   const [userRating, setUserRating] = useState(1);

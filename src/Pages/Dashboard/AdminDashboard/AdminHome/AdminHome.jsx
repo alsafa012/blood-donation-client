@@ -1,9 +1,8 @@
-import React from "react";
 import WebsiteTitle from "../../../../Shared/WebsiteTitle";
-import useAllReviewInfo from "../../../../Components/hooks/useAllreviewInfo";
 import { Link } from "react-router-dom";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
 import useAllUsersInfo from "../../../../Components/hooks/useAllUsersInfo";
+import useAllReviewInfo from "../../../../Components/hooks/useAllReviewInfo";
 
 const AdminHome = () => {
   const [reviewInfo, refetchReviews] = useAllReviewInfo();

@@ -63,6 +63,8 @@ const myCreatedRouter = createBrowserRouter([
       },
     ],
   },
+
+  // dashboard route
   {
     path: "/dashboard",
     element: <DashboardLayout />,
@@ -84,13 +86,9 @@ const myCreatedRouter = createBrowserRouter([
       // admin dashboard
 
       {
-        path:'/dashboard/admin/admin-home',
-        element:<AdminHome />
-      }
-
-
-
-
+        path: "/dashboard/admin/admin-home",
+        element: <AdminHome />,
+      },
     ],
   },
 

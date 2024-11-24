@@ -7,6 +7,7 @@ import useAuth from "../../Components/hooks/useAuth";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 import MyContainer from "../../Shared/MyContainer";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
+import { requestNotificationPermission } from "../../Firebase/notificationService";
 // import { PiNavigationArrowDuotone } from "react-icons/pi";
 // <PiNavigationArrowDuotone />
 const LoginPage = () => {
@@ -41,6 +42,7 @@ const LoginPage = () => {
         setIsLoading(false);
         Swal.fire("Good job!", "User login successfully", "success");
         navigate(from, { replace: true });
+        requestNotificationPermission();
 
         // e.target.email.value = "";
         // e.target.password.value = "";

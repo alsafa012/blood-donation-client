@@ -1,59 +1,17 @@
-// import { Link } from "react-router-dom";
-// import useAllComments from "../../../../Components/hooks/useAllComments";
-// import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
-
-// const MyComments = () => {
-//   const [allCommentsInfo, refetchComments] = useAllComments();
-//   const [loggedUserInfo] = useLoggedUserInfo();
-
-//   // const [allCommentsInfo, refetchComments] = useAllComments();
-
-//   const myComments = allCommentsInfo.filter(
-//     (comment) => comment.commented_person_id === loggedUserInfo._id
-//   );
-//   console.log(myComments);
-
-//   return (
-//     <div>
-//       <p> AllComments {allCommentsInfo.length}</p>
-//       <p> MyComments {myComments.length}</p>
-
-//       {myComments.map((comment) => (
-//         <div key={comment._id}>
-//           <div className="flex gap-2 items-start">
-//             <div>
-//               <img
-//                 className="size-10 rounded-full bg-green-300"
-//                 src=""
-//                 alt=""
-//               />
-//             </div>
-//             <div>
-//               {comment?.commented_person_name} commented on {"person name who create this post"} post
-//               <Link to={`/selected-post/${comment?.selected_post_id}`}>
-//                 click here
-//               </Link>
-//             </div>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default MyComments;
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAllComments from "../../../../Components/hooks/useAllComments";
 import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
 import { useState } from "react";
+import axios from "axios";
 
 const MyComments = () => {
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [allPostsData] = useAllPostsInfo(); // Fetch posts data
+  const [allPostsData, allPostsInfo, refetch, isLoading] = useAllPostsInfo(); // Fetch posts data
   console.log(allPostsData);
   const [loggedUserInfo] = useLoggedUserInfo();
+  const location = useLocation();
 
   // State to track expansion of individual comments
   const [expandedComments, setExpandedComments] = useState({});
@@ -68,6 +26,18 @@ const MyComments = () => {
       [commentId]: !prev[commentId],
     }));
   };
+
+  const handleDetails = async (id) => {
+    axios
+      .get(`http://localhost:5000/details/${id}`)
+      .then((res) => console.log(res.data));
+    // const response = await fetch(
+    //   `http://localhost:5000/available-donor?blood=${id}`
+    // );
+    // const data = await response.json();
+    // console.log(data);
+  };
+
   return (
     <div>
       <p> All Comments: {allCommentsInfo.length}</p>
@@ -83,8 +53,16 @@ const MyComments = () => {
 
         return (
           <div key={comment._id}>
-            <Link to={`/selected-post/${comment.selected_post_id}`}>
-              <div className="flex gap-2 items-start cursor-pointer hover:bg-[#CFE1B9] py-3 px-1 md:px-5">
+            <Link
+              state={location.pathname}
+              to={`/selected-post/${comment.selected_post_id}`}
+            >
+              {/* <Link to={`/details/${comment.selected_post_id}`}> */}
+              {/* <Link> */}
+              <div
+                // onClick={() => handleDetails(comment.selected_post_id)}
+                className="flex gap-2 items-start cursor-pointer hover:bg-[#CFE1B9] py-3 px-1 md:px-5"
+              >
                 <div>
                   <img
                     className="min-w-10 size-10 rounded-full bg-green-300"

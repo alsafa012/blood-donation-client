@@ -21,13 +21,7 @@ const useAllPostsInfo = () => {
   // console.log("today", today);
   const allPostsInfo = allPostsData
     ?.filter((post) => {
-      // const today = new Date();
-      // // console.log("today", today);
       const postDeadline = new Date(post.post_deadline);
-      // console.log("postD", postDeadline);
-      // console.log("today", today);
-      // console.log(" postDeadline >= today", postDeadline >= today);
-      // console.log("postDeadline", postDeadline);
       return postDeadline >= today && post.found_donor_successfully === false;
     })
     .sort(
@@ -35,9 +29,8 @@ const useAllPostsInfo = () => {
         new Date(b.postCreatedDate).getTime() -
         new Date(a.postCreatedDate).getTime()
     );
-  // console.log("allPostsInfo", allPostsInfo);
 
-  return [allPostsData,allPostsInfo, refetch, isLoading];
+  return [allPostsData, allPostsInfo, refetch, isLoading];
 };
 
 export default useAllPostsInfo;

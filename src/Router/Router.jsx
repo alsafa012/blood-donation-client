@@ -52,8 +52,8 @@ const myCreatedRouter = createBrowserRouter([
       {
         path: "/selected-post/:id",
         element: <ShowSelectedPostDetails />,
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/allPosts/${params.id}`),
+        // loader: ({ params }) =>
+        //   fetch(`http://localhost:5000/allPosts/${params.id}`),
       },
       {
         path: "/updateProfile/:id",

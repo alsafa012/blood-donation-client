@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
+import { IoIosNotifications } from "react-icons/io";
 const navData = [
   {
     id: 1,
@@ -98,16 +99,21 @@ const NavbarSection = () => {
         {/*profile icon fiv */}
         <div className="col-span-1 flex justify-end items-center gap-2">
           {/* profile icon */}
-          <div className="relative w-fit text-black">
+          <div className="relative w-fit text-black flex items-center gap-3">
+            <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
+              <IoIosNotifications size={25}/>
+              <span className="absolute -top-3 -right-1">10</span>
+            </button>
             <div onClick={() => setOpenDropdown(!openDropdown)}>
               <img
                 // width={40}
                 // height={40}
-                className="size-8 md:size-10 rounded-full bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
+                className="size-8 md:size-8 rounded-full cursor-pointer bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
                 src={user?.photoURL}
-                alt="avatar drop down navigate ui"
+                alt="avatar"
               />
             </div>
+
             <ul
               className={` ${
                 openDropdown ? "" : "hidden"

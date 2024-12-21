@@ -41,7 +41,7 @@ body {
 }
 
 .p-text {
-    color: hsl(119, 21%, 43%);
+    color: #578456;
 }
 
 .p-border {
@@ -71,14 +71,31 @@ body {
     padding-right: 1rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    /* background-color: #d6e1c9; */
     background-color: #CFE1B9;
-    color: #87986A;
+    color: #000000;
+    /* color: #87986A; */
     transition-duration: 200ms;
     outline: none;
 }
 
 .input-field:focus {
     box-shadow: 0 0 0 2px #87986A;
+    outline-offset: 1px;
+}
+
+.post-input-field {
+    border-radius: 0.5rem;
+    border: 1px solid #CFE1B9;
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    color: #000000;
+    transition-duration: 200ms;
+    outline: none;
+}
+
+.post-input-field:focus {
+    box-shadow: 0 0 0 1px #CFE1B9;
     outline-offset: 1px;
 }
 

@@ -103,27 +103,158 @@ const RegistrationPage = () => {
   // const hello ={ number: 12 }
   // console.log("hello",Object.keys(hello).length);
 
+  // const handleRegister = (e) => {
+  //   e.preventDefault();
+  //   // logged user validation
+  //   if (user) {
+  //     return Swal.fire({
+  //       title: "Error!",
+  //       text: "user already logged in",
+  //       icon: "error",
+  //     });
+  //   }
+  //   // Check if an image is selected
+  //   if (!showName) {
+  //     // if (Object.keys(showName).length === 0) {
+  //     return Swal.fire({
+  //       title: "Error!",
+  //       text: "Please select a profile picture.",
+  //       icon: "error",
+  //     });
+  //   }
+
+  //   // setIsLoading(true);
+  //   const form = e.target;
+  //   const name = form.name.value;
+  //   const age = form.age.value;
+  //   const phone_number = form.phone_number.value;
+  //   const user_email = form.user_email.value;
+  //   const whatsapp = form.whatsapp.value || "";
+  //   const messenger = form.messenger.value || "";
+  //   const nationality = "Bangladeshi";
+  //   const address = form.address.value;
+  //   const password = form.password.value;
+  //   const re_password = form.re_password.value;
+  //   const imageFile = { image: showName };
+  //   console.log("img", Object.keys(imageFile).length);
+
+  //   // Check if passwords match
+  //   if (password !== re_password) {
+  //     return Swal.fire({
+  //       title: "Error!",
+  //       text: "Passwords do not match. Please enter matching passwords.",
+  //       icon: "error",
+  //     });
+  //   }
+
+  //   // upload image on imgbb
+  //   axios
+  //     .post(image_hosting_api, imageFile, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //     })
+  //     .then((res) => {
+  //       // Handle successful response here
+  //       console.log("Image uploaded successfully:", res.data);
+  //       if (res.data.success) {
+  //         // setIsLoading(true);
+  //         const photoUrl = res.data.data.display_url;
+  //         // set error message empty
+  //         setErrorMessage("");
+  //         // password validation
+  //         if (password.length < 6) {
+  //           setErrorMessage("Please enter at least 6 character password");
+  //           return;
+  //         } else if (!/(?=.*[A-Z])/.test(password)) {
+  //           setErrorMessage(
+  //             "Password must contain at least one uppercase letter."
+  //           );
+  //           return;
+  //         } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
+  //           setErrorMessage(
+  //             "Password must contain at least one special character."
+  //           );
+  //           return;
+  //         }
+  //         // creating a new user
+  //         createUser(user_email, password).then((result) => {
+  //           console.log(result.user);
+
+  //           // update user profile
+  //           updateUserProfile(name, photoUrl)
+  //             .then(() => {})
+  //             .catch((error) => {
+  //               console.log(error);
+  //             });
+  //         });
+
+  //         // send user information to mongodb database
+
+  //         const userInfo = {
+  //           user_name: name,
+  //           user_age: age,
+  //           bloodGroup: bloodGroup,
+  //           phone_number: phone_number,
+  //           user_email: user_email,
+  //           user_whatsapp: whatsapp,
+  //           user_messenger: messenger,
+  //           user_nationality: nationality,
+  //           user_address: address,
+  //           user_activeStatus:
+  //             userActiveStatus === "Yes" ? "active" : "inactive",
+  //           user_maritalStatus: userMaritalStatus.toLowerCase(),
+  //           user_religious: userReligious.toLowerCase(),
+  //           user_password: password,
+  //           user_district: selectedDistrictName,
+  //           user_area: selectedUpazila,
+  //           // imageFile: imageFile,
+  //           user_image: photoUrl ? photoUrl : "",
+  //           user_role: "donor",
+  //           img_status: photoUrl ? true : false,
+  //           account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
+  //         };
+  //         console.log(userInfo);
+  //         axiosPublic
+  //           .post("/users", userInfo, {
+  //             headers: { "Content-Type": "application/json" },
+  //           })
+  //           .then((res) => {
+  //             console.log("User added successfully:", res.data);
+  //             if (res.data.insertedId) {
+  //               console.log("user added successfully in the database");
+  //               Swal.fire("Good job!", "User created successfully", "success");
+  //               setIsLoading(false);
+  //             }
+  //             navigate("/");
+  //             // navigate(from, { replace: true });
+  //           })
+  //           .catch((err) => {
+  //             setIsLoading(false);
+  //             console.error("Error adding user:", err);
+  //           });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // return setErrorMessage("please select profile picture first.");
+  //       setIsLoading(false);
+  //       return Swal.fire({
+  //         title: "Error!",
+  //         text: "Please select a profile picture.",
+  //         icon: "error",
+  //       });
+  //     });
+  // };
   const handleRegister = (e) => {
     e.preventDefault();
+
     // logged user validation
     if (user) {
       return Swal.fire({
         title: "Error!",
-        text: "user already logged in",
-        icon: "error",
-      });
-    }
-    // Check if an image is selected
-    if (!showName) {
-      // if (Object.keys(showName).length === 0) {
-      return Swal.fire({
-        title: "Error!",
-        text: "Please select a profile picture.",
+        text: "User already logged in",
         icon: "error",
       });
     }
 
-    // setIsLoading(true);
     const form = e.target;
     const name = form.name.value;
     const age = form.age.value;
@@ -135,8 +266,7 @@ const RegistrationPage = () => {
     const address = form.address.value;
     const password = form.password.value;
     const re_password = form.re_password.value;
-    const imageFile = { image: showName };
-    console.log("img", Object.keys(imageFile).length);
+    const imageFile = showName ? { image: showName } : null;
 
     // Check if passwords match
     if (password !== re_password) {
@@ -147,110 +277,100 @@ const RegistrationPage = () => {
       });
     }
 
-    // upload image on imgbb
-    axios
-      .post(image_hosting_api, imageFile, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
+    // Password validation
+    if (password.length < 6) {
+      setErrorMessage("Please enter at least 6 character password");
+      return;
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      setErrorMessage("Password must contain at least one uppercase letter.");
+      return;
+    } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
+      setErrorMessage("Password must contain at least one special character.");
+      return;
+    }
+
+    // Upload image if provided
+    const uploadImage = imageFile
+      ? axios.post(image_hosting_api, imageFile, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+      : Promise.resolve({
+          data: { success: false, data: { display_url: "" } },
+        });
+
+    uploadImage
       .then((res) => {
-        // Handle successful response here
-        console.log("Image uploaded successfully:", res.data);
-        if (res.data.success) {
-          // setIsLoading(true);
-          const photoUrl = res.data.data.display_url;
-          // set error message empty
-          setErrorMessage("");
-          // password validation
-          if (password.length < 6) {
-            setErrorMessage("Please enter at least 6 character password");
-            return;
-          } else if (!/(?=.*[A-Z])/.test(password)) {
-            setErrorMessage(
-              "Password must contain at least one uppercase letter."
-            );
-            return;
-          } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
-            setErrorMessage(
-              "Password must contain at least one special character."
-            );
-            return;
-          }
-          // creating a new user
-          createUser(user_email, password).then((result) => {
-            console.log(result.user);
+        const photoUrl = res.data.success ? res.data.data.display_url : "";
 
-            // update user profile
-            updateUserProfile(name, photoUrl)
-              .then(() => {})
-              .catch((error) => {
-                console.log(error);
-              });
-          });
+        // Creating a new user
+        createUser(user_email, password).then((result) => {
+          console.log(result.user);
 
-          // send user information to mongodb database
+          // Update user profile
+          updateUserProfile(name, photoUrl)
+            .then(() => {})
+            .catch((error) => console.log(error));
+        });
 
-          const userInfo = {
-            user_name: name,
-            user_age: age,
-            bloodGroup: bloodGroup,
-            phone_number: phone_number,
-            user_email: user_email,
-            user_whatsapp: whatsapp,
-            user_messenger: messenger,
-            user_nationality: nationality,
-            user_address: address,
-            user_activeStatus:
-              userActiveStatus === "Yes" ? "active" : "inactive",
-            user_maritalStatus: userMaritalStatus.toLowerCase(),
-            user_religious: userReligious.toLowerCase(),
-            user_password: password,
-            user_district: selectedDistrictName,
-            user_area: selectedUpazila,
-            // imageFile: imageFile,
-            user_image: photoUrl,
-            user_role: "donor",
-            account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-          };
-          console.log(userInfo);
-          axiosPublic
-            .post("/users", userInfo, {
-              headers: { "Content-Type": "application/json" },
-            })
-            .then((res) => {
-              console.log("User added successfully:", res.data);
-              if (res.data.insertedId) {
-                console.log("user added successfully in the database");
-                Swal.fire("Good job!", "User created successfully", "success");
-                setIsLoading(false);
-              }
-              navigate("/");
-              // navigate(from, { replace: true });
-            })
-            .catch((err) => {
+        // Send user information to MongoDB database
+        const userInfo = {
+          user_name: name,
+          user_age: age,
+          bloodGroup: bloodGroup,
+          phone_number: phone_number,
+          user_email: user_email,
+          user_whatsapp: whatsapp,
+          user_messenger: messenger,
+          user_nationality: nationality,
+          user_address: address,
+          user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
+          user_maritalStatus: userMaritalStatus.toLowerCase(),
+          user_religious: userReligious.toLowerCase(),
+          user_password: password,
+          user_district: selectedDistrictName,
+          user_area: selectedUpazila,
+          user_image: photoUrl,
+          user_role: "donor",
+          img_status: !!photoUrl,
+          // img_status: photoUrl ? true : false,
+          account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
+        };
+        console.log(userInfo);
+
+        axiosPublic
+          .post("/users", userInfo, {
+            headers: { "Content-Type": "application/json" },
+          })
+          .then((res) => {
+            if (res.data.insertedId) {
+              Swal.fire("Good job!", "User created successfully", "success");
               setIsLoading(false);
-              console.error("Error adding user:", err);
-            });
-        }
+              navigate("/");
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.error("Error adding user:", err);
+          });
       })
       .catch((error) => {
-        // return setErrorMessage("please select profile picture first.");
-        setIsLoading(false);
-        return Swal.fire({
+        console.error("Error uploading image:", error);
+        Swal.fire({
           title: "Error!",
-          text: "Please select a profile picture.",
+          text: "There was an issue uploading your profile picture.",
           icon: "error",
         });
       });
   };
+
   return (
     <MyContainer>
       <div>
         {isLoading ? (
           <LoadingAnimation />
         ) : (
-          // <div className="min-h-screen bg-[url('https://i.ibb.co/10kGMgs/Cover-EBE-1170x675.jpg')] bg-no-repeat bg-cover">
+          // <div className="min-h-screen">
           <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
-            {/* <div className="min-h-screen bg-[url('https://img.freepik.com/premium-photo/hope-word-is-written-wooden-cubes-green-summer-background-closeup-wooden-elements_661495-5652.jpg')] bg-no-repeat bg-cover"> */}
             <WebsiteTitle name={"Hope || Registration"} />
             <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
               <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
@@ -304,34 +424,30 @@ const RegistrationPage = () => {
                     </Link>
                   </div>
                   {/* ----------- */}
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-2">
                     {/* Name */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Name:*
-                      </label>
+                      <label className="text-base font-semibold">Name:*</label>
                       <input
                         name="name"
                         type="text"
                         placeholder="Enter your name"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* age */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Age:*
-                      </label>
+                      <label className="text-base font-semibold">Age:*</label>
                       <input
                         name="age"
                         type="number"
                         placeholder="Enter your age"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Blood Group:* */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Blood Group:*
                       </label>
                       <select
@@ -339,7 +455,7 @@ const RegistrationPage = () => {
                         id="bloodGroup"
                         // value={bloodGroup}
                         onChange={(e) => setBloodGroup(e.target.value)}
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       >
                         <option disabled value="default">
                           Select bloodGroup
@@ -356,105 +472,103 @@ const RegistrationPage = () => {
                     </div>
                     {/* phone_number */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Phone No:*
                       </label>
                       <input
                         name="phone_number"
                         type="number"
                         placeholder="Enter your Phone No"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Email */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Email:*
-                      </label>
+                      <label className="text-base font-semibold">Email:*</label>
                       <input
                         name="user_email"
                         type="email"
                         placeholder="Enter your email"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Whatsapp */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Whatsapp user name:*
                       </label>
                       <input
                         name="whatsapp"
                         type="text"
                         placeholder="Enter your whatsapp user name"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Messenger */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Messenger user name:*
                       </label>
                       <input
                         name="messenger"
                         type="text"
                         placeholder="Enter your messenger user name"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Nationality */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Nationality:*
                       </label>
                       <input
                         name="nationality"
                         value="Bangladesh"
                         type="text"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                         readOnly
                       />
                     </div>
                     {/* Address */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Address:*
                       </label>
                       <input
                         name="address"
                         placeholder="Enter your address"
                         type="text"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Password */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Password:*
                       </label>
                       <input
                         name="password"
                         type="text"
                         placeholder="Enter your password"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
                     {/* Re-Password */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Re-Password:*
                       </label>
                       <input
                         name="re_password"
                         type="text"
                         placeholder="Re-Enter your password"
-                        className="input-field text-sm md:text-xl font-medium"
+                        className="input-field text-base font-medium"
                       />
                     </div>
 
                     {/* user District or Division */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Division:*
                       </label>
                       {/* District select dropdown */}
@@ -488,9 +602,7 @@ const RegistrationPage = () => {
                     </div>
                     {/* user upazila or Area */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Area:*
-                      </label>
+                      <label className="text-base font-semibold">Area:*</label>
                       {/* Upazila select dropdown */}
                       <select
                         // defaultValue="default"
@@ -513,7 +625,7 @@ const RegistrationPage = () => {
 
                     {/* Marital Status */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Marital Status
                       </label>
                       <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
@@ -549,7 +661,7 @@ const RegistrationPage = () => {
                     </div>
                     {/* Religion */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Religion:*
                       </label>
                       <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
@@ -585,7 +697,7 @@ const RegistrationPage = () => {
                     </div>
                     {/* Able to Donate Now: */}
                     <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
+                      <label className="text-base font-semibold">
                         Able to Donate Now:*
                       </label>
                       <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">

@@ -3,111 +3,168 @@
 @tailwind utilities;
 
 body {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .hover-bg {
-    background-color: #B5C99A;
+  background-color: #b5c99a;
 }
 
 .bg-primary {
-    /* background-color: #FCF4F4; */
-    /* background-color: #B5C99A; */
-    /* background-color: #97A97C; */
-    /* background-color: #87986A; */
-    /* background-color: #CFE1B9; */
-    background-color: #B5C99A;
-    /* background-color: #63B2EC; */
-    /* background: rgb(181, 212, 60); */
-    /* background: linear-gradient(90deg, rgba(181, 212, 60, 1) 0%, rgba(236, 255, 159, 1) 100%); */
+  /* background-color: #FCF4F4; */
+  /* background-color: #B5C99A; */
+  /* background-color: #97A97C; */
+  /* background-color: #87986A; */
+  /* background-color: #CFE1B9; */
+  background-color: #b5c99a;
+  /* background-color: #63B2EC; */
+  /* background: rgb(181, 212, 60); */
+  /* background: linear-gradient(90deg, rgba(181, 212, 60, 1) 0%, rgba(236, 255, 159, 1) 100%); */
 }
 
 .calculator-p-border {
-    border: 1px solid #D8D2D2;
+  border: 1px solid #d8d2d2;
 }
 
 .btn-bg {
-    /* background-color: #FCF4F4; */
-    /* background-color: #CFE1B9; */
-    /* background-color: #87986A; */
-    /* background-color: #B5C99A; */
-    background-color: #97A97C;
-    color: whitesmoke;
-    /* padding: 5px 0px; */
-    border: none;
+  /* background-color: #FCF4F4; */
+  /* background-color: #CFE1B9; */
+  /* background-color: #87986A;  */
+  /* background-color: #B5C99A; */
+  background-color: #97a97c;
+  color: whitesmoke;
+  /* padding: 5px 0px; */
+  border: none;
 }
 
 .p-text {
-    color: #578456;
+  color: #578456;
 }
 
 .p-border {
-    border: 1px solid #CFE1B9;
+  border: 1px solid #cfe1b9;
 }
 
 .nav-lists-border {
-    border-bottom: 1px solid #87986A;
-
+  border-bottom: 1px solid #87986a;
 }
 
 .nav-text {
-    font-size: 16px;
-    font-weight: 400;
-    color: #000000;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
 }
 
 .p-black {
-    color: #000000;
+  color: #000000;
 }
 
 .input-field {
-    border-radius: 0.5rem;
-    border: 1px solid #CFE1B9;
-    background-color: transparent;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    /* background-color: #d6e1c9; */
-    background-color: #CFE1B9;
-    color: #000000;
-    /* color: #87986A; */
-    transition-duration: 200ms;
-    outline: none;
+  border-radius: 0.5rem;
+  border: 1px solid #cfe1b9;
+  background-color: transparent;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  /* background-color: #d6e1c9; */
+  background-color: #cfe1b9;
+  color: #000000;
+  /* color: #87986A; */
+  transition-duration: 200ms;
+  outline: none;
 }
 
 .input-field:focus {
-    box-shadow: 0 0 0 2px #87986A;
-    outline-offset: 1px;
+  box-shadow: 0 0 0 2px #87986a;
+  outline-offset: 1px;
 }
 
 .post-input-field {
-    border-radius: 0.5rem;
-    border: 1px solid #CFE1B9;
-    background-color: transparent;
-    padding: 0.5rem 1rem;
-    color: #000000;
-    transition-duration: 200ms;
-    outline: none;
+  border-radius: 0.5rem;
+  border: 1px solid #cfe1b9;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  color: #000000;
+  transition-duration: 200ms;
+  outline: none;
 }
 
 .post-input-field:focus {
-    box-shadow: 0 0 0 1px #CFE1B9;
-    outline-offset: 1px;
+  box-shadow: 0 0 0 1px #cfe1b9;
+  outline-offset: 1px;
 }
 
 .input-radio {
-    padding: 0.5rem;
-    cursor: pointer;
-    appearance: none;
-    width: "14px";
-    height: "14px";
-    border: "none";
-    border-radius: "0";
-
+  padding: 0.5rem;
+  cursor: pointer;
+  appearance: none;
+  width: "14px";
+  height: "14px";
+  border: "none";
+  border-radius: "0";
 }
 
 /* hover:bg-[#CFE1B9] */
+
+/* For WebKit browsers like Chrome, Safari, and Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox (using -moz-appearance) */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: none; /* Universal fallback for other browsers */
+}
+
+/* Base styles for the label */
+.post-input-label {
+  position: absolute;
+  left: 0.5rem;
+  top: 12px;
+  font-size: 0.875rem;
+  /* color: #a1a1aa; */
+  color: #9ca3af;
+  background-color: transparent;
+  transition: 0.2s ease;
+  padding: 0 0.5rem;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* When the input is focused or contains a valid value, move the label */
+.post-input-field:focus + .post-input-label,
+.post-input-field:valid + .post-input-label {
+  top: -0.6rem; /* Move the label above the input */
+  font-size: 0.75rem;
+  color: #000000;
+  color: #ffffff;
+  background-color: #87986a; /* dark */
+  background-color: #b5c99a;
+  background-color: #97a97c; /* halka */
+  border-radius: 0.375rem;
+  z-index: 10;
+}
+/* When the input is empty and not focused, keep the label inside */
+.post-input-field:placeholder-shown + .post-input-label {
+  top: 0.5rem; /* Label stays inside the input when empty */
+  font-size: 1rem; /* Default font size */
+  color: #9ca3af;
+  background-color: transparent;
+  padding: 0 0.5rem;
+}
+
+/* Focused state, specifically for when input is focused, for "peer-focus" handling */
+.input-peer:focus + .post-input-label {
+  top: -0.6rem;
+  font-size: 0.75rem;
+  color: #ffffff;
+  background-color: #97a97c;
+  z-index: 10;
+}

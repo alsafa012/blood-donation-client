@@ -1,13 +1,14 @@
 import { memo } from "react";
 
 const GenderDropDown = ({ value, onChange, css }) => {
-  console.log("GenderDropDown rendered");
+  // console.log("GenderDropDown rendered");
   return (
     <div className="">
       <select
         value={value}
         onChange={onChange}
-        className={`${css} text-base font-medium`}
+        className={`${css} text-sm md:text-base font-medium w-full`}
+        required
       >
         <option disabled value="">
           Select Gender

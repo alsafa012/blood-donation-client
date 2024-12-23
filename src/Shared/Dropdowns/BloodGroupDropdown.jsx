@@ -30,16 +30,16 @@
 import React from "react";
 
 const BloodGroupDropdown = React.memo(({ blood, onChange, css }) => {
-  console.log("blood", blood);
+  // console.log("blood", blood);
   return (
     <div className="">
       <select
         value={blood}
         onChange={onChange}
-        className={`${css} text-base font-medium`}
+        className={`${css} text-sm md:text-base font-medium w-full`}
         required
       >
-        <option disabled value="default">
+        <option disabled value="">
           Select Blood Group
         </option>
         <option value="ABPositive">AB+</option>

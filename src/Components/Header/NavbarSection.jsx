@@ -66,7 +66,7 @@ const NavbarSection = () => {
   };
   return (
     <nav className="max-w-screen-2xl mx-auto bg-primary sticky top-0 border-b border-[rgb(210,216,211)] z-50">
-      <div className="md:h-[93px] grid grid-cols-2 md:grid-cols-4 items-center px-3 py-5">
+      <div className="md:h-[70px] grid grid-cols-2 md:grid-cols-4 items-center px-3 py-5">
         {/* logo div */}
         <div className="col-span-1 flex gap-1 items-center relative">
           <img

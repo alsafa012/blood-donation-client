@@ -16,6 +16,9 @@ import useAllComments from "../../Components/hooks/useAllComments";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
+import ShowBloodGroup from "../../Shared/ShowBloodGroup";
+import GoogleMapModal from "../../Shared/GoogleMapModal";
+import { BiDotsVertical } from "react-icons/bi";
 const AllPostPage = () => {
   const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
@@ -26,6 +29,7 @@ const AllPostPage = () => {
   const axiosPublic = useAxiosPublic();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showSelectedImage, setShowSelectedImage] = useState(false);
+  const [openUpdateStatus, setOpenUpdateStatus] = useState(false);
   // console.log("selectedPostDetail", selectedPostDetail);
   // console.log(showSelectedImage);
 
@@ -69,29 +73,36 @@ const AllPostPage = () => {
   };
 
   const handleUpdateStatus = (id) => {
-    console.log(id);
-    // const formData = {
-    //   retting: updatedRating,
-    //   review_content: form.updated_review.value,
-    // };
-    // console.log("formData", );
-    axiosPublic
-      .patch(`/allPosts/${id}`, {
-        status: true,
-      })
-      .then((res) => {
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Success!",
-            text: `Post updated.`,
-            icon: "success",
+    // console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "If the donor found then click on and this Request will disappear from post page.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes. donor received.",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic
+          .patch(`/allPosts/${id}`, {
+            status: true,
+          })
+          .then((res) => {
+            if (res.data.modifiedCount > 0) {
+              Swal.fire({
+                title: "Success!",
+                text: `Post updated.`,
+                icon: "success",
+              });
+              refetch();
+            }
+          })
+          .catch((err) => {
+            console.error(err);
           });
-          refetch();
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      }
+    });
   };
   const handleDeleteAllPosts = () => {
     axiosPublic.delete("/allPosts").then((res) => console.log(res.data));
@@ -151,13 +162,26 @@ const AllPostPage = () => {
         </div>
       ) : (
         <div className="w-full mx-auto">
+          <div className="hidden">
+            <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
+            <p>
+              ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন
+            </p>
+            <p>
+              ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর আত্মীয়ের
+              সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান
+              করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয় পক্ষের কেউ দুর্নীতি
+              করতে না পারে।
+            </p>
+            <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
+          </div>
           <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50%] lg:w-[45%]">
             {allPostsInfo?.map((user, ind) => (
               <div
                 className="p-border rounded-sm overflow-hidden"
                 key={user._id}
               >
-                {/* image and info */}
+                {/* creator image and info */}
                 <div className="flex justify-between border-b px-1 py-1">
                   <div className="flex gap-4">
                     <Link to={`/availableDonors/${user?.creator_id}`}>
@@ -182,28 +206,123 @@ const AllPostPage = () => {
                       </p>
                     </div>
                   </div>
+                  {/* status 3 dot */}
                   {user?.creator_email === loggedUserInfo?.user_email && (
-                    <button
-                      onClick={() => handleUpdateStatus(user._id)}
-                      className="btn"
-                    >
-                      Update
-                    </button>
+                    <div className="relative">
+                      <button
+                        className={`${
+                          openUpdateStatus ? "text-[#b5c99a]" : ""
+                        } h-full`}
+                        onClick={() => setOpenUpdateStatus(!openUpdateStatus)}
+                      >
+                        <BiDotsVertical size={40} />
+                      </button>
+
+                      <div
+                        className={` ${
+                          openUpdateStatus ? "" : "hidden"
+                        } absolute right-10 top-2 h-[80px] z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
+                      >
+                        <button
+                          onClick={() => handleUpdateStatus(user._id)}
+                          className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a"
+                        >
+                          If found donor click here
+                        </button>
+                      </div>
+                    </div>
                   )}
                 </div>
                 {/* content */}
                 <div>
-                  {/* texts */}
-                  <div className="min-h-[50px] px-1 py-2">
-                    {user?.comment?.split("\n")?.map((com, ind) =>
-                      com?.trim() !== "" ? (
-                        <p className="text-[14px] mt-1" key={ind}>
-                          {com}
+                  {/* content */}
+                  <div>
+                    <div className=" p-2 my-2 font-medium text-[16px]">
+                      <div className="flex justify-between gap-3">
+                        <div className="flex flex-col gap-1">
+                          {/* patient_name */}
+                          <div className="flex flex-co ">
+                            <p className="">Patient Name:</p>
+                            <p className="ml-1"> {user?.patient_name}</p>
+                          </div>
+                          {/* bloodGroup */}
+                          <div className="flex flex-co">
+                            <p>Blood Group:</p>
+                            <p className="ml-1">
+                              <ShowBloodGroup blood={user?.bloodGroup} />
+                            </p>
+                          </div>
+                          {/* unit_of_blood */}
+                          <div className="flex flex-co">
+                            <p>Total unit of blood:</p>
+                            <p className="ml-1">{user?.unit_of_blood} Bag</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          {/* patient_age */}
+                          <div className="flex flex-co">
+                            <p>Age:</p>
+                            <p className="ml-1">{user?.patient_age}</p>
+                          </div>
+                          {/* patient_gender */}
+                          <div className="flex flex-co">
+                            <p>Gender:</p>
+                            <p className="ml-1">{user?.patient_gender}</p>
+                          </div>
+                          {/* patient_region */}
+                          <div className="flex flex-co">
+                            <p>Region:</p>
+                            <p className="ml-1">{user?.patient_region}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <p>
+                        Contact:
+                        <span> {user?.primary_number}</span>
+                        {user?.alternative_number && (
+                          <span>, {user?.alternative_number}</span>
+                        )}
+                      </p>
+                      {user?.relation_with_patient && (
+                        <p>
+                          relation_with_patient: {user?.relation_with_patient}
                         </p>
-                      ) : (
-                        <br key={ind} />
-                      )
-                    )}
+                      )}
+                      <p>Hospital Location: {user?.hospital_location}</p>
+
+                      <div className="flex justify-between items-center gap-2">
+                        <p>
+                          Area: <span>{user?.district_name}</span>,
+                          {user?.upazila_name && (
+                            <span> {user?.upazila_name}</span>
+                          )}
+                        </p>
+                        {user?.google_map_location && (
+                          <p>
+                            <a
+                              href={user?.google_map_location}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-white font-bold px-2 btn-bg py-1 rounded-md "
+                            >
+                              View on Google Maps
+                            </a>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="min-h-[50px] p-2">
+                      {user?.medical_reason?.split("\n")?.map((com, ind) =>
+                        com?.trim() !== "" ? (
+                          <p className="text-[14px] mt-1" key={ind}>
+                            {com}
+                          </p>
+                        ) : (
+                          <br key={ind} />
+                        )
+                      )}
+                    </div>
                   </div>
                   {/* image */}
                   {user?.post_images.length > 0 && (

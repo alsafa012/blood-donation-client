@@ -64,7 +64,7 @@ const CreatePostPage = () => {
     const primary_number = form.primary_number.value;
     const alternative_number = form.alternative_number.value;
     const hospital_location = form.hospital_location.value;
-    const google_map_location = form.hospital_location.value;
+    const google_map_location = form.google_map_location.value;
     // Get today's date in 'YYYY-MM-DD' format
     const today = moment().format("YYYY-MM-DD");
     // console.log("today", today);
@@ -144,11 +144,20 @@ const CreatePostPage = () => {
     setShowImageDetails(updatedShowName);
     setShowImagePreview(updatedShowImagePreview);
   };
+
+  const handleShowAddress = () => {
+    console.log("openDistrict", openDistrict);
+    console.log("openUpazila", openUpazila);
+    setOpenDistrict((prevState) => !prevState);
+    // setOpenUpazila((prevState) => !prevState);
+  };
   return (
     <MyContainer>
       <WebsiteTitle name={"Hope || Create Post"} />
+      {/*  */}
+
       <form
-        className="flex flex-col gap-3 w-[95%] md:w-[80%] lg:w-[65%] mx-auto p-border my-1 rounded-md"
+        className="flex flex-col gap-3 w-[95%] md:w-[80%] lg:w-[65%] mx-auto p-border my-1 rounded-md mb-10"
         onSubmit={handleCreatePost}
       >
         {/* page Title */}
@@ -229,7 +238,7 @@ const CreatePostPage = () => {
         </div>
         {/* creator Information */}
         <div className="px-1 p-border relative pt-8 lg:pt-10 pb-3 md:pb-5 rounded-md mx-2">
-          <p className="absolute -top-3 left-2 bg-white px-1 text-lg md:text-xl font-semibold">
+          <p className="absolute -top-3 left-2 border border-[#cfe1b9] border-dashed rounded-md bg-white px-1 text-lg md:text-xl font-semibold">
             Your Information
           </p>
           <div className="grid md:grid-cols-2 gap-2 lg:gap-5">
@@ -268,7 +277,7 @@ const CreatePostPage = () => {
         {/* end of creator Information */}
         {/* Patient Information */}
         <div className="px-1 p-border relative pt-8 lg:pt-10 pb-3 md:pb-5 rounded-md mx-2 my-5 md:my-8">
-          <p className="absolute -top-3 left-2 bg-white px-1 text-lg md:text-xl font-semibold">
+          <p className="absolute -top-3 left-2 border border-[#cfe1b9] border-dashed rounded-md bg-white px-1 text-lg md:text-xl font-semibold">
             Patient Information
           </p>
           <div className="grid md:grid-cols-4 gap-2 lg:gap-5">
@@ -336,7 +345,7 @@ const CreatePostPage = () => {
         {/* end of Patient Information */}
         {/* Contact Information */}
         <div className="px-1 p-border relative pt-8 lg:pt-10 pb-3 md:pb-5 rounded-md mx-2">
-          <p className="absolute -top-3 left-2 bg-white px-1 text-lg md:text-xl font-semibold">
+          <p className="absolute -top-3 left-2 border border-[#cfe1b9] border-dashed rounded-md bg-white px-1 text-lg md:text-xl font-semibold">
             Contact Information
           </p>
           <div className="grid md:grid-cols-2 gap-2 lg:gap-5">
@@ -499,9 +508,16 @@ const CreatePostPage = () => {
         </div>
         {/* end of form content */}
         <button type="submit" className="btn-bg py-1 rounded-md">
-          Add Request
+          Post Request
         </button>
       </form>
+      {/* <button onClick={() => setOpenDistrict((prevState) => !prevState)}>
+        Change district state button
+      </button>
+      <button onClick={() => setOpenUpazila((prevState) => !prevState)}>
+        Change district state button
+      </button> */}
+      <button onClick={handleShowAddress}>Change district state button</button>
     </MyContainer>
   );
 };

@@ -6,6 +6,8 @@ import axios from "axios";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
+import DownloadAvailableDonorList from "./DownloadAvailableDonorList";
+import BloodGroupDropdown from "../../Shared/Dropdowns/BloodGroupDropdown";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -54,6 +56,7 @@ const upazila = [
     url: "sadar.feni.gov.bd",
   },
 ];
+
 const AvailableDonorPage = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -169,6 +172,7 @@ const AvailableDonorPage = () => {
   return (
     <MyContainer>
       <WebsiteTitle name={"Hope || Available Donors"} />
+      {/* filter section */}
       <div className="flex flex-wrap justify-center gap-5 my-5">
         {/* blood group */}
         <select
@@ -177,7 +181,7 @@ const AvailableDonorPage = () => {
           id="bloodGroup"
           // value={bloodGroup}
           onChange={(e) => setBloodGroup(e.target.value)}
-          className="input-field text-lg md:text-xl font-medium"
+          className="input-field text-sm md:text-base font-medium"
         >
           <option disabled value="">
             Select bloodGroup
@@ -192,6 +196,12 @@ const AvailableDonorPage = () => {
           <option value="BNegative">B-</option>
           <option value="ONegative">O-</option>
         </select>
+
+        <BloodGroupDropdown
+          blood={bloodGroup}
+          onChange={(e) => setBloodGroup(e.target.value)}
+          css={"input-field"}
+        />
         {/* filter by Region */}
         <select
           // defaultValue="default"
@@ -269,6 +279,7 @@ const AvailableDonorPage = () => {
           Delete
         </button> */}
       </div>
+      {/* ------- end of filter section --- */}
       {availableDonor.length === 0 && !isLoading && (
         <div>
           <h1 className="text-center text-3xl font-semibold pt-10">
@@ -315,6 +326,8 @@ const AvailableDonorPage = () => {
           ))}
         </div>
       )}
+
+      <DownloadAvailableDonorList donorList={availableDonor} />
     </MyContainer>
   );
 };

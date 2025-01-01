@@ -3,12 +3,31 @@ import { Link } from "react-router-dom";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
 import useAllUsersInfo from "../../../../Components/hooks/useAllUsersInfo";
 import useAllReviewInfo from "../../../../Components/hooks/useAllReviewInfo";
+import useDonorReportInfo from "../../../../Components/hooks/useDonorReportInfo";
+import { useState } from "react";
 
 const AdminHome = () => {
   const [reviewInfo, refetchReviews] = useAllReviewInfo();
   const [allPostsData, refetch] = useAllPostsInfo();
   const [allUsers, refetchUser] = useAllUsersInfo();
+  const [allReports] = useDonorReportInfo();
+  const [selectedUserReports, setSelectedUserReports] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  // Group reports by user ID
+  const userReportsMap = allUsers?.map((user) => {
+    const userReports = allReports.filter(
+      (report) => report.reported_to === user._id
+    );
+    return { ...user, reports: userReports };
+  });
+  console.log("userReportsMap", userReportsMap);
+
+  // Handle view report details
+  const handleViewReports = (reports) => {
+    setSelectedUserReports(reports);
+    setModalVisible(true);
+  };
   return (
     <div className="max-h-screen overflow-y-auto">
       <WebsiteTitle name={"Hope || Admin Home"}></WebsiteTitle>
@@ -92,8 +111,215 @@ const AdminHome = () => {
           </div>
         ))}
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {userReportsMap.map((user) => {
+          const reportCount = user.reports.length; // Get count of reports for this user
+
+          return (
+            <div key={user._id} className="bg-white rounded-lg shadow-md p-5">
+              <div className="flex flex-col items-center">
+                <img
+                  src={user.user_image || "/path-to-default-image.png"}
+                  alt={user.user_name}
+                  className="w-24 h-24 rounded-full object-cover mb-4"
+                />
+                <h3 className="text-xl font-semibold text-center">
+                  {user.user_name}
+                </h3>
+                <p className="text-gray-500 text-center">{user.user_email}</p>
+              </div>
+
+              <div className="mt-4 text-center">
+                <h4 className="text-md font-semibold">
+                  Reported by {reportCount}{" "}
+                  {reportCount === 1 ? "person" : "people"}
+                </h4>
+                {reportCount > 0 && (
+                  <button
+                    onClick={() => handleViewReports(user.reports)}
+                    className="text-blue-500 hover:underline mt-2"
+                  >
+                    View report details
+                  </button>
+                )}
+              </div>
+
+              <div className="mt-4 text-center">
+                <Link
+                  to={`/availableDonors/${user._id}`}
+                  className="text-blue-500 hover:underline"
+                >
+                  View Profile
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Modal for Report Details */}
+      {modalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 overflow-y-auto">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Report Details
+            </h2>
+            {selectedUserReports.length > 0 ? (
+              <ul className="space-y-4">
+                {selectedUserReports.map((report, index) => (
+                  <li key={index} className="bg-gray-100 p-4 rounded-md">
+                    <p className="text-md">
+                      <span className="font-semibold">Reported by:</span>{" "}
+                      {report.name || "Unknown"}
+                    </p>
+                    <p className="text-md">
+                      <span className="font-semibold">Reason:</span>{" "}
+                      {report.report_reason}
+                    </p>
+                    <p className="text-md">
+                      <span className="font-semibold">Reported Date:</span>{" "}
+                      {new Date(report.reportDate).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">No report details available.</p>
+            )}
+            <button
+              onClick={() => setModalVisible(false)}
+              className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AdminHome;
+
+// import React, { useState } from "react";
+// import { Link } from "react-router-dom";
+// import WebsiteTitle from "../../../../Shared/WebsiteTitle";
+// import useAllUsersInfo from "../../../../Components/hooks/useAllUsersInfo";
+// import useDonorReportInfo from "../../../../Components/hooks/useDonorReportInfo";
+
+// const AdminHome = () => {
+//   const [allUsers] = useAllUsersInfo(); // Fetch all users
+//   const [allReports] = useDonorReportInfo(); // Fetch all reports
+
+//   const [selectedUserReports, setSelectedUserReports] = useState([]);
+//   const [modalVisible, setModalVisible] = useState(false);
+
+//   // Group reports by user ID
+//   const userReportsMap = allUsers?.map((user) => {
+//     const userReports = allReports.filter(
+//       (report) => report.reported_to === user._id
+//     );
+//     return { ...user, reports: userReports };
+//   });
+//   console.log("userReportsMap",userReportsMap);
+
+//   // Handle view report details
+//   const handleViewReports = (reports) => {
+//     setSelectedUserReports(reports);
+//     setModalVisible(true);
+//   };
+
+//   return (
+//     <div className="p-6 bg-gray-50 min-h-screen overflow-y-auto">
+//       <WebsiteTitle name={"Hope || Admin Home"} />
+
+//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//         {userReportsMap.map((user) => {
+//           const reportCount = user.reports.length; // Get count of reports for this user
+
+//           return (
+//             <div key={user._id} className="bg-white rounded-lg shadow-md p-5">
+//               <div className="flex flex-col items-center">
+//                 <img
+//                   src={user.user_image || "/path-to-default-image.png"}
+//                   alt={user.user_name}
+//                   className="w-24 h-24 rounded-full object-cover mb-4"
+//                 />
+//                 <h3 className="text-xl font-semibold text-center">
+//                   {user.user_name}
+//                 </h3>
+//                 <p className="text-gray-500 text-center">{user.user_email}</p>
+//               </div>
+
+//               <div className="mt-4 text-center">
+//                 <h4 className="text-md font-semibold">
+//                   Reported by {reportCount}{" "}
+//                   {reportCount === 1 ? "person" : "people"}
+//                 </h4>
+//                 {reportCount > 0 && (
+//                   <button
+//                     onClick={() => handleViewReports(user.reports)}
+//                     className="text-blue-500 hover:underline mt-2"
+//                   >
+//                     View report details
+//                   </button>
+//                 )}
+//               </div>
+
+//               <div className="mt-4 text-center">
+//                 <Link
+//                   to={`/availableDonors/${user._id}`}
+//                   className="text-blue-500 hover:underline"
+//                 >
+//                   View Profile
+//                 </Link>
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+
+//       {/* Modal for Report Details */}
+//       {modalVisible && (
+//         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+//           <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 overflow-y-auto">
+//             <h2 className="text-xl font-semibold text-gray-800 mb-4">
+//               Report Details
+//             </h2>
+//             {selectedUserReports.length > 0 ? (
+//               <ul className="space-y-4">
+//                 {selectedUserReports.map((report, index) => (
+//                   <li key={index} className="bg-gray-100 p-4 rounded-md">
+//                     <p className="text-md">
+//                       <span className="font-semibold">Reported by:</span>{" "}
+//                       {report.name || "Unknown"}
+//                     </p>
+//                     <p className="text-md">
+//                       <span className="font-semibold">Reason:</span>{" "}
+//                       {report.report_reason}
+//                     </p>
+//                     <p className="text-md">
+//                       <span className="font-semibold">Reported Date:</span>{" "}
+//                       {new Date(report.reportDate).toLocaleString()}
+//                     </p>
+//                   </li>
+//                 ))}
+//               </ul>
+//             ) : (
+//               <p className="text-gray-500">No report details available.</p>
+//             )}
+//             <button
+//               onClick={() => setModalVisible(false)}
+//               className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AdminHome;

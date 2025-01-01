@@ -9,7 +9,7 @@ const Banner = () => {
         alt=""
       />
       <div>
-        <HopeCard/>
+        <HopeCard />
       </div>
     </div>
   );

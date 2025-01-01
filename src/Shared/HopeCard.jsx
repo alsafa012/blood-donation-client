@@ -3,12 +3,9 @@ import { useState } from "react";
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
 import MyContainer from "./MyContainer";
+import useAuth from "../Components/hooks/useAuth";
 const HopeCard = () => {
-  const [showName, setShowName] = useState({});
-  const [showImagePreview, setShowImagePreview] = useState({});
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [bloodGroup, setBloodGroup] = useState("");
+  const { user } = useAuth();
 
   const gradients = [
     "radial-gradient(circle farthest-corner at 14.2% 27.5%, rgba(104, 199, 255, 1) 0%, rgba(181, 126, 255, 1) 90%)",
@@ -207,11 +204,11 @@ const HopeCard = () => {
           <div className="border">
             {/* Image */}
             <div className="border rounded-full h-28 w-28 md:h-28 md:w-28">
-              {showName?.name ? (
+              {user?.email ? (
                 <img
-                  className="h-28 w-28 md:h-28 md:w-28 rounded-full mx-auto"
-                  src={showImagePreview}
-                  alt={showName?.name}
+                  className="h-28 w-28 md:h-28 md:w-28 object-cover rounded-full mx-auto"
+                  src={user?.photoURL}
+                  alt={user?.photoURL}
                 />
               ) : (
                 <img
@@ -222,15 +219,13 @@ const HopeCard = () => {
               )}
             </div>
             <div className="font-bold">
-              <p>{name || "Ridoy"}</p>
-              <p>{phone || "0175876644"}</p>
+              <p>{user?.displayName || "Ridoy"}</p>
+              <p>{"0175876644"}</p>
             </div>
           </div>
           {/* blood group */}
           <div>
-            <button className="btn-bg p-3 rounded-full">
-              {bloodGroup || "A+"}
-            </button>
+            <button className="btn-bg p-3 rounded-full">{"A+"}</button>
           </div>
           {/* website logo */}
           <div>
@@ -260,99 +255,6 @@ const HopeCard = () => {
         </div>
       </div>
 
-      {/* form */}
-
-      <div className="border w-full border-yellow-200 hidden">
-        {/* name */}
-        <div className="flex flex-col gap-3">
-          <label htmlFor="">Name</label>
-          <input
-            onChange={(e) => setName(e.target.value)}
-            className="border"
-            type="text"
-          />
-        </div>
-        {/* phone */}
-        <div className="flex flex-col gap-3">
-          <label htmlFor="">Phone</label>
-          <input
-            onChange={(e) => setPhone(e.target.value)}
-            className="border"
-            type="text"
-          />
-        </div>
-        {/* Blood Group:* */}
-        <div className="flex flex-col gap-3">
-          <label className="text-base md:text-xl font-semibold">
-            Blood Group:*
-          </label>
-          <select
-            defaultValue="default"
-            id="bloodGroup"
-            value={bloodGroup}
-            onChange={(e) => setBloodGroup(e.target.value)}
-            className="input-field text-sm md:text-xl font-medium border"
-          >
-            <option disabled value="default">
-              Select bloodGroup
-            </option>
-            <option value="AB+">AB+</option>
-            <option value="A+">A+</option>
-            <option value="B+">B+</option>
-            <option value="O+">O+</option>
-            <option value="AB-">AB-</option>
-            <option value="A-">A-</option>
-            <option value="B-">B-</option>
-            <option value="O-">O-</option>
-          </select>
-        </div>
-        {/* image */}
-
-        <div className="mt-3">
-          {/* amber - yellow  */}
-          <div>
-            <label
-              htmlFor="type2-2"
-              className="flex w-full max-w-[380px] md:w-[380px]"
-            >
-              <div className="w-fit whitespace-nowrap bg-amber-500 px-3 py-2 text-white">
-                Choose File
-              </div>
-              <div className="flex w-full max-w-[380px] items-center border-b-[2px] border-amber-500 px-2 font-medium text-gray-400">
-                {showName.name ? showName.name : "No File Chosen"}
-              </div>
-            </label>
-            <input
-              // onChange={(e) => {
-              //   if (e.target.files && e.target.files[0]) {
-              //     const imageFile = e.target.files[0];
-              //     setShowName(imageFile);
-              //   }
-              // }}
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  const imageFile = e.target.files[0];
-                  // console.log(imageFile);
-                  setShowName(imageFile);
-                  setShowImagePreview(URL.createObjectURL(imageFile));
-                }
-              }}
-              className="hidden"
-              type="file"
-              name=""
-              id="type2-2"
-            />
-          </div>
-        </div>
-
-        {/* downlode btn */}
-        <button
-          className="m-5 bg-gray-400 rounded-md px-3 py-2"
-          onClick={handleDownload}
-        >
-          Download
-        </button>
-      </div>
       {/* ---- */}
       {/* </div> */}
     </MyContainer>

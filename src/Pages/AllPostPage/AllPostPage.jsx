@@ -186,7 +186,7 @@ const AllPostPage = () => {
                   <div className="flex gap-4">
                     <Link to={`/availableDonors/${user?.creator_id}`}>
                       <img
-                        className="w-[50px] h-[50px] object-cover rounded-full"
+                        className="w-[50px] h-[50px] object-cover rounded-full hover:opacity-85 duration-300"
                         src={user?.creator_image}
                         alt={"creator_image.png"}
                       />
@@ -194,7 +194,7 @@ const AllPostPage = () => {
                     <div>
                       <Link
                         to={`/availableDonors/${user?.creator_id}`}
-                        className="text-[14px] font-semibold"
+                        className="text-[14px] font-semibold hover:underline"
                       >
                         {user?.creator_name}
                       </Link>

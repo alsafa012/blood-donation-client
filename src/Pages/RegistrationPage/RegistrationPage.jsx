@@ -26,6 +26,11 @@ const activeStatus = [
   { id: "Yes", label: "Yes" },
   { id: "No", label: "No" },
 ];
+const usersGender = [
+  { id: "Male", label: "Male" },
+  { id: "Female", label: "Female" },
+];
+// patient_gender
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -82,6 +87,7 @@ const RegistrationPage = () => {
   const [userMaritalStatus, setUserMaritalStatus] = useState("");
   const [userReligious, setUserReligious] = useState("");
   const [userActiveStatus, setUserActiveStatus] = useState("");
+  const [userGender, setUserGender] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   // console.log(userMaritalStatus.toLowerCase());
   // console.log(userReligious);
@@ -329,6 +335,7 @@ const RegistrationPage = () => {
           user_password: password,
           user_district: selectedDistrictName,
           user_area: selectedUpazila,
+          user_gender: userGender,
           user_image: photoUrl,
           user_role: "donor",
           img_status: !!photoUrl,
@@ -626,7 +633,7 @@ const RegistrationPage = () => {
                     {/* Marital Status */}
                     <div className="grid grid-cols-2 gap-2">
                       <label className="text-base font-semibold">
-                        Marital Status
+                        Marital Status:*
                       </label>
                       <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
                         {maritalStatusOptions?.map((status, ind) => (
@@ -689,6 +696,42 @@ const RegistrationPage = () => {
                               type="radio"
                               id={status.id}
                               name="religious"
+                              value={status.id}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Able to Donate Now: */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="text-base font-semibold">
+                        Gender:*
+                      </label>
+                      <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
+                        {usersGender?.map((status, ind) => (
+                          <div
+                            key={ind}
+                            className="text-xl flex flex-row-reverse items-center gap-[6px]"
+                          >
+                            <label
+                              htmlFor={status.id}
+                              className="font-semibold text-base md:text-lg text-black pr-5"
+                            >
+                              {status.label}
+                            </label>
+                            <input
+                              onChange={() => setUserGender(status.id)}
+                              checked={userGender === status.id}
+                              className="input-radio"
+                              style={{
+                                backgroundColor:
+                                  userGender === status.label
+                                    ? "#87986A"
+                                    : "#FFFFFF",
+                              }}
+                              type="radio"
+                              id={status.id}
+                              name="active_status"
                               value={status.id}
                             />
                           </div>

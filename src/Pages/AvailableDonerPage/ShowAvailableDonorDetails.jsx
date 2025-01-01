@@ -4,10 +4,54 @@ import WebsiteTitle from "../../Shared/WebsiteTitle";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import { useState } from "react";
 import ShowImage from "./ShowImage";
+import { MdOutlineReport } from "react-icons/md";
+import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
+import DonorReport from "./DonorReport";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const ShowAvailableDonorDetails = () => {
   const donorDetails = useLoaderData();
+  const [loggedUserInfo] = useLoggedUserInfo();
+  console.log(loggedUserInfo);
+  console.log("donorDetails", donorDetails);
   const [showImage, setShowImage] = useState(false);
+  // const [showReportForm, setShowReportForm] = useState(false);
+  const [showReportForm, setShowReportForm] = useState(false);
+
+  const handleReportClick = async () => {
+    if (!loggedUserInfo?._id) {
+      return Swal.fire({
+        title: "Error",
+        text: "You must be logged in to report a donor.",
+        icon: "error",
+      });
+    }
+
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/hasReported?reported_by=${loggedUserInfo._id}&reported_to=${donorDetails._id}`
+      );
+
+      if (res.data.reported) {
+        Swal.fire({
+          title: "Warning!",
+          text: "You have already reported this donor.",
+          icon: "warning",
+        });
+      } else {
+        setShowReportForm(true); // Show the report form
+      }
+    } catch (error) {
+      console.error("Error checking report status:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+        icon: "error",
+      });
+    }
+  };
+
   const handleMessengerContact = () => {
     if (donorDetails?.user_messenger) {
       const messengerUrl = `https://m.me/${donorDetails.user_messenger}`;
@@ -26,6 +70,7 @@ const ShowAvailableDonorDetails = () => {
       alert("WhatsApp contact not available.");
     }
   };
+
   return (
     <MyContainer>
       <WebsiteTitle name={`${donorDetails?.user_name}'s Details`} />
@@ -65,7 +110,17 @@ const ShowAvailableDonorDetails = () => {
                 />
               </div>
             )}
+            {/* report icon */}
+            {donorDetails?.user_email !== loggedUserInfo.user_email && (
+              <button
+                className="md:hover:rotate-45 duration-300 rounded-full"
+                onClick={handleReportClick}
+              >
+                <MdOutlineReport size={28} />
+              </button>
+            )}
           </div>
+
           {/* ------------- */}
         </div>
         {/* User details display */}
@@ -133,6 +188,13 @@ const ShowAvailableDonorDetails = () => {
         />
         {/* --------- */}
       </div>
+
+      {/* Pass the state to DonorReport */}
+      <DonorReport
+        donorId={donorDetails?._id}
+        showReportForm={showReportForm}
+        setShowReportForm={setShowReportForm}
+      />
     </MyContainer>
   );
 };

@@ -62,9 +62,9 @@ const CreatePostPage = () => {
     const patient_age = form.patient_age.value;
     const comment = form.comment.value;
     const primary_number = form.primary_number.value;
-    const alternative_number = form.alternative_number.value;
+    const alternative_number = form.alternative_number.value || "";
     const hospital_location = form.hospital_location.value;
-    const google_map_location = form.google_map_location.value;
+    const google_map_location = form.google_map_location.value || "";
     // Get today's date in 'YYYY-MM-DD' format
     const today = moment().format("YYYY-MM-DD");
     // console.log("today", today);
@@ -108,7 +108,7 @@ const CreatePostPage = () => {
         patient_age: patient_age,
         patient_gender: gender,
         patient_region: region,
-        medical_reason: comment,
+        medical_reason: comment || "",
         primary_number,
         alternative_number,
         hospital_location,
@@ -337,7 +337,6 @@ const CreatePostPage = () => {
                 cols={5}
                 placeholder="Medical Reason (Optional)"
                 name="comment"
-                required
               />
             </div>
           </div>
@@ -372,7 +371,6 @@ const CreatePostPage = () => {
                 name="alternative_number"
                 className="post-input-field w-full input-peer"
                 placeholder=" "
-                required
               />
               <label htmlFor="alternative_number" className="post-input-label">
                 Alternative Phone Number (optional)
@@ -402,7 +400,6 @@ const CreatePostPage = () => {
                 name="google_map_location"
                 placeholder=" "
                 className="post-input-field w-full input-peer"
-                required
               />
               <label htmlFor="google_map_location" className="post-input-label">
                 Google Map Location

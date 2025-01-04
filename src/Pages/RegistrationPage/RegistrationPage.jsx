@@ -341,6 +341,7 @@ const RegistrationPage = () => {
           img_status: !!photoUrl,
           // img_status: photoUrl ? true : false,
           account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
+          account_status: false,
         };
         console.log(userInfo);
 

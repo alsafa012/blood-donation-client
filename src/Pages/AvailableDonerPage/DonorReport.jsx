@@ -45,6 +45,7 @@ const DonorReport = ({ donorId, showReportForm, setShowReportForm }) => {
       email: loggedUserInfo?.user_email,
       name: loggedUserInfo?.user_name,
       report_reason: reportReason,
+      report_status: false,
     };
 
     Swal.fire({
@@ -69,6 +70,7 @@ const DonorReport = ({ donorId, showReportForm, setShowReportForm }) => {
               icon: "success",
             });
             setHasReported(true);
+            setShowReportForm(false);
           } else {
             throw new Error("Process failed, something went wrong");
           }
@@ -79,6 +81,7 @@ const DonorReport = ({ donorId, showReportForm, setShowReportForm }) => {
             text: "Something went wrong. Please try again later.",
             icon: "error",
           });
+          setShowReportForm(false);
         }
       }
     });

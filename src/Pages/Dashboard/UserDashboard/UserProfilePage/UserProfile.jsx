@@ -19,20 +19,19 @@ const UserProfile = () => {
     (item) => item.user_email === user?.email
   );
   // console.log(filterData);
-  const handleUpdateStatus = (id, status) => {
-    console.log(id);
-    const newStatus = status === "active" ? "inactive" : "active";
-    // const updateRole = { status: newStatus };
-
+  const handleUpdateStatus = (id, activeStatus, accountStatus) => {
+    // console.log(id);
+    const updatedStatus = {
+      user_activeStatus: activeStatus === "active" ? "inactive" : "active",
+      account_status: accountStatus,
+    };
     axiosPublic
-      .patch(`/users/${id}`, {
-        status: newStatus,
-      })
+      .patch(`/users/${id}`, updatedStatus)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           Swal.fire({
             title: "Success!",
-            text: `User's status changed to ${newStatus}`,
+            text: `User's status changed to ${updatedStatus.user_activeStatus}`,
             icon: "success",
           });
           refetchUser();
@@ -42,6 +41,33 @@ const UserProfile = () => {
         console.error(err);
       });
   };
+  // const handleUpdateStatus = (id, activeStatus, accountStatus) => {
+  //   console.log(id);
+
+  //   // Construct the object that you want to send to the backend
+  //   const contextUpdateStatus = {
+  //     user_activeStatus: activeStatus === "active" ? "inactive" : "active",
+  //     account_status: accountStatus,
+  //   };
+
+  //   axiosPublic
+  //     .patch(`/users/${id}`, contextUpdateStatus)
+  //     .then((res) => {
+  //       if (res.data.modifiedCount > 0) {
+  //         Swal.fire({
+  //           title: "Success!",
+  //           text: `User's status changed to ${
+  //             activeStatus === "active" ? "inactive" : "active"
+  //           }`,
+  //           icon: "success",
+  //         });
+  //         refetchUser();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
 
   const handleMessengerContact = () => {
     if (filterData) {
@@ -133,7 +159,11 @@ const UserProfile = () => {
                     </Link>
                     <button
                       onClick={() =>
-                        handleUpdateStatus(info?._id, info?.user_activeStatus)
+                        handleUpdateStatus(
+                          info?._id,
+                          info?.user_activeStatus,
+                          info?.account_status
+                        )
                       }
                       className={`flex h-fit w-8 items-center rounded-sm ${
                         info?.user_activeStatus === "active"

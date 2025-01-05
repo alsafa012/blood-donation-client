@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import MyContainer from "../Shared/MyContainer";
 import { CgLogOut } from "react-icons/cg";
 import { FaHome, FaListUl } from "react-icons/fa";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import useAuth from "../Components/hooks/useAuth";
 import { IoClose } from "react-icons/io5";
 import { BiSolidHomeHeart } from "react-icons/bi";
 import { MdOutlineRateReview } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
+import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, userSignOut } = useAuth();
   const [toggle, setToggle] = useState(false);
-  const navigate = useNavigate();
+
+  const [loggedUserInfo] = useLoggedUserInfo();
+  useEffect(() => {
+    if (user) {
+      if (user?.email === loggedUserInfo?.email) {
+        if (loggedUserInfo?.account_status === false) {
+          userSignOut();
+        }
+      }
+    }
+  }, [
+    loggedUserInfo?.account_status,
+    loggedUserInfo?.email,
+    user,
+    userSignOut,
+  ]);
+
   return (
     <MyContainer>
       <div className="drawer lg:drawer-open min-h-screen">
@@ -112,6 +129,20 @@ const DashboardLayout = () => {
                   to="/dashboard/admin/admin-home"
                 >
                   <BiSolidHomeHeart size={25} /> Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
+                  to="/dashboard/admin/manageUsers"
+                >
+                  <BiSolidHomeHeart size={25} /> Manage Users
                 </NavLink>
               </li>
             </>

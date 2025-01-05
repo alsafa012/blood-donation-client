@@ -1,8 +1,9 @@
+import MyContainer from "../../Shared/MyContainer";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 
 const DownloadAvailableDonorList = ({ donorList }) => {
   return (
-    <div>
+    <MyContainer>
       <div className="overflow-x-auto mx-auto py-4">
         <h2 className="text-2xl font-semibold text-center mb-4">
           Donor Information
@@ -35,7 +36,7 @@ const DownloadAvailableDonorList = ({ donorList }) => {
           </tbody>
         </table>
       </div>
-    </div>
+    </MyContainer>
   );
 };
 export default DownloadAvailableDonorList;

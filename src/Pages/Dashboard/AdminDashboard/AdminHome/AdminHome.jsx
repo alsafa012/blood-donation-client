@@ -7,6 +7,7 @@ import useDonorReportInfo from "../../../../Components/hooks/useDonorReportInfo"
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import ManageUsers from "./ManageUsers";
 
 const AdminHome = () => {
   const [reviewInfo, refetchReviews] = useAllReviewInfo();
@@ -234,7 +235,7 @@ const AdminHome = () => {
                         {report?.phone || "Unknown"}
                       </p>
                       <p className="text-md">
-                        <span className="font-semibold">Phone:</span>{" "}
+                        <span className="font-semibold">report_status:</span>{" "}
                         {report.report_status === "true" ? "true" : "false"}
                       </p>
                       <p className="text-md">

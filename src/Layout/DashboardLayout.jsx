@@ -6,7 +6,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import useAuth from "../Components/hooks/useAuth";
 import { IoClose } from "react-icons/io5";
 import { BiSolidHomeHeart } from "react-icons/bi";
-import { MdOutlineRateReview } from "react-icons/md";
+import { MdOutlineManageAccounts, MdOutlineRateReview } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
 
@@ -142,7 +142,7 @@ const DashboardLayout = () => {
                   }
                   to="/dashboard/admin/manageUsers"
                 >
-                  <BiSolidHomeHeart size={25} /> Manage Users
+                  <MdOutlineManageAccounts size={25} /> Manage Users
                 </NavLink>
               </li>
             </>

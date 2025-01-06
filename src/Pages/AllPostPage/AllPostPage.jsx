@@ -19,6 +19,7 @@ import WebsiteTitle from "../../Shared/WebsiteTitle";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import GoogleMapModal from "../../Shared/GoogleMapModal";
 import { BiDotsVertical } from "react-icons/bi";
+import { TbHandClick } from "react-icons/tb";
 const AllPostPage = () => {
   const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
@@ -152,30 +153,58 @@ const AllPostPage = () => {
         DeleteAllComments
       </button> */}
       <WebsiteTitle name={"Hope || Posts"} />
-      <Link to={"/createPost"}>
-        <button className="btn w-full my-3">Add A Post</button>
-      </Link>
-
       {allPostsInfo.length === 0 ? (
-        <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
           <h1 className="text-2xl font-semibold">No Post Available</h1>
+          <Link
+            to={"/createPost"}
+            className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
+          >
+            Add Request <TbHandClick size={20} />
+          </Link>
         </div>
       ) : (
-        <div className="w-full mx-auto">
-          <div className="hidden">
-            <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
-            <p>
-              ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন
-            </p>
-            <p>
-              ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর আত্মীয়ের
-              সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান
-              করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয় পক্ষের কেউ দুর্নীতি
-              করতে না পারে।
-            </p>
-            <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
+        <div className="w-full grid grid-cols-4 lg:gap-3 mx-auto relative max-h-[85vh] overflow-auto">
+          {/* left sidebar */}
+          <div className="hidden md:block col-span-1 sticky right-0 top-0 p-2 lg:p-3 min-h-[85vh] max-h-[85vh] overflow-auto">
+            <div>
+              <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
+              <p>
+                ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ
+                করুন
+              </p>
+              <p>
+                ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর
+                আত্মীয়ের সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং
+                বিনামূল্যে রক্তদান করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয়
+                পক্ষের কেউ দুর্নীতি করতে না পারে।
+              </p>
+              <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50%] lg:w-[45%]">
+
+          {/* <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50% lg:w-[45%"> */}
+          <div className="col-span-4 md:col-span-2 px-2 lg:px-4 space-y-3 md:space-y-5 mb-3 md:mb-5">
+            <Link to={"/createPost"}>
+              <button className="sticky top-0 btn w-full z-10">
+                Add A Post
+              </button>
+            </Link>
+            {/* post btn */}
+            <div className="flex items-center gap-3 hidden">
+              <img
+                className="rounded-full h-12 w-12"
+                src={loggedUserInfo?.user_image}
+                alt=""
+              />
+              <div className="w-full">
+                <input
+                  className="p-border h-ful rounded-full h-[40px] w-full"
+                  type="text"
+                />
+              </div>
+            </div>
+            {/* ------- */}
             {allPostsInfo?.map((user, ind) => (
               <div
                 className="p-border rounded-sm overflow-hidden"
@@ -525,6 +554,21 @@ const AllPostPage = () => {
             </div>
           </div>
           {/* ---------------------- */}
+
+          {/* right sidebar */}
+          <div className="hidden md:block col-span-1 sticky right-0 top-0 p-2 lg:p-3 min-h-[85vh] max-h-[85vh] overflow-auto">
+            <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
+            <p>
+              ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন
+            </p>
+            <p>
+              ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর আত্মীয়ের
+              সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান
+              করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয় পক্ষের কেউ দুর্নীতি
+              করতে না পারে।
+            </p>
+            <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
+          </div>
         </div>
       )}
     </MyContainer>

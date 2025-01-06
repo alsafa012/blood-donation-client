@@ -27,7 +27,7 @@ const ManageUsers = () => {
     setSelectedUserReports(reports);
     setModalVisible(true);
   };
-  
+
   const handleUpdateUserStatus = (id, accountStatus, activeStatus) => {
     console.log(id);
     const accountStatusUpdate = {
@@ -102,7 +102,6 @@ const ManageUsers = () => {
                     {/* Report details */}
                     <td className="px-6 py-4 text-sm text-gray-700">
                       <div className="flex flex-col items-center gap-1 justify-center">
-                        {" "}
                         <p>
                           {reportCount}{" "}
                           {reportCount === 1 ? "person" : "people"}
@@ -145,6 +144,8 @@ const ManageUsers = () => {
                       </div>
                     </td>
 
+
+                    {/* Actions */}
                     <td className="px-6 py-4 space-x-3">
                       <div className="flex flex-col items-center gap-1 justify-center">
                         <Link

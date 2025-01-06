@@ -2,23 +2,27 @@ import { Link, useLocation } from "react-router-dom";
 import useAllComments from "../../../../Components/hooks/useAllComments";
 import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const MyComments = () => {
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [isExpanded, setIsExpanded] = useState(true);
   const [allPostsData, allPostsInfo, refetch, isLoading] = useAllPostsInfo(); // Fetch posts data
-  console.log(allPostsData);
   const [loggedUserInfo] = useLoggedUserInfo();
   const location = useLocation();
+  const [myComments, setMyComments] = useState([]);
 
   // State to track expansion of individual comments
   const [expandedComments, setExpandedComments] = useState({});
 
-  const myComments = allCommentsInfo.filter(
-    (comment) => comment.commented_person_id === loggedUserInfo._id
-  );
+  useEffect(() => {
+    const filteredComments = allCommentsInfo?.filter(
+      (comment) => comment?.commented_person_id === loggedUserInfo._id
+    );
+    setMyComments(filteredComments);
+  }, [allCommentsInfo, loggedUserInfo._id]);
+  console.log("myComments", myComments);
 
   const toggleExpand = (commentId) => {
     setExpandedComments((prev) => ({

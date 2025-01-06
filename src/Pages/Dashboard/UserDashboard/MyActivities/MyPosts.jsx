@@ -24,7 +24,7 @@ const MyPosts = () => {
       (post) => post?.creator_email === user?.email
     );
     setMyPosts(filterByEmail);
-  }, [user?.email]);
+  }, [user?.email,allPostsData]);
   // console.log(filterByEmail);
 
   useEffect(() => {

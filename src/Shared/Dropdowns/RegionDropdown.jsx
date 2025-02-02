@@ -1,18 +1,19 @@
 import { memo } from "react";
 
-const RegionDropdown = ({ value, onChange, css }) => {
+const RegionDropdown = ({ religious, onChange, css }) => {
   // console.log("RegionDropdown rendered");
   return (
     <div className="">
       <select
-        value={value}
+        value={religious}
         onChange={onChange}
         className={`${css} text-sm md:text-base font-medium w-full`}
         required
       >
         <option disabled value="">
-          Select Region
+          Select Religious
         </option>
+        <option value="All">All</option>
         <option value="Islam">Islam</option>
         <option value="Hindu">Hindu</option>
         <option value="Others">Others</option>

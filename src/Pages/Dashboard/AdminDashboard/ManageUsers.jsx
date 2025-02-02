@@ -41,7 +41,7 @@ const ManageUsers = () => {
           Swal.fire({
             title: "Success!",
             text: `User's status has been changed to ${
-              accountStatusUpdate?.account_status ? "Active" : "Inactive"
+              accountStatusUpdate?.account_status ? "Deactivate" : "Active"
             }.`,
 
             icon: "success",
@@ -135,15 +135,14 @@ const ManageUsers = () => {
                         <span
                           className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full capitalize ${
                             user?.account_status
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-green-100 text-green-800"
                           }`}
                         >
                           {user?.account_status ? "Deactivate" : "Activate"}
                         </span>
                       </div>
                     </td>
-
 
                     {/* Actions */}
                     <td className="px-6 py-4 space-x-3">

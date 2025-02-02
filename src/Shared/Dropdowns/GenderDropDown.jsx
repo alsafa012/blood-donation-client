@@ -1,11 +1,11 @@
 import { memo } from "react";
 
-const GenderDropDown = ({ value, onChange, css }) => {
+const GenderDropDown = ({ gender, onChange, css }) => {
   // console.log("GenderDropDown rendered");
   return (
     <div className="">
       <select
-        value={value}
+        value={gender}
         onChange={onChange}
         className={`${css} text-sm md:text-base font-medium w-full`}
         required
@@ -13,6 +13,7 @@ const GenderDropDown = ({ value, onChange, css }) => {
         <option disabled value="">
           Select Gender
         </option>
+        <option value="All">All</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>

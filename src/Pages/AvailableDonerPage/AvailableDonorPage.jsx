@@ -8,6 +8,8 @@ import WebsiteTitle from "../../Shared/WebsiteTitle";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import DownloadAvailableDonorList from "./DownloadAvailableDonorList";
 import BloodGroupDropdown from "../../Shared/Dropdowns/BloodGroupDropdown";
+import GenderDropDown from "../../Shared/Dropdowns/GenderDropDown";
+import RegionDropdown from "../../Shared/Dropdowns/RegionDropdown";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -64,6 +66,7 @@ const AvailableDonorPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   console.log("searchParams", searchParams);
   const [bloodGroup, setBloodGroup] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
   const [userReligious, setUserReligious] = useState("");
   const [availableDonor, setAvailableDonor] = useState([]);
   console.log("availableDonor", availableDonor);
@@ -89,6 +92,7 @@ const AvailableDonorPage = () => {
         // Add only non-empty filters to the params
         if (bloodGroup) params.blood = bloodGroup;
         if (userReligious) params.religious = userReligious;
+        if (selectedGender) params.gender = selectedGender;
         if (selectedDistrictName) params.district = selectedDistrictName;
         if (selectedUpazila) params.area = selectedUpazila;
         // if (division) params.division = division;
@@ -102,7 +106,7 @@ const AvailableDonorPage = () => {
           search: new URLSearchParams(params).toString(), // Convert params to query string
         });
         const response = await fetch(
-          `http://localhost:5000/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}`
+          `http://localhost:5000/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}&gender=${selectedGender}`
         );
         const data = await response.json();
         setAvailableDonor(data); // Update state with fetched users based on filters
@@ -119,6 +123,7 @@ const AvailableDonorPage = () => {
     selectedDistrictName,
     selectedUpazila,
     userReligious,
+    selectedGender,
     navigate,
     setSearchParams,
   ]);
@@ -161,6 +166,7 @@ const AvailableDonorPage = () => {
   const handleClearSearchText = () => {
     setBloodGroup("");
     setUserReligious("");
+    setSelectedGender("");
     setSelectedDistrictName("");
     setSelectedDistrict("");
     setSelectedUpazila("");
@@ -175,7 +181,7 @@ const AvailableDonorPage = () => {
       {/* filter section */}
       <div className="flex flex-wrap justify-center gap-5 my-5">
         {/* blood group */}
-        <select
+        {/* <select
           // defaultValue="default"
           value={bloodGroup}
           id="bloodGroup"
@@ -195,30 +201,40 @@ const AvailableDonorPage = () => {
           <option value="ANegative">A-</option>
           <option value="BNegative">B-</option>
           <option value="ONegative">O-</option>
-        </select>
+        </select> */}
 
         <BloodGroupDropdown
           blood={bloodGroup}
           onChange={(e) => setBloodGroup(e.target.value)}
           css={"input-field"}
         />
-        {/* filter by Region */}
-        <select
+        <GenderDropDown
+          gender={selectedGender}
+          onChange={(e) => setSelectedGender(e.target.value)}
+          css={"input-field"}
+        />
+        {/* filter by Religious */}
+        {/* <select
           // defaultValue="default"
           value={userReligious}
-          id="region"
+          id="religious"
           // value={bloodGroup}
           onChange={(e) => setUserReligious(e.target.value)}
-          className="input-field text-lg md:text-xl font-medium"
+          className="input-field text-sm md:text-base font-medium"
         >
           <option disabled value="">
-            Select Region
+            Select Religious
           </option>
           <option value="All">All</option>
           <option value="islam">Islam</option>
           <option value="hindu">Hindu</option>
           <option value="others">others</option>
-        </select>
+        </select> */}
+        <RegionDropdown
+          religious={userReligious}
+          onChange={(e) => setUserReligious(e.target.value)}
+          css={"input-field"}
+        />
         {/* District select dropdown */}
         <select
           value={selectedDistrict}
@@ -233,7 +249,7 @@ const AvailableDonorPage = () => {
 
             setSelectedUpazila(""); // Reset selected upazila when district changes
           }}
-          className="input-field text-lg md:text-xl font-medium"
+          className="input-field text-sm md:text-base font-medium"
         >
           <option disabled value="">
             Select District
@@ -250,7 +266,7 @@ const AvailableDonorPage = () => {
           // defaultValue="default"
           value={selectedUpazila}
           onChange={(e) => setSelectedUpazila(e.target.value)}
-          className="input-field text-lg md:text-xl font-medium"
+          className="input-field text-sm md:text-base font-medium"
           disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
         >
           <option disabled value="">
@@ -265,13 +281,13 @@ const AvailableDonorPage = () => {
         </select>
         <button
           onClick={handleSearch}
-          className="btn-bg rounded-md px-[1rem] py-[0.5rem]"
+          className="btn-bg rounded-md px-3 text-sm py-1"
         >
           Search
         </button>
         <button
           onClick={handleClearSearchText}
-          className="btn-bg rounded-md px-[1rem] py-[0.5rem]"
+          className="btn-bg rounded-md px-3 text-sm py-1"
         >
           Clear
         </button>
@@ -296,7 +312,7 @@ const AvailableDonorPage = () => {
           {/* {[1,2,3,4,5,6,7,8,9,10]?.map((info) => ( */}
           {availableDonor?.map((info) => (
             <div
-              className="p-border overflow-hidden rounded-md group"
+              className="p-border flex flex-col overflow-hidden rounded-md group"
               key={info._id}
             >
               <div className="overflow-hidden h-[200px] w-full">
@@ -306,15 +322,18 @@ const AvailableDonorPage = () => {
                   alt="user_image"
                 />
               </div>
-
-              <div className="p-2">
+              <div className="p-2 grow">
                 <p className="text-lg md:text-lg font-semibold">
                   {info?.user_name}
                 </p>
                 <div className="text-base md:text-lg font-medium">
                   <ShowBloodGroup blood={info?.bloodGroup} />
                 </div>
-                {/* <p className="text-lg md:text-lg font-medium">{info?.user_age}</p> */}
+
+                <p className="text-lg md:text-lg font-medium">
+                  {info?.user_gender}
+                </p>
+
                 {/* <p className="text-lg md:text-lg font-medium">
                   {info?.bloodGroup}
                 </p> */}

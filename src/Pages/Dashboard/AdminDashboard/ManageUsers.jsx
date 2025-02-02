@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAllUsersInfo from "../../../Components/hooks/useAllUsersInfo";
 import useDonorReportInfo from "../../../Components/hooks/useDonorReportInfo";
 import axios from "axios";
@@ -6,20 +6,43 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import MyContainer from "../../../Shared/MyContainer";
 import { MdOutlineManageAccounts } from "react-icons/md";
+import BloodGroupDropdown from "../../../Shared/Dropdowns/BloodGroupDropdown";
+import GenderDropDown from "../../../Shared/Dropdowns/GenderDropDown";
+import { FaFilter } from "react-icons/fa6";
 
 const ManageUsers = () => {
   const [allUsers, refetchUser] = useAllUsersInfo();
   const [allReports] = useDonorReportInfo();
   const [selectedUserReports, setSelectedUserReports] = useState([]);
+  const [userReportsMap, setUserReportsMap] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  // Group reports by user ID
-  const userReportsMap = allUsers?.map((user) => {
-    const userReports = allReports?.filter(
-      (report) => report.reported_to === user._id
-    );
-    return { ...user, reports: userReports };
-  });
-  console.log("userReportsMap", userReportsMap);
+  const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [searchData, setSearchData] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}`
+        );
+        // Group reports by user ID
+        const userReportsMaps = response.data?.map((user) => {
+          const userReports = allReports?.filter(
+            (report) => report.reported_to === user._id
+          );
+          return { ...user, reports: userReports };
+        });
+        // console.log("userReportsMaps", userReportsMaps);
+        setUserReportsMap(userReportsMaps);
+
+        // setAllUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
+  }, [allReports, searchData, bloodGroup, selectedGender]); // Run this effect when the search query changes
 
   // Handle view report details
   const handleViewReports = (reports) => {
@@ -55,9 +78,16 @@ const ManageUsers = () => {
   };
   return (
     <MyContainer>
-      <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full min-h-[10vh] max-h-[10vh]">
-        <MdOutlineManageAccounts /> User Information
-      </h1>
+      <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full min-h-[10vh] max-h-[10vh]">
+        <h1 className="inline-flex gap-1 items-center">
+          <MdOutlineManageAccounts /> User Information
+        </h1>
+        <div>
+          <button onClick={() => setShowFilterOptions(!showFilterOptions)}>
+            <FaFilter />
+          </button>
+        </div>
+      </div>
       <div className="">
         <div className="min-h-[90vh] max-h-[90vh] overflow-auto bg-white shadow-lg rounded-lg border border-gray-200">
           <table className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg">
@@ -178,7 +208,7 @@ const ManageUsers = () => {
         {/* Modal for Report Details */}
         {modalVisible && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 overflow-y-auto h-[350px] md:h-[500px] border border-red-600 relative">
+            <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 overflow-y-auto h-[350px] md:h-[500px] relative">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Report Details
               </h2>
@@ -229,6 +259,53 @@ const ManageUsers = () => {
           </div>
         )}
       </div>
+
+      {showFilterOptions && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 overflow-y-auto h-[350px] md:h-[500px] relative">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Report Details
+            </h2>
+
+            <div
+            // style={{
+            //   position: "absolute",
+            //   top: "50%",
+            //   left: "50%",
+            //   transition: " transform(-50% , -50%)",
+            // }}
+            // className={`${showFilterOptions ? "block" : "hidden"}`}
+            className="flex flex-col gap-3"
+            >
+              {/* Search input */}
+              <input
+                type="text"
+                placeholder="Search by ID, Name, Email, Phone"
+                value={searchData}
+                onChange={(e) => setSearchData(e.target.value)}
+                className="p-2 h-[30px] w-full text-sm border border-gray-300 rounded-md"
+              />
+              <BloodGroupDropdown
+                blood={bloodGroup}
+                onChange={(e) => setBloodGroup(e.target.value)}
+                css={"post-input-field"}
+              />
+              <GenderDropDown
+                gender={selectedGender}
+                onChange={(e) => setSelectedGender(e.target.value)}
+                css={"post-input-field"}
+              />
+            </div>
+
+            <button
+              onClick={() => setShowFilterOptions(false)}
+              className="sticky bottom-0 mt-6 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </MyContainer>
   );
 };

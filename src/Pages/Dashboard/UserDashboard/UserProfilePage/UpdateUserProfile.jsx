@@ -13,7 +13,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
-import LoadingAnimation from "../../../../Shared/LoadingAnimation";
 const userReligiousStatus = [
   { id: "islam", label: "islam" },
   { id: "hindu", label: "hindu" },
@@ -25,7 +24,7 @@ const maritalStatusOptions = [
   { id: "divorced", label: "divorced" },
   { id: "widowed", label: "widowed" },
   { id: "separated", label: "separated" },
-  { id: "others", label: "others" },
+  // { id: "others", label: "others" },
 ];
 const activeStatus = [
   { id: "Yes", label: "Yes" },
@@ -84,7 +83,6 @@ console.log(image_hosting_key);
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const UpdateUserProfile = () => {
   const location = useLocation();
-  console.log(location);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const from = location.state || "/";
@@ -92,7 +90,7 @@ const UpdateUserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showName, setShowName] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
-  console.log("showName", showName);
+  // console.log("showName", showName);
   // console.log("showImagePreview", showImagePreview);
   const userInfo = useLoaderData();
   // console.log(userInfo);
@@ -209,7 +207,7 @@ const UpdateUserProfile = () => {
         updateUserProfile(name, response?.data?.data.display_url);
         Swal.fire({
           title: "Good job!",
-          text: "Product successfully updated..",
+          text: "Profile successfully updated..",
           icon: "success",
         });
         setIsLoading(false);
@@ -230,269 +228,272 @@ const UpdateUserProfile = () => {
   return (
     <MyContainer>
       <WebsiteTitle name={"Hope || Profile Update Page"} />
-      <div>
-        {isLoading ? (
-          <LoadingAnimation />
-        ) : (
-          <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
-            <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
-              <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
-                <form onSubmit={handleUpdateStatus}>
-                  {/* Image */}
-                  <div className="">
-                    <div className="relative border rounded-full h-28 w-28 md:h-28 md:w-28 mx-auto overflow-hidde">
-                      {showName?.name ? (
-                        <img
-                          className="h-28 w-28 md:h-28 md:w-28 object-cover rounded-full mx-auto"
-                          src={showImagePreview}
-                          alt={showName?.name}
-                        />
-                      ) : (
-                        <img
-                          className="h-28 w-28 md:h-28 md:w-28 object-cover border rounded-full mx-auto"
-                          src={showName}
-                          alt=""
-                        />
-                      )}
-                      <div className="absolute -bottom-2 right-0 border p-[2px] rounded-full back-bg text-xl md:text-3xl">
-                        <label htmlFor="file" className="cursor-pointer z-50">
-                          <CiEdit />
-                        </label>
-                      </div>
-                      <input
-                        // name="photo"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files[0]) {
-                            const imageFile = e.target.files[0];
-                            // console.log(imageFile);
-                            setShowName(imageFile);
-                            setShowImagePreview(URL.createObjectURL(imageFile));
-                          }
-                        }}
-                        // -z-0 absolute -top-[500px]
-                        className="hidden"
-                        id="file"
-                        type="file"
-                      />
-                    </div>
+      <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
+        <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
+          <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
+            <form onSubmit={handleUpdateStatus}>
+              {/* Image */}
+              <div className="">
+                <div className="relative border rounded-full h-28 w-28 md:h-28 md:w-28 mx-auto overflow-hidde">
+                  {showName?.name ? (
+                    <img
+                      className="h-28 w-28 md:h-28 md:w-28 object-cover rounded-full mx-auto"
+                      src={showImagePreview}
+                      alt={showName?.name}
+                    />
+                  ) : (
+                    <img
+                      className="h-28 w-28 md:h-28 md:w-28 object-cover border rounded-full mx-auto"
+                      src={showName}
+                      alt=""
+                    />
+                  )}
+                  <div className="absolute -bottom-2 right-0 border p-[2px] rounded-full back-bg text-xl md:text-3xl">
+                    <label htmlFor="file" className="cursor-pointer z-50">
+                      <CiEdit />
+                    </label>
                   </div>
-                  {/* ****************** */}
-                  {/* info div */}
-                  <div className="flex flex-col gap-5 mt-5">
-                    {/* Name */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Name:*
-                      </label>
-                      <input
-                        defaultValue={userInfo?.user_name}
-                        name="name"
-                        type="text"
-                        placeholder="Enter your name"
-                        className="input-field text-sm md:text-xl font-medium"
-                      />
-                    </div>
-                    {/* age */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Age:*
-                      </label>
-                      <input
-                        defaultValue={userInfo?.user_age}
-                        name="age"
-                        type="number"
-                        placeholder="Enter your age"
-                        className="input-field text-sm md:text-xl font-medium"
-                      />
-                    </div>
-                    {/* Blood Group:* */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Blood Group:*
-                      </label>
-                      <select
-                        // defaultValue="default"
-                        id="bloodGroup"
-                        value={bloodGroup}
-                        onChange={(e) => setBloodGroup(e.target.value)}
-                        className="input-field text-sm md:text-xl font-medium"
+                  <input
+                    // name="photo"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const imageFile = e.target.files[0];
+                        // console.log(imageFile);
+                        setShowName(imageFile);
+                        setShowImagePreview(URL.createObjectURL(imageFile));
+                      }
+                    }}
+                    // -z-0 absolute -top-[500px]
+                    className="hidden"
+                    id="file"
+                    type="file"
+                  />
+                </div>
+              </div>
+              {/* ****************** */}
+              {/* info div */}
+              <div className="flex flex-col gap-5 mt-5">
+                {/* Name */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Name:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.user_name}
+                    name="name"
+                    type="text"
+                    disabled={isLoading}
+                    placeholder="Enter your name"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* age */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Age:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.user_age}
+                    name="age"
+                    type="number"
+                    disabled={isLoading}
+                    placeholder="Enter your age"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* Blood Group:* */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Blood Group:*
+                  </label>
+                  <select
+                    // defaultValue="default"
+                    id="bloodGroup"
+                    value={bloodGroup}
+                    disabled={isLoading}
+                    onChange={(e) => setBloodGroup(e.target.value)}
+                    className="input-field text-sm md:text-xl font-medium"
+                  >
+                    <option disabled value="default">
+                      Select bloodGroup
+                    </option>
+                    <option value="ABPositive">AB+</option>
+                    <option value="APositive">A+</option>
+                    <option value="BPositive">B+</option>
+                    <option value="OPositive">O+</option>
+                    <option value="ABNegative">AB-</option>
+                    <option value="ANegative">A-</option>
+                    <option value="BNegative">B-</option>
+                    <option value="ONegative">O-</option>
+                  </select>
+                </div>
+                {/* phone_number */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Phone No:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.phone_number}
+                    name="phone_number"
+                    disabled={isLoading}
+                    type="number"
+                    placeholder="Enter your Phone No"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* Email */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Email:*
+                  </label>
+                  <input
+                    value={userInfo?.user_email}
+                    name="user_email"
+                    type="email"
+                    disabled={isLoading}
+                    placeholder="Enter your email"
+                    className="input-field text-sm md:text-xl font-medium"
+                    readOnly
+                  />
+                </div>
+                {/* Whatsapp */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Whatsapp user name:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.user_whatsapp}
+                    name="whatsapp"
+                    disabled={isLoading}
+                    type="text"
+                    placeholder="Enter your whatsapp user name"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* Messenger */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Messenger user name:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.user_messenger}
+                    name="messenger"
+                    disabled={isLoading}
+                    type="text"
+                    placeholder="Enter your messenger user name"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* Nationality */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Nationality:*
+                  </label>
+                  <input
+                    // defaultValue={userInfo?.user_nationality}
+                    name="nationality"
+                    disabled={isLoading}
+                    value="Bangladesh"
+                    type="text"
+                    className="input-field text-sm md:text-xl font-medium"
+                    readOnly
+                  />
+                </div>
+
+                {/* user District or Division */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Division:*
+                  </label>
+                  {/* District select dropdown */}
+                  <select
+                    value={selectedDistrict}
+                    onChange={(e) => {
+                      const selectedDistrictId = e.target.value; // Get the district ID from the option value
+                      setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
+
+                      const selectedDistrictObj = district?.find(
+                        (d) => d.id === selectedDistrictId
+                      );
+                      setSelectedDistrictName(selectedDistrictObj?.name || ""); // Store the district name in a separate state
+
+                      setSelectedUpazila(""); // Reset selected upazila when district changes
+                    }}
+                    className="input-field text-lg md:text-xl font-medium"
+                  >
+                    <option disabled value="">
+                      Select District
+                    </option>
+                    {district?.map((data) => (
+                      <option key={data.id} value={data.id}>
+                        {data.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* user upazila or Area */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Area:*
+                  </label>
+                  {/* Upazila select dropdown */}
+                  <select
+                    // defaultValue="default"
+                    value={selectedUpazila}
+                    onChange={(e) => setSelectedUpazila(e.target.value)}
+                    className="input-field text-lg md:text-xl font-medium"
+                    disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
+                  >
+                    <option disabled value="">
+                      Select Upazila
+                    </option>
+                    {filteredUpazilas.map((data) => (
+                      <option key={data.id} value={data.name}>
+                        {data.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Marital Status */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Marital Status
+                  </label>
+                  <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
+                    {maritalStatusOptions?.map((status, ind) => (
+                      <div
+                        key={ind}
+                        className="text-xl flex flex-row-reverse items-center gap-[6px] capitalize"
                       >
-                        <option disabled value="default">
-                          Select bloodGroup
-                        </option>
-                        <option value="ABPositive">AB+</option>
-                        <option value="APositive">A+</option>
-                        <option value="BPositive">B+</option>
-                        <option value="OPositive">O+</option>
-                        <option value="ABNegative">AB-</option>
-                        <option value="ANegative">A-</option>
-                        <option value="BNegative">B-</option>
-                        <option value="ONegative">O-</option>
-                      </select>
-                    </div>
-                    {/* phone_number */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Phone No:*
-                      </label>
-                      <input
-                        defaultValue={userInfo?.phone_number}
-                        name="phone_number"
-                        type="number"
-                        placeholder="Enter your Phone No"
-                        className="input-field text-sm md:text-xl font-medium"
-                      />
-                    </div>
-                    {/* Email */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Email:*
-                      </label>
-                      <input
-                        value={userInfo?.user_email}
-                        name="user_email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="input-field text-sm md:text-xl font-medium"
-                        readOnly
-                      />
-                    </div>
-                    {/* Whatsapp */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Whatsapp user name:*
-                      </label>
-                      <input
-                        defaultValue={userInfo?.user_whatsapp}
-                        name="whatsapp"
-                        type="text"
-                        placeholder="Enter your whatsapp user name"
-                        className="input-field text-sm md:text-xl font-medium"
-                      />
-                    </div>
-                    {/* Messenger */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Messenger user name:*
-                      </label>
-                      <input
-                        defaultValue={userInfo?.user_messenger}
-                        name="messenger"
-                        type="text"
-                        placeholder="Enter your messenger user name"
-                        className="input-field text-sm md:text-xl font-medium"
-                      />
-                    </div>
-                    {/* Nationality */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Nationality:*
-                      </label>
-                      <input
-                        // defaultValue={userInfo?.user_nationality}
-                        name="nationality"
-                        value="Bangladesh"
-                        type="text"
-                        className="input-field text-sm md:text-xl font-medium"
-                        readOnly
-                      />
-                    </div>
-
-                    {/* user District or Division */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Division:*
-                      </label>
-                      {/* District select dropdown */}
-                      <select
-                        value={selectedDistrict}
-                        onChange={(e) => {
-                          const selectedDistrictId = e.target.value; // Get the district ID from the option value
-                          setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
-
-                          const selectedDistrictObj = district?.find(
-                            (d) => d.id === selectedDistrictId
-                          );
-                          setSelectedDistrictName(
-                            selectedDistrictObj?.name || ""
-                          ); // Store the district name in a separate state
-
-                          setSelectedUpazila(""); // Reset selected upazila when district changes
-                        }}
-                        className="input-field text-lg md:text-xl font-medium"
-                      >
-                        <option disabled value="">
-                          Select District
-                        </option>
-                        {district?.map((data) => (
-                          <option key={data.id} value={data.id}>
-                            {data.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* user upazila or Area */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Area:*
-                      </label>
-                      {/* Upazila select dropdown */}
-                      <select
-                        // defaultValue="default"
-                        value={selectedUpazila}
-                        onChange={(e) => setSelectedUpazila(e.target.value)}
-                        className="input-field text-lg md:text-xl font-medium"
-                        disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
-                      >
-                        <option disabled value="">
-                          Select Upazila
-                        </option>
-                        {filteredUpazilas.map((data) => (
-                          <option key={data.id} value={data.name}>
-                            {data.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Marital Status */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Marital Status
-                      </label>
-                      <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
-                        {maritalStatusOptions?.map((status, ind) => (
-                          <div
-                            key={ind}
-                            className="text-xl flex flex-row-reverse items-center gap-[6px] capitalize"
-                          >
-                            <label
-                              htmlFor={status.id}
-                              className="font-semibold text-base md:text-lg text-black pr-5"
-                            >
-                              {status.label}
-                            </label>
-                            <input
-                              onChange={() => setUserMaritalStatus(status.id)}
-                              checked={userMaritalStatus === status.id}
-                              className="input-radio"
-                              style={{
-                                backgroundColor:
-                                  userMaritalStatus === status.label
-                                    ? "#87986A"
-                                    : "#FFFFFF",
-                              }}
-                              type="radio"
-                              id={status.id}
-                              //   name and value given for if need to get selected values from form
-                              name="maritalStatus"
-                              value={status.id}
-                            />
-                          </div>
-                        ))}
+                        <label
+                          htmlFor={status.id}
+                          className="font-semibold text-base md:text-lg text-black pr-5"
+                        >
+                          {status.label}
+                        </label>
+                        <input
+                          onChange={() => setUserMaritalStatus(status.id)}
+                          checked={userMaritalStatus === status.id}
+                          className="input-radio"
+                          disabled={isLoading}
+                          style={{
+                            backgroundColor:
+                              userMaritalStatus === status.label
+                                ? "#87986A"
+                                : "#FFFFFF",
+                          }}
+                          type="radio"
+                          id={status.id}
+                          //   name and value given for if need to get selected values from form
+                          name="maritalStatus"
+                          value={status.id}
+                        />
                       </div>
-                    </div>
-                    {/* <div className="grid grid-cols-2 gap-2">
+                    ))}
+                  </div>
+                </div>
+                {/* <div className="grid grid-cols-2 gap-2">
                       <label className="text-base md:text-xl font-semibold">
                         Marital Status
                       </label>
@@ -527,96 +528,99 @@ const UpdateUserProfile = () => {
                         ))}
                       </div>
                     </div> */}
-                    {/* Religion */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Religion:*
-                      </label>
-                      <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold capitalize">
-                        {userReligiousStatus?.map((status, ind) => (
-                          <div
-                            key={ind}
-                            className="text-xl flex flex-row-reverse items-center gap-[6px]"
-                          >
-                            <label
-                              htmlFor={status.id}
-                              className="font-semibold text-base md:text-lg text-black pr-5"
-                            >
-                              {status.label}
-                            </label>
-                            <input
-                              onChange={() => setUserReligious(status.id)}
-                              checked={userReligious === status.id}
-                              className="input-radio first-letter:text-green-600"
-                              style={{
-                                backgroundColor:
-                                  userReligious === status.label
-                                    ? "#87986A"
-                                    : "#FFFFFF",
-                              }}
-                              type="radio"
-                              id={status.id}
-                              //   name and value given for if need to get selected values from form
-                              name="religious"
-                              value={status.id}
-                            />
-                          </div>
-                        ))}
+                {/* Religion */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Religion:*
+                  </label>
+                  <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold capitalize">
+                    {userReligiousStatus?.map((status, ind) => (
+                      <div
+                        key={ind}
+                        className="text-xl flex flex-row-reverse items-center gap-[6px]"
+                      >
+                        <label
+                          htmlFor={status.id}
+                          className="font-semibold text-base md:text-lg text-black pr-5"
+                        >
+                          {status.label}
+                        </label>
+                        <input
+                          onChange={() => setUserReligious(status.id)}
+                          checked={userReligious === status.id}
+                          disabled={isLoading}
+                          className="input-radio first-letter:text-green-600"
+                          style={{
+                            backgroundColor:
+                              userReligious === status.label
+                                ? "#87986A"
+                                : "#FFFFFF",
+                          }}
+                          type="radio"
+                          id={status.id}
+                          //   name and value given for if need to get selected values from form
+                          name="religious"
+                          value={status.id}
+                        />
                       </div>
-                    </div>
-                    {/* Able to Donate Now: */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Able to Donate Now:*
-                      </label>
-                      <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
-                        {activeStatus.map((status, ind) => (
-                          <div
-                            key={ind}
-                            className="text-xl flex flex-row-reverse items-center gap-[6px]"
-                          >
-                            <label
-                              htmlFor={status.id}
-                              className="font-semibold text-base md:text-lg text-black pr-5"
-                            >
-                              {status.label}
-                            </label>
-                            <input
-                              onChange={() => setUserActiveStatus(status.label)}
-                              checked={userActiveStatus === status.label}
-                              className="input-radio"
-                              type="radio"
-                              id={status.id}
-                              name="active_status"
-                              value={status.label}
-                              style={{
-                                backgroundColor:
-                                  userActiveStatus === status.label
-                                    ? "#87986A"
-                                    : "#FFFFFF",
-                              }}
-                            />
-                          </div>
-                        ))}
+                    ))}
+                  </div>
+                </div>
+                {/* Able to Donate Now: */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Able to Donate Now:*
+                  </label>
+                  <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
+                    {activeStatus.map((status, ind) => (
+                      <div
+                        key={ind}
+                        className="text-xl flex flex-row-reverse items-center gap-[6px]"
+                      >
+                        <label
+                          htmlFor={status.id}
+                          className="font-semibold text-base md:text-lg text-black pr-5"
+                        >
+                          {status.label}
+                        </label>
+                        <input
+                          onChange={() => setUserActiveStatus(status.label)}
+                          checked={userActiveStatus === status.label}
+                          className="input-radio"
+                          type="radio"
+                          disabled={isLoading}
+                          id={status.id}
+                          name="active_status"
+                          value={status.label}
+                          style={{
+                            backgroundColor:
+                              userActiveStatus === status.label
+                                ? "#87986A"
+                                : "#FFFFFF",
+                          }}
+                        />
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  <div className="mx-auto w-full text-center pt-8 pb-3 overflow-hidden">
-                    <button className="btn- w-[65%] hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-xl font-semibold">
-                      Submit
-                    </button>
-                  </div>
-                  {/* <button className="btn-b w-full text-[#87986A] bg-[#97A97C] py-3 text-xl font-semibold mt-4">Submit</button> */}
-                </form>
-                <p>{errorMessage}</p>
-                {/* <p>
+                </div>
+              </div>
+              <div className="mx-auto w-full text-center pt-8 pb-3 overflow-hidden">
+                <button
+                  className="w-full w-[65% hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-sm                
+                md:text-lg font-semibold"
+                >
+                  {isLoading ? "Updating please wait..." : "Update"}
+                </button>
+              </div>
+              {/* <button className="btn-b w-full text-[#87986A] bg-[#97A97C] py-3 text-xl font-semibold mt-4">Submit</button> */}
+            </form>
+            <p>{errorMessage}</p>
+            {/* <p>
                   {userActiveStatus} {userMaritalStatus} {userReligious}
                   {bloodGroup}
                 </p> */}
-              </div>
-            </div>
           </div>
-        )}
+        </div>
       </div>
     </MyContainer>
   );

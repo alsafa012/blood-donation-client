@@ -58,7 +58,7 @@ const DashboardLayout = () => {
             className="drawer-overlay"
           ></label>
           {/* side bar content */}
-          <ul className="menu p-4 w-[300px] md:w-[300px] lg:w-[250px] xl:w-[300px] min-h-full bg-primary text-black font-medium">
+          <ul className="menu p-4 w-[300px] md:w-[280px] lg:w-[250px] xl:w-[280px] min-h-full bg-primary text-black font-medium">
             <>
               {user && (
                 <div className="w-full my-3">

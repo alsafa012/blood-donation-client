@@ -29,7 +29,7 @@
 // export default BloodGroupDropdown;
 import React from "react";
 
-const BloodGroupDropdown = React.memo(({ blood, onChange, css }) => {
+const BloodGroupDropdown = React.memo(({ blood, onChange, css, status }) => {
   // console.log("blood", blood);
   return (
     <div className="">
@@ -42,6 +42,11 @@ const BloodGroupDropdown = React.memo(({ blood, onChange, css }) => {
         <option disabled value="">
           Select Blood Group
         </option>
+        {status && (
+          <option className="" value="All">
+            All
+          </option>
+        )}
         <option value="ABPositive">AB+</option>
         <option value="APositive">A+</option>
         <option value="BPositive">B+</option>

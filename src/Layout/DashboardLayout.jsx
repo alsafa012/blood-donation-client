@@ -15,17 +15,18 @@ const DashboardLayout = () => {
   const [toggle, setToggle] = useState(false);
 
   const [loggedUserInfo] = useLoggedUserInfo();
+  // console.log(loggedUserInfo);
   useEffect(() => {
     if (user) {
-      if (user?.email === loggedUserInfo?.email) {
-        if (loggedUserInfo?.account_status === false) {
+      if (user?.email === loggedUserInfo?.user_email) {
+        if (loggedUserInfo?.account_status === true) {
           userSignOut();
         }
       }
     }
   }, [
     loggedUserInfo?.account_status,
-    loggedUserInfo?.email,
+    loggedUserInfo?.user_email,
     user,
     userSignOut,
   ]);

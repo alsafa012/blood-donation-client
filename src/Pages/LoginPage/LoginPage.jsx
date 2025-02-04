@@ -30,14 +30,14 @@ const LoginPage = () => {
     }
     setIsLoading(true);
     const form = e.target;
-    const email = form.email.value;
+    const user_email = form.email.value;
     const password = form.password.value;
 
     try {
       // Check account status by calling backend API
       const accountStatusResponse = await axios.post(
-        "http://localhost:5000/users",
-        { email, password }
+        "http://localhost:5000/login",
+        { user_email, password }
       );
       const { user, message } = accountStatusResponse.data;
       console.log("user", user);
@@ -56,7 +56,7 @@ const LoginPage = () => {
       }
 
       // If account is active, proceed with Firebase authentication
-      await userSignIn(email, password);
+      await userSignIn(user_email, password);
       setIsLoading(false);
 
       Swal.fire("Good job!", "User login successfully", "success");

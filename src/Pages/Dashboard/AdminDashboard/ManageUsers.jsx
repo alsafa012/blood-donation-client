@@ -13,9 +13,10 @@ import { CiSearch } from "react-icons/ci";
 
 const ManageUsers = () => {
   const [allUsers, refetchUser] = useAllUsersInfo();
-  const [allReports] = useDonorReportInfo();
+  const [allReports, refetchReportInfo] = useDonorReportInfo();
   const [selectedUserReports, setSelectedUserReports] = useState([]);
   const [userReportsMap, setUserReportsMap] = useState([]);
+  // console.log("userReportsMap", userReportsMap);
   const [modalVisible, setModalVisible] = useState(false);
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [searchData, setSearchData] = useState("");
@@ -30,6 +31,7 @@ const ManageUsers = () => {
         const response = await axios.get(
           `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
         );
+
         // Group reports by user ID
         const userReportsMaps = response.data?.map((user) => {
           const userReports = allReports?.filter(
@@ -53,7 +55,7 @@ const ManageUsers = () => {
     selectedGender,
     accountStatus,
     availableStatus,
-  ]); // Run this effect when the search query changes
+  ]);
 
   // Handle view report details
   const handleViewReports = (reports) => {
@@ -68,10 +70,24 @@ const ManageUsers = () => {
       user_activeStatus: activeStatus,
       account_status: !accountStatus,
     };
+
     axios
       .patch(`http://localhost:5000/users/${id}`, accountStatusUpdate)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
+          // Optimistic UI update: Update user status immediately in the local state
+          setUserReportsMap((prevState) =>
+            prevState.map((user) =>
+              user._id === id
+                ? {
+                    ...user,
+                    account_status: !accountStatus, // Toggle the account status
+                    user_activeStatus:
+                      activeStatus === "active" ? "inactive" : "active", // Toggle active status
+                  }
+                : user
+            )
+          );
           Swal.fire({
             title: "Success!",
             text: `User's status has been changed to ${
@@ -81,6 +97,7 @@ const ManageUsers = () => {
             icon: "success",
           });
           refetchUser();
+          // refetchReportInfo();
         }
       })
       .catch((err) => {
@@ -89,7 +106,7 @@ const ManageUsers = () => {
   };
   return (
     <MyContainer>
-      <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full min-h-[10vh] max-h-[10vh]">
+      <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full lg:min-h-[10vh] lg:max-h-[10vh]">
         <div className="relative w-full">
           <h1 className="inline-flex gap-1 items-center">
             <MdOutlineManageAccounts /> User Information
@@ -106,7 +123,7 @@ const ManageUsers = () => {
         </div>
       </div>
       <div className="">
-        <div className="min-h-[90vh] max-h-[90vh] overflow-auto bg-white shadow-lg rounded-lg border border-gray-200">
+        <div className="min-h-[95vh] max-h-[95vh] lg:min-h-[90vh] lg:max-h-[90vh] overflow-auto bg-white shadow-lg rounded-lg border border-gray-200">
           {userReportsMap.length === 0 ? (
             <div className="text-xl md:text-2xl lg:text-4xl xl:text-5xl min-h-[50vh] flex justify-center items-center">
               <h2 className="">No data found</h2>
@@ -288,7 +305,7 @@ const ManageUsers = () => {
       {/* Modal for Filter Sections */}
       {showFilterOptions && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-4 overflow-hidden h-[350px] md:h-[500px] relative flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-4 overflow-hidden h-[70vh] md:h-[500px] relative flex flex-col">
             <h2 className="sticky top-0 left-0 bg-white z-10 text-xl font-semibold text-gray-800 py-1 md:py-2">
               Filter By
             </h2>

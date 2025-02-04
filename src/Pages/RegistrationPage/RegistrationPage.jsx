@@ -8,7 +8,6 @@ import useAuth from "../../Components/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
-import LoadingAnimation from "../../Shared/LoadingAnimation";
 const userReligiousStatus = [
   { id: "Islam", label: "Islam" },
   { id: "Hindu", label: "Hindu" },
@@ -106,155 +105,14 @@ const RegistrationPage = () => {
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
-  // const hello ={ number: 12 }
-  // console.log("hello",Object.keys(hello).length);
 
-  // const handleRegister = (e) => {
-  //   e.preventDefault();
-  //   // logged user validation
-  //   if (user) {
-  //     return Swal.fire({
-  //       title: "Error!",
-  //       text: "user already logged in",
-  //       icon: "error",
-  //     });
-  //   }
-  //   // Check if an image is selected
-  //   if (!showName) {
-  //     // if (Object.keys(showName).length === 0) {
-  //     return Swal.fire({
-  //       title: "Error!",
-  //       text: "Please select a profile picture.",
-  //       icon: "error",
-  //     });
-  //   }
-
-  //   // setIsLoading(true);
-  //   const form = e.target;
-  //   const name = form.name.value;
-  //   const age = form.age.value;
-  //   const phone_number = form.phone_number.value;
-  //   const user_email = form.user_email.value;
-  //   const whatsapp = form.whatsapp.value || "";
-  //   const messenger = form.messenger.value || "";
-  //   const nationality = "Bangladeshi";
-  //   const address = form.address.value;
-  //   const password = form.password.value;
-  //   const re_password = form.re_password.value;
-  //   const imageFile = { image: showName };
-  //   console.log("img", Object.keys(imageFile).length);
-
-  //   // Check if passwords match
-  //   if (password !== re_password) {
-  //     return Swal.fire({
-  //       title: "Error!",
-  //       text: "Passwords do not match. Please enter matching passwords.",
-  //       icon: "error",
-  //     });
-  //   }
-
-  //   // upload image on imgbb
-  //   axios
-  //     .post(image_hosting_api, imageFile, {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     })
-  //     .then((res) => {
-  //       // Handle successful response here
-  //       console.log("Image uploaded successfully:", res.data);
-  //       if (res.data.success) {
-  //         // setIsLoading(true);
-  //         const photoUrl = res.data.data.display_url;
-  //         // set error message empty
-  //         setErrorMessage("");
-  //         // password validation
-  //         if (password.length < 6) {
-  //           setErrorMessage("Please enter at least 6 character password");
-  //           return;
-  //         } else if (!/(?=.*[A-Z])/.test(password)) {
-  //           setErrorMessage(
-  //             "Password must contain at least one uppercase letter."
-  //           );
-  //           return;
-  //         } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
-  //           setErrorMessage(
-  //             "Password must contain at least one special character."
-  //           );
-  //           return;
-  //         }
-  //         // creating a new user
-  //         createUser(user_email, password).then((result) => {
-  //           console.log(result.user);
-
-  //           // update user profile
-  //           updateUserProfile(name, photoUrl)
-  //             .then(() => {})
-  //             .catch((error) => {
-  //               console.log(error);
-  //             });
-  //         });
-
-  //         // send user information to mongodb database
-
-  //         const userInfo = {
-  //           user_name: name,
-  //           user_age: age,
-  //           bloodGroup: bloodGroup,
-  //           phone_number: phone_number,
-  //           user_email: user_email,
-  //           user_whatsapp: whatsapp,
-  //           user_messenger: messenger,
-  //           user_nationality: nationality,
-  //           user_address: address,
-  //           user_activeStatus:
-  //             userActiveStatus === "Yes" ? "active" : "inactive",
-  //           user_maritalStatus: userMaritalStatus.toLowerCase(),
-  //           user_religious: userReligious.toLowerCase(),
-  //           user_password: password,
-  //           user_district: selectedDistrictName,
-  //           user_area: selectedUpazila,
-  //           // imageFile: imageFile,
-  //           user_image: photoUrl ? photoUrl : "",
-  //           user_role: "donor",
-  //           img_status: photoUrl ? true : false,
-  //           account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-  //         };
-  //         console.log(userInfo);
-  //         axiosPublic
-  //           .post("/users", userInfo, {
-  //             headers: { "Content-Type": "application/json" },
-  //           })
-  //           .then((res) => {
-  //             console.log("User added successfully:", res.data);
-  //             if (res.data.insertedId) {
-  //               console.log("user added successfully in the database");
-  //               Swal.fire("Good job!", "User created successfully", "success");
-  //               setIsLoading(false);
-  //             }
-  //             navigate("/");
-  //             // navigate(from, { replace: true });
-  //           })
-  //           .catch((err) => {
-  //             setIsLoading(false);
-  //             console.error("Error adding user:", err);
-  //           });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // return setErrorMessage("please select profile picture first.");
-  //       setIsLoading(false);
-  //       return Swal.fire({
-  //         title: "Error!",
-  //         text: "Please select a profile picture.",
-  //         icon: "error",
-  //       });
-  //     });
-  // };
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     // logged user validation
     if (user) {
+      setIsLoading(false);
       return Swal.fire({
         title: "Error!",
         text: "User already logged in",
@@ -273,10 +131,11 @@ const RegistrationPage = () => {
     const address = form.address.value;
     const password = form.password.value;
     const re_password = form.re_password.value;
-    const imageFile = showName ? { image: showName } : "";
+    let photoUrl = "https://i.ibb.co/mtL872C/image.png"; // Default profile image
 
     // Check if passwords match
     if (password !== re_password) {
+      setIsLoading(false);
       return Swal.fire({
         title: "Error!",
         text: "Passwords do not match. Please enter matching passwords.",
@@ -287,218 +146,86 @@ const RegistrationPage = () => {
     // Password validation
     if (password.length < 6) {
       setErrorMessage("Please enter at least 6 character password");
+      setIsLoading(false);
       return;
     } else if (!/(?=.*[A-Z])/.test(password)) {
       setErrorMessage("Password must contain at least one uppercase letter.");
+      setIsLoading(false);
       return;
     } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
       setErrorMessage("Password must contain at least one special character.");
+      setIsLoading(false);
       return;
     }
 
-    // Upload image if provided
-    const uploadImage = imageFile
-      ? axios.post(image_hosting_api, imageFile, {
+    try {
+      if (showName?.name) {
+        // User has uploaded an image
+        const imageFile = new FormData();
+        imageFile.append("image", showName);
+
+        const res = await axios.post(image_hosting_api, imageFile, {
           headers: { "Content-Type": "multipart/form-data" },
-        })
-      : Promise.resolve({
-          data: { success: false, data: { display_url: "" } },
         });
 
-    uploadImage
-      .then((res) => {
-        const photoUrl = res.data.success ? res.data.data.display_url : "";
+        if (res.data.success) {
+          photoUrl = res.data.data.display_url;
+        }
+      }
 
-        // Creating a new user
-        createUser(user_email, password).then((result) => {
-          console.log(result.user);
+      // Creating a new user
+      const result = await createUser(user_email, password);
+      console.log(result?.user);
 
-          // Update user profile
-          updateUserProfile(name, photoUrl)
-            .then(() => {})
-            .catch((error) => console.log(error));
-        });
+      // Updating user profile
+      await updateUserProfile(name, photoUrl);
 
-        // Send user information to MongoDB database
-        const userInfo = {
-          user_name: name,
-          user_age: age,
-          bloodGroup: bloodGroup,
-          phone_number: phone_number,
-          user_email: user_email,
-          user_whatsapp: whatsapp,
-          user_messenger: messenger,
-          user_nationality: nationality,
-          user_address: address,
-          user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
-          user_maritalStatus: userMaritalStatus.toLowerCase(),
-          user_religious: userReligious.toLowerCase(),
-          user_password: password,
-          user_district: selectedDistrictName,
-          user_area: selectedUpazila,
-          user_gender: userGender,
-          user_image: photoUrl,
-          user_role: "donor",
-          img_status: !!photoUrl,
-          // img_status: photoUrl ? true : false,
-          account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-          account_status: false,
-        };
-        console.log(userInfo);
-
-        axiosPublic
-          .post("/users", userInfo, {
-            headers: { "Content-Type": "application/json" },
-          })
-          .then((res) => {
-            if (res.data.insertedId) {
-              Swal.fire("Good job!", "User created successfully", "success");
-              setIsLoading(false);
-              navigate("/");
-            }
-          })
-          .catch((err) => {
-            setIsLoading(false);
-            console.error("Error adding user:", err);
-          });
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        setIsLoading(false);
-        Swal.fire({
-          title: "Error!",
-          text: "There was an issue uploading your profile picture.",
-          icon: "error",
-        });
+      const userInfo = {
+        user_name: name,
+        user_age: age,
+        bloodGroup: bloodGroup,
+        phone_number: phone_number,
+        user_email: user_email,
+        user_whatsapp: whatsapp,
+        user_messenger: messenger,
+        user_nationality: nationality,
+        user_address: address,
+        user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
+        user_maritalStatus: userMaritalStatus.toLowerCase(),
+        user_religious: userReligious.toLowerCase(),
+        user_password: password,
+        user_district: selectedDistrictName,
+        user_area: selectedUpazila,
+        user_gender: userGender,
+        user_image: photoUrl,
+        user_role: "donor",
+        // img_status: !!photoUrl,
+        // img_status: photoUrl ? true : false,
+        img_status: photoUrl !== "https://i.ibb.co/mtL872C/image.png",
+        account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
+        account_status: false,
+      };
+      console.log(userInfo);
+      const response = await axiosPublic.post("/users", userInfo, {
+        headers: { "Content-Type": "application/json" },
       });
+
+      if (response.data.insertedId) {
+        console.log("User added successfully in the database");
+        Swal.fire("Good job!", "User created successfully", "success");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  // const handleRegister = (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-
-  //   // logged user validation
-  //   if (user) {
-  //     return Swal.fire({
-  //       title: "Error!",
-  //       text: "User already logged in",
-  //       icon: "error",
-  //     });
-  //   }
-
-  //   const form = e.target;
-  //   const name = form.name.value;
-  //   const age = form.age.value;
-  //   const phone_number = form.phone_number.value;
-  //   const user_email = form.user_email.value;
-  //   const whatsapp = form.whatsapp.value || "";
-  //   const messenger = form.messenger.value || "";
-  //   const nationality = "Bangladeshi";
-  //   const address = form.address.value;
-  //   const password = form.password.value;
-  //   const re_password = form.re_password.value;
-  //   const imageFile = showName ? { image: showName } : null; // Only set if showName is truthy
-
-  //   // Check if passwords match
-  //   if (password !== re_password) {
-  //     return Swal.fire({
-  //       title: "Error!",
-  //       text: "Passwords do not match. Please enter matching passwords.",
-  //       icon: "error",
-  //     });
-  //   }
-
-  //   // Password validation
-  //   if (password.length < 6) {
-  //     setErrorMessage("Please enter at least 6 character password");
-  //     return;
-  //   } else if (!/(?=.*[A-Z])/.test(password)) {
-  //     setErrorMessage("Password must contain at least one uppercase letter.");
-  //     return;
-  //   } else if (!/(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\-])/.test(password)) {
-  //     setErrorMessage("Password must contain at least one special character.");
-  //     return;
-  //   }
-
-  //   // Check imageFile validity before attempting upload
-  //   console.log('imageFile:', imageFile);  // Debug: Check imageFile value
-
-  //   // Upload image if provided, or resolve with an empty string
-  //   const uploadImage = imageFile
-  //     ? axios.post(image_hosting_api, imageFile, {
-  //         headers: { "Content-Type": "multipart/form-data" },
-  //       })
-  //     : Promise.resolve({
-  //         data: { success: true, data: { display_url: "" } },  // Default empty URL if no image is provided
-  //       });
-
-  //   uploadImage
-  //     .then((res) => {
-  //       console.log('Image Upload Response:', res);  // Debug: Check the entire API response
-
-  //       const photoUrl = res.data.success ? res.data.data.display_url : "";
-  //       // Creating a new user
-  //       createUser(user_email, password).then((result) => {
-  //         console.log(result.user);
-
-  //         // Update user profile with name and photo URL
-  //         updateUserProfile(name, photoUrl)
-  //           .then(() => {})
-  //           .catch((error) => console.log(error));
-  //       });
-
-  //       // Send user information to MongoDB database
-  //       const userInfo = {
-  //         user_name: name,
-  //         user_age: age,
-  //         bloodGroup: bloodGroup,
-  //         phone_number: phone_number,
-  //         user_email: user_email,
-  //         user_whatsapp: whatsapp,
-  //         user_messenger: messenger,
-  //         user_nationality: nationality,
-  //         user_address: address,
-  //         user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
-  //         user_maritalStatus: userMaritalStatus.toLowerCase(),
-  //         user_religious: userReligious.toLowerCase(),
-  //         user_password: password,
-  //         user_district: selectedDistrictName,
-  //         user_area: selectedUpazila,
-  //         user_gender: userGender,
-  //         user_image: photoUrl,  // Set image URL here, empty string if no image
-  //         user_role: "donor",
-  //         img_status: !!photoUrl,  // Check if there is a photoUrl
-  //         account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
-  //         account_status: false,
-  //       };
-  //       console.log(userInfo);
-
-  //       axiosPublic
-  //         .post("/users", userInfo, {
-  //           headers: { "Content-Type": "application/json" },
-  //         })
-  //         .then((res) => {
-  //           if (res.data.insertedId) {
-  //             Swal.fire("Good job!", "User created successfully", "success");
-  //             setIsLoading(false);
-  //             navigate("/");
-  //           }
-  //         })
-  //         .catch((err) => {
-  //           setIsLoading(false);
-  //           console.error("Error adding user:", err);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       console.error('Image Upload Error:', error);  // Log error to console for more insight
-  //       setIsLoading(false);
-  //       Swal.fire({
-  //         title: "Error!",
-  //         text: "There was an issue uploading your profile picture. Please try again.",
-  //         icon: "error",
-  //       });
-  //     });
-  // };
 
   return (
     <MyContainer>
@@ -562,6 +289,7 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder="Enter your name"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* age */}
@@ -572,6 +300,7 @@ const RegistrationPage = () => {
                     type="number"
                     placeholder="Enter your age"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* Blood Group:* */}
@@ -580,13 +309,15 @@ const RegistrationPage = () => {
                     Blood Group:*
                   </label>
                   <select
-                    defaultValue="default"
+                    // defaultValue="default"
+                    value={bloodGroup}
                     id="bloodGroup"
                     // value={bloodGroup}
                     onChange={(e) => setBloodGroup(e.target.value)}
                     className="input-field text-base font-medium"
+                    required
                   >
-                    <option disabled value="default">
+                    <option disabled value="">
                       Select bloodGroup
                     </option>
                     <option value="ABPositive">AB+</option>
@@ -607,6 +338,7 @@ const RegistrationPage = () => {
                     type="number"
                     placeholder="Enter your Phone No"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* Email */}
@@ -617,6 +349,7 @@ const RegistrationPage = () => {
                     type="email"
                     placeholder="Enter your email"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* Whatsapp */}
@@ -664,6 +397,7 @@ const RegistrationPage = () => {
                     placeholder="Enter your address"
                     type="text"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* Password */}
@@ -674,6 +408,7 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder="Enter your password"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
                 {/* Re-Password */}
@@ -686,6 +421,7 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder="Re-Enter your password"
                     className="input-field text-base font-medium"
+                    required
                   />
                 </div>
 
@@ -707,6 +443,7 @@ const RegistrationPage = () => {
                       setSelectedUpazila(""); // Reset selected upazila when district changes
                     }}
                     className="input-field text-lg md:text-xl font-medium"
+                    required
                   >
                     <option disabled value="">
                       Select District
@@ -729,6 +466,7 @@ const RegistrationPage = () => {
                     onChange={(e) => setSelectedUpazila(e.target.value)}
                     className="input-field text-lg md:text-xl font-medium"
                     disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
+                    required
                   >
                     <option disabled value="">
                       Select Upazila
@@ -773,6 +511,7 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="maritalStatus"
                           value={status.id}
+                          required
                         />
                       </div>
                     ))}
@@ -807,12 +546,13 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="religious"
                           value={status.id}
+                          required
                         />
                       </div>
                     ))}
                   </div>
                 </div>
-                {/* Able to Donate Now: */}
+                {/* Gender */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base font-semibold">Gender:*</label>
                   <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
@@ -841,6 +581,7 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="active_status"
                           value={status.id}
+                          required
                         />
                       </div>
                     ))}
@@ -877,6 +618,7 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="active_status"
                           value={status.id}
+                          required
                         />
                       </div>
                     ))}
@@ -884,7 +626,10 @@ const RegistrationPage = () => {
                 </div>
               </div>
               <div className="mx-auto w-full text-center pt-8 pb-3 overflow-hidden">
-                <button className="btn- w-[65%] hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-xl font-semibold">
+                <button
+                  type="submit"
+                  className="btn- w-[65%] hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-xl font-semibold"
+                >
                   {isLoading ? "loading..." : "Submit"}
                 </button>
               </div>

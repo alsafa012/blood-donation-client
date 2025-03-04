@@ -36,7 +36,7 @@ const LoginPage = () => {
     try {
       // Check account status by calling backend API
       const accountStatusResponse = await axios.post(
-        "http://localhost:5000/login",
+        "https://blood-donation-server-ebon.vercel.app/login",
         { user_email, password }
       );
       const { user, message } = accountStatusResponse.data;

@@ -4,8 +4,15 @@ import { useState } from "react";
 // import html2canvas from "html2canvas";
 import MyContainer from "./MyContainer";
 import useAuth from "../Components/hooks/useAuth";
+import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
+import ShowBloodGroup from "./ShowBloodGroup";
+import { MdOutlineBloodtype } from "react-icons/md";
+import { CiPhone } from "react-icons/ci";
 const HopeCard = () => {
   const { user } = useAuth();
+
+  const [loggedUserInfo] = useLoggedUserInfo();
+  console.log(loggedUserInfo);
 
   const gradients = [
     "radial-gradient(circle farthest-corner at 14.2% 27.5%, rgba(104, 199, 255, 1) 0%, rgba(181, 126, 255, 1) 90%)",
@@ -15,6 +22,8 @@ const HopeCard = () => {
   ];
   // State to store the current gradient
   const [currentGradient, setCurrentGradient] = useState(gradients[0]);
+  // State to store custom color
+  const [customColor, setCustomColor] = useState("#ffffff");
   // Adjust handleSimpleDownload function to improve resolution and control card size
   const fixOklchColors = () => {
     const elements = document.querySelectorAll("*");
@@ -180,7 +189,12 @@ const HopeCard = () => {
         console.error("Error generating PDF:", error);
       });
   };
-
+  // Handle custom color change
+  const handleCustomColorChange = (event) => {
+    const newColor = event.target.value;
+    setCustomColor(newColor);
+    setCurrentGradient(`linear-gradient(to right, ${newColor}, ${newColor})`);
+  };
   return (
     <MyContainer>
       <div id="simple-content">
@@ -189,69 +203,91 @@ const HopeCard = () => {
       </div>
       <button onClick={handleSimpleDownload}>handleSimpleDownload</button>
 
-      {/* <div className="border min-h-[500px] my-10 flex justify-center gap-5"> */}
-      {/* <div className="border min-h-[500px] my-10 flex justify-center gap-5"> */}
       <div className="min-h-[100vh] flex flex-col items-center justify-center w-full border border-blue-600">
-        {/* template div */}
+        {/* Template div */}
         <div
           id="template-div"
-          // className="flex justify-evenly gap-5 flex-1 border border-red-500 max-h-[300px] bg-slate-500"
-          className="flex justify-evenly w-[85%] md:w-[60%] lg:w-[50%] mx-auto gap-5 items-center flex-1 max-h-[300px]"
-          // style={gradientStyle}
+          className="flex justify-between w-[95%] md:w-[50%] lg:w-[40%] mx-auto md:gap-8 items-start flex-1 max-h-max p-4 rounded-lg shadow-lg border"
           style={{ background: currentGradient }}
         >
-          {/* donor info */}
-          <div className="border">
+          {/* Donor info */}
+          <div className="flex flex-col items-start gap-3 flex-1">
             {/* Image */}
-            <div className="border rounded-full h-28 w-28 md:h-28 md:w-28">
+            <div className="flex items-center space-x-4">
               {user?.email ? (
                 <img
-                  className="h-28 w-28 md:h-28 md:w-28 object-cover rounded-full mx-auto"
+                  className="w-16 md:w-24 h-16 md:h-24 rounded-full object-cover border-4 border-red-500"
                   src={user?.photoURL}
-                  alt={user?.photoURL}
+                  alt="User profile"
                 />
               ) : (
                 <img
-                  className="h-28 w-28 md:h-28 md:w-28 border rounded-full mx-auto"
+                  className="h-28 w-28 border rounded-full object-cover"
                   src="https://i.ibb.co/mtL872C/image.png"
-                  alt=""
+                  alt="Default profile image"
                 />
               )}
+              <div>
+                <h2 className="text-2xl font-bold">
+                  {user?.displayName || "Ridoy"}
+                </h2>
+                <p className="text-md text-gray-600">
+                  Age: <span className="font-semibold">28</span>
+                </p>
+              </div>
             </div>
-            <div className="font-bold">
-              <p>{user?.displayName || "Ridoy"}</p>
-              <p>{"0175876644"}</p>
+            {/* Information Section */}
+            <div className="space-y-3 flex flex-col text-gray-700">
+              <p className="text-sm inline-flex items-center gap-[2px] md:text-lg font-medium">
+                <MdOutlineBloodtype fill="red" /> Blood Group:{" "}
+                <span className="font-semibold ml-1">
+                  <ShowBloodGroup blood={loggedUserInfo?.bloodGroup || "A+"} />
+                </span>
+              </p>
+              <p className="text-sm inline-flex items-center gap-[2px] md:text-lg font-medium">
+                <CiPhone fill="red" /> Mobile:{" "}
+                <span className="font-semibold ml-1">017xxxxxxxx</span>
+              </p>
+              <p className="text-sm md:text-lg font-medium">
+                📍 Address:{" "}
+                <span className="font-semibold ml-1">xxxxxx, Bangladesh</span>
+              </p>
             </div>
           </div>
-          {/* blood group */}
-          <div>
-            <button className="btn-bg p-3 rounded-full">{"A+"}</button>
-          </div>
-          {/* website logo */}
-          <div>
+
+          {/* Website logo */}
+          <div className="flex flex-col items-center md:gap-2">
+            <h2 className="text-lg md:text-2xl font-bold">Roktojoddha</h2>
             <img
-              className="w-24 h-24 border"
+              className="w-16 md:w-24 h-16 md:h-24 border rounded-full shadow-md"
               src="https://i.ibb.co/mtL872C/image.png"
-              alt=""
+              alt="Website Logo"
             />
           </div>
         </div>
 
-        {/* Color div */}
+        {/* Gradient Selector */}
         <div className="my-4 flex gap-3 justify-center">
-          {gradients.map((gradient, index) => (
+          {gradients?.map((gradient, index) => (
             <button
               key={index}
               onClick={() => handleGradientChange(index)}
-              className="px-4 py-2 text-white rounded-full size-10"
-              style={{
-                background: gradient, // Set button background to match the gradient
-                color: "white", // Ensure the text is readable
-              }}
-            >
-              {/* Gradient {index + 1} */}
-            </button>
+              className={`${
+                currentGradient === gradient ? "scale-105" : ""
+              } px-4 py-2 text-white rounded-full size-10 shadow-md border border-gray-300 hover:scale- hover:opacity-90 transition-transform`}
+              style={{ background: gradient }}
+            />
           ))}
+          {/* add a customixed color button */}
+          {/* Custom Color Picker Button */}
+          <label className="relative flex items-center cursor-pointer">
+            <input
+              type="color"
+              value={customColor}
+              onChange={handleCustomColorChange}
+              className="w-10 h-10 p-0 border-2 border-gray-300 rounded-full cursor-pointer"
+            />
+          </label>
         </div>
       </div>
 

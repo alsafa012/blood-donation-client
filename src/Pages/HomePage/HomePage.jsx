@@ -10,6 +10,8 @@ import {
   onMessageListener,
   requestForToken,
 } from "../../Firebase/firebase.config";
+import Reviews from "./Reviews";
+import AvailableDonorNavigate from "./AvailableDonorNavigate";
 
 const HomePage = () => {
   // const [loggedUserInfo] = useLoggedUserInfo();
@@ -196,7 +198,16 @@ const HomePage = () => {
         Click
       </button>
       <Banner />
+      <Reviews />
       <ReviewSection />
+      <div className="my-10">
+        <img
+          src="https://i.ibb.co/BHZ7rPVK/blood-3.jpg"
+          className="mx-auto"
+          alt=""
+        />
+      </div>
+      <AvailableDonorNavigate />
       <Blogs />
     </MyContainer>
   );

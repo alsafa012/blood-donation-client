@@ -33,10 +33,10 @@ const MyComments = () => {
 
   const handleDetails = async (id) => {
     axios
-      .get(`http://localhost:5000/details/${id}`)
+      .get(`https://blood-donation-server-ebon.vercel.app/details/${id}`)
       .then((res) => console.log(res.data));
     // const response = await fetch(
-    //   `http://localhost:5000/available-donor?blood=${id}`
+    //   `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${id}`
     // );
     // const data = await response.json();
     // console.log(data);

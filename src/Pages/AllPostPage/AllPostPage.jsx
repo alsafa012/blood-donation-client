@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
 import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   IoIosArrowDropleft,
   IoIosArrowDropright,
@@ -20,6 +20,7 @@ import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import GoogleMapModal from "../../Shared/GoogleMapModal";
 import { BiDotsVertical } from "react-icons/bi";
 import { TbHandClick } from "react-icons/tb";
+import useAuth from "../../Components/hooks/useAuth";
 const AllPostPage = () => {
   const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
@@ -33,6 +34,8 @@ const AllPostPage = () => {
   const [openUpdateStatus, setOpenUpdateStatus] = useState(false);
   // console.log("selectedPostDetail", selectedPostDetail);
   // console.log(showSelectedImage);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (openComment) {
@@ -147,6 +150,14 @@ const AllPostPage = () => {
     }
   };
 
+  const NavigateCreatePostPage = () => {
+    if (user) {
+      navigate("/createPost");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <MyContainer>
       {/* <button onClick={handleDeleteAllComments} className="btn">
@@ -157,7 +168,8 @@ const AllPostPage = () => {
         <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
           <h1 className="text-2xl font-semibold">No Post Available</h1>
           <Link
-            to={"/createPost"}
+            onClick={NavigateCreatePostPage}
+            // to={"/createPost"}
             className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
           >
             Add Request <TbHandClick size={20} />

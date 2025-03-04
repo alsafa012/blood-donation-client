@@ -29,7 +29,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
+          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
         );
 
         // Group reports by user ID
@@ -72,7 +72,7 @@ const ManageUsers = () => {
     };
 
     axios
-      .patch(`http://localhost:5000/users/${id}`, accountStatusUpdate)
+      .patch(`https://blood-donation-server-ebon.vercel.app/users/${id}`, accountStatusUpdate)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           // Optimistic UI update: Update user status immediately in the local state

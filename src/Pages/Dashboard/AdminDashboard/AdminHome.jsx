@@ -12,7 +12,7 @@ const AdminHome = () => {
   const [allReports] = useDonorReportInfo();
 
   // const handleDeleteReports = () => {
-  //   axios.delete("http://localhost:5000/reportDonor");
+  //   axios.delete("https://blood-donation-server-ebon.vercel.app/reportDonor");
   // };
   return (
     <div className="max-h-screen overflow-y-auto">

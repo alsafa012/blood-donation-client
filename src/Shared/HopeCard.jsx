@@ -257,12 +257,12 @@ const HopeCard = () => {
 
           {/* Website logo */}
           <div className="flex flex-col items-center md:gap-2">
-            <h2 className="text-lg md:text-2xl font-bold">Roktojoddha</h2>
             <img
               className="w-16 md:w-24 h-16 md:h-24 border rounded-full shadow-md"
               src="https://i.ibb.co/mtL872C/image.png"
               alt="Website Logo"
             />
+            <h4 className="text-lg md:text-2xl font-bold">Roktojoddha</h4>
           </div>
         </div>
 

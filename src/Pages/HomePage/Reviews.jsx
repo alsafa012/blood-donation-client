@@ -1,86 +1,49 @@
-// import { useNavigate } from "react-router-dom";
-// import useAllReviewInfo from "../../Components/hooks/useAllReviewInfo";
-// import useAuth from "../../Components/hooks/useAuth";
-
-// const Reviews = () => {
-//   const { user } = useAuth();
-//   const [reviewInfo] = useAllReviewInfo();
-//   const navigate = useNavigate();
-
-//   const NavigateAddReviewPage = () => {
-//     if (user) {
-//       navigate("/createPost");
-//     } else {
-//       navigate("/login");
-//     }
-//   };
-
-//   return (
-//     <div className="bg-red-50 p-8 rounded-xl flex flex-col md:flex-row items-center justify-between">
-//       {/* Left Section */}
-//       <div className="md:w-1/2 text-center md:text-left space-y-3">
-//         <h2 className="text-xl font-bold">রক্তবন্ধুদের মতামত :</h2>
-//         <p className="text-gray-600">রক্তবন্ধু সম্পর্কে আপনার মতামত দিন</p>
-//         <button
-//           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
-//           onClick={NavigateAddReviewPage}
-//         >
-//           মতামত দিন →
-//         </button>
-//       </div>
-
-//       {/* Right Section - Reviews */}
-//       <div className="md:w-1/2 bg-white shadow-lg p-6 rounded-lg flex items-center">
-//         {reviewInfo.length > 0 ? (
-//           <div className="flex items-center space-x-4">
-//             <img
-//               src={reviewInfo[0]?.reviewer_image}
-//               alt={reviewInfo[0]?.reviewer_name}
-//               className="w-16 h-16 rounded-full border-2 border-red-400"
-//             />
-//             <div>
-//               <h5 className="font-bold">
-//                 {reviewInfo[0]?.reviewer_name}, {reviewInfo[0]?.rating}★
-//               </h5>
-//               <p className="text-gray-600">{reviewInfo[0]?.review_content}</p>
-//               {/* <p>{reviewInfo.length}</p> */}
-//             </div>
-//           </div>
-//         ) : (
-//           <p className="text-gray-500">No reviews available</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Reviews;
 import { useNavigate } from "react-router-dom";
 import useAllReviewInfo from "../../Components/hooks/useAllReviewInfo";
 import useAuth from "../../Components/hooks/useAuth";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { useCallback, useState } from "react";
+import StarRattingSvg from "../../Shared/StarRattingSvg";
 
 const Reviews = () => {
   const { user } = useAuth();
   const [reviewInfo] = useAllReviewInfo();
   const navigate = useNavigate();
+  const [currentSlider, setCurrentSlider] = useState(0);
   console.log(reviewInfo);
   const NavigateAddReviewPage = () => {
     if (user) {
-      navigate("/createPost");
+      navigate("/dashboard/review");
     } else {
       navigate("/login");
     }
   };
 
+  const prevSlider = () => {
+    setCurrentSlider((currentSlider) =>
+      // currentSlider === 0 ? reviewInfo?.length - 1 : currentSlider - 2
+      // if need to slide 1 images by one click use this
+      currentSlider === 0 ? reviewInfo?.length - 1 : currentSlider - 1
+    );
+  };
+
+  const nextSlider = useCallback(() => {
+    setCurrentSlider((currentSlider) =>
+      // currentSlider >= reviewInfo?.length - 2 ? 0 : currentSlider + 2
+      // if need to slide 1 images by one click use this
+      currentSlider === reviewInfo?.length - 1 ? 0 : currentSlider + 1
+    );
+  }, [reviewInfo?.length]);
+
   return (
     <div className="bg-red-50 p-8 rounded-xl flex flex-col md:flex-row items-center justify-between">
       {/* Left Section */}
       <div className="md:w-1/2 text-center md:text-left space-y-3">
-        <h2 className="text-xl font-bold">রক্তবন্ধুদের মতামত :</h2>
-        <p className="text-gray-600">রক্তবন্ধু সম্পর্কে আপনার মতামত দিন</p>
+        <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2>
+        <p className="text-gray-600">রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন</p>
         <button
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
+          className="bg-primary text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
           onClick={NavigateAddReviewPage}
         >
           মতামত দিন →
@@ -88,27 +51,54 @@ const Reviews = () => {
       </div>
 
       {/* Right Section - Show all reviews */}
-      <div className="md:w-1/2 bg-white shadow-lg p-6 rounded-lg space-y-4">
-        {reviewInfo?.map((review) => (
-          <div
-            key={review._id}
-            className="flex items-center space-x-4 border-b pb-4"
-          >
-            <img
-              src={review.reviewer_image}
-              alt={review.reviewer_name}
-              className="w-16 h-16 rounded-full border-2 border-red-500"
-            />
-            <div>
-              <h5 className="font-semibold">
-                {review.reviewer_name},{" "}
-                <small>
-                <ShowBloodGroup blood={review?.reviewer_bloodGroup} /></small>
-              </h5>
-              <p className="text-gray-600">{review.review_content}</p>
-            </div>
+      <div className="md:w-1/2">
+        <div className="bg-white border min-h-[40vh] shadow-lg rounded-lg overflow-hidden">
+          <div className="relative flex">
+            {reviewInfo?.map((review) => (
+              <div
+                key={review._id}
+                style={{ transform: `translateX(-${currentSlider * 100}%)` }}
+                className={`min-w-full flex items-center p-6 space-x-4 p- transition-transform duration-300 transform`}
+              >
+                <img
+                  src={review.reviewer_image}
+                  alt={review.reviewer_name}
+                  className="w-24 h-24 object-cover rounded-full border-2 border-red-500"
+                />
+                <div>
+                  <h5 className="font-semibold">
+                    {review.reviewer_name},{" "}
+                    <small>
+                      <ShowBloodGroup blood={review?.reviewer_bloodGroup} />
+                    </small>
+                  </h5>
+                  <StarRattingSvg ratting={review?.rating} />
+                  <p className="text-gray-600">{review.review_content}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        {/* Slider Controls */}
+        <div className="flex items-center gap-5 justify-between mt-5">
+          <p className="text-lg font-medium text-center px-4 p-border rounded-md py-1">
+            {currentSlider + 1} / {reviewInfo?.length}
+          </p>
+          <div className="flex items-center gap-5">
+            <button
+              onClick={prevSlider}
+              className="rounded-full p-3 text-xl p-border"
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              onClick={nextSlider}
+              className="rounded-full p-3 text-xl p-border"
+            >
+              <FaArrowRight />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

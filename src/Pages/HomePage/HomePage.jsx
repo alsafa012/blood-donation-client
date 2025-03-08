@@ -13,6 +13,7 @@ import {
 import Reviews from "./Reviews";
 import AvailableDonorNavigate from "./AvailableDonorNavigate";
 import NavigateDonorCard from "./NavigateDonorCard";
+import NavigateRegistration from "./NavigateRegistration";
 
 const HomePage = () => {
   // const [loggedUserInfo] = useLoggedUserInfo();
@@ -201,6 +202,7 @@ const HomePage = () => {
       </button>
       <Banner />
       <NavigateDonorCard />
+      <NavigateRegistration />
       <Reviews />
       <ReviewSection />
       <div className="my-10">

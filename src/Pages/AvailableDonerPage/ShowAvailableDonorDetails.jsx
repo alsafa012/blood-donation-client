@@ -80,7 +80,13 @@ const ShowAvailableDonorDetails = () => {
             <img
               onClick={() => setShowImage(true)}
               className="h-[300px] w-auto md:h-[380px] lg:h-[350px] object-contain rounded-md cursor-pointer"
-              src={donorDetails?.user_image}
+              src={
+                donorDetails?.showImage
+                  ? donorDetails?.user_image
+                  : donorDetails?.user_gender === "Male"
+                  ? "https://i.ibb.co/mtL872C/image.png"
+                  : "https://i.ibb.co.com/270Pssg6/women-hijab.jpg"
+              }
               alt="user_image.png"
             />
           </div>
@@ -146,6 +152,11 @@ const ShowAvailableDonorDetails = () => {
               label: "Contact Via Email",
               text: "",
               value: donorDetails?.user_email,
+            },
+            {
+              label: "Gender",
+              text: "capitalize",
+              value: donorDetails?.user_gender,
             },
             {
               label: "Marital Status",

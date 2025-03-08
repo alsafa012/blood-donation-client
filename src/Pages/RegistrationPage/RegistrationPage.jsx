@@ -204,6 +204,7 @@ const RegistrationPage = () => {
         img_status: photoUrl !== "https://i.ibb.co/mtL872C/image.png",
         account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
         account_status: false,
+        showImage: true,
       };
       console.log(userInfo);
       const response = await axiosPublic.post("/users", userInfo, {

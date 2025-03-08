@@ -64,11 +64,17 @@ const ManageUsers = () => {
     setModalVisible(true);
   };
 
-  const handleUpdateUserStatus = (id, accountStatus, activeStatus) => {
+  const handleUpdateUserAccountStatus = (
+    id,
+    accountStatus,
+    activeStatus,
+    showImage
+  ) => {
     console.log(id);
     const accountStatusUpdate = {
       user_activeStatus: activeStatus,
       account_status: !accountStatus,
+      showImage: showImage,
     };
 
     axios
@@ -226,10 +232,11 @@ const ManageUsers = () => {
                           </Link>
                           <button
                             onClick={() =>
-                              handleUpdateUserStatus(
+                              handleUpdateUserAccountStatus(
                                 user?._id,
                                 user?.account_status,
-                                user?.user_activeStatus
+                                user?.user_activeStatus,
+                                user?.showImage
                               )
                             }
                             className="text-blue-600 hover:underline whitespace-nowrap"

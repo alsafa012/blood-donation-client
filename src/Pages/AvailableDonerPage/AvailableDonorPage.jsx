@@ -318,7 +318,14 @@ const AvailableDonorPage = () => {
               <div className="overflow-hidden h-[200px] w-full">
                 <img
                   className="h-[200px] w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  src={info?.user_image}
+                  // src={info?.user_image}
+                  src={
+                    info?.showImage
+                      ? info?.user_image
+                      : info?.user_gender === "Male"
+                      ? "https://i.ibb.co/mtL872C/image.png"
+                      : "https://i.ibb.co.com/270Pssg6/women-hijab.jpg"
+                  }
                   alt="user_image"
                 />
               </div>

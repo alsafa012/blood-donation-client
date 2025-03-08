@@ -30,6 +30,10 @@ const activeStatus = [
   { id: "Yes", label: "Yes" },
   { id: "No", label: "No" },
 ];
+const usersGender = [
+  { id: "Male", label: "Male" },
+  { id: "Female", label: "Female" },
+];
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -79,7 +83,7 @@ const upazila = [
   },
 ];
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-console.log(image_hosting_key);
+// console.log(image_hosting_key);
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const UpdateUserProfile = () => {
   const location = useLocation();
@@ -90,12 +94,9 @@ const UpdateUserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showName, setShowName] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
-  // console.log("showName", showName);
-  // console.log("showImagePreview", showImagePreview);
   const userInfo = useLoaderData();
-  // console.log(userInfo);
-  const [errorMessage, setErrorMessage] = useState(false);
   const { user, updateUserProfile } = useAuth();
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const [userMaritalStatus, setUserMaritalStatus] = useState(
     userInfo?.user_maritalStatus || ""
@@ -111,6 +112,7 @@ const UpdateUserProfile = () => {
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedUpazila, setSelectedUpazila] = useState("");
+  const [userGender, setUserGender] = useState(userInfo?.user_gender || "");
   useEffect(() => {
     // Set the initial values based on userInfo
     if (userInfo) {
@@ -193,6 +195,7 @@ const UpdateUserProfile = () => {
         user_religious: userReligious.toLowerCase(),
         user_district: selectedDistrictName,
         user_area: selectedUpazila,
+        user_gender: userGender,
         // imageFile: imageFile,
         user_image: response?.data?.data.display_url || userInfo?.user_image,
         user_role: "donor",
@@ -493,41 +496,6 @@ const UpdateUserProfile = () => {
                     ))}
                   </div>
                 </div>
-                {/* <div className="grid grid-cols-2 gap-2">
-                      <label className="text-base md:text-xl font-semibold">
-                        Marital Status
-                      </label>
-                      <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
-                        {maritalStatusOptions.map((status, ind) => (
-                          <div
-                            key={ind}
-                            className="text-xl flex flex-row-reverse items-center gap-[6px]"
-                          >
-                            <label
-                              htmlFor={status.id}
-                              className="font-semibold text-base md:text-lg text-black pr-5"
-                            >
-                              {status.label}
-                            </label>
-                            <input
-                              style={{
-                                backgroundColor:
-                                  userMaritalStatus === status.label
-                                    ? "#87986A"
-                                    : "#FFFFFF",
-                              }}
-                              onChange={() => setUserMaritalStatus(status.id)}
-                              checked={userMaritalStatus === status.id} // Control checked state
-                              className="input-radio"
-                              type="radio"
-                              id={status.id}
-                              name="maritalStatus"
-                              value={status.id}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div> */}
                 {/* Religion */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base md:text-xl font-semibold">
@@ -561,6 +529,42 @@ const UpdateUserProfile = () => {
                           //   name and value given for if need to get selected values from form
                           name="religious"
                           value={status.id}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Gender */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base font-semibold">Gender:*</label>
+                  <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
+                    {usersGender?.map((status, ind) => (
+                      <div
+                        key={ind}
+                        className="text-xl flex flex-row-reverse items-center gap-[6px]"
+                      >
+                        <label
+                          htmlFor={status.id}
+                          className="font-semibold text-base md:text-lg text-black pr-5"
+                        >
+                          {status.label}
+                        </label>
+                        <input
+                          onChange={() => setUserGender(status.id)}
+                          checked={userGender === status.id}
+                          className="input-radio"
+                          style={{
+                            backgroundColor:
+                              userGender === status.label
+                                ? "#87986A"
+                                : "#FFFFFF",
+                          }}
+                          type="radio"
+                          id={status.id}
+                          name="active_status"
+                          disabled={isLoading}
+                          value={status.id}
+                          required
                         />
                       </div>
                     ))}

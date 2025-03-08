@@ -19,11 +19,12 @@ const UserProfile = () => {
     (item) => item.user_email === user?.email
   );
   // console.log(filterData);
-  const handleUpdateStatus = (id, activeStatus, accountStatus) => {
+  const handleUpdateStatus = (id, activeStatus, accountStatus, showImage) => {
     // console.log(id);
     const updatedStatus = {
       user_activeStatus: activeStatus === "active" ? "inactive" : "active",
       account_status: accountStatus,
+      showImage: showImage,
     };
     axiosPublic
       .patch(`/users/${id}`, updatedStatus)
@@ -41,33 +42,6 @@ const UserProfile = () => {
         console.error(err);
       });
   };
-  // const handleUpdateStatus = (id, activeStatus, accountStatus) => {
-  //   console.log(id);
-
-  //   // Construct the object that you want to send to the backend
-  //   const contextUpdateStatus = {
-  //     user_activeStatus: activeStatus === "active" ? "inactive" : "active",
-  //     account_status: accountStatus,
-  //   };
-
-  //   axiosPublic
-  //     .patch(`/users/${id}`, contextUpdateStatus)
-  //     .then((res) => {
-  //       if (res.data.modifiedCount > 0) {
-  //         Swal.fire({
-  //           title: "Success!",
-  //           text: `User's status changed to ${
-  //             activeStatus === "active" ? "inactive" : "active"
-  //           }`,
-  //           icon: "success",
-  //         });
-  //         refetchUser();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // };
 
   const handleMessengerContact = () => {
     if (filterData) {
@@ -99,6 +73,35 @@ const UserProfile = () => {
     }
   };
 
+  const handleHideImage = (id, showImage, info) => {
+    // alert("image hide", showImage);
+    const updatedImageInfo = {
+      ...info,
+      showImage: !showImage,
+    };
+    console.log(updatedImageInfo);
+
+    // const updatedStatus = {
+    //   // user_activeStatus: activeStatus === "active" ? "inactive" : "active",
+    //   // account_status: accountStatus,
+    // };
+    axiosPublic
+      .patch(`/users/${id}`, updatedImageInfo)
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          Swal.fire({
+            title: "Success!",
+            text: `User's status changed to`,
+            icon: "success",
+          });
+          refetchUser();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <div className="text-black max-h-screen overflow-auto">
       <WebsiteTitle name={"রক্তযোদ্ধা || My Profile"}></WebsiteTitle>
@@ -108,13 +111,19 @@ const UserProfile = () => {
           <CgProfile /> My profile
         </h1>
         <div className="w-[85%] mt-2 mx-auto">
-          {filterData.map((info) => (
+          {filterData?.map((info) => (
             <div className="" key={info._id}>
               {/* img div */}
               <div className="w-max min-w-[200px]">
                 <img
                   className="h-[300px] rounded-md object-cover"
-                  src={info?.user_image}
+                  src={
+                    info?.showImage
+                      ? info?.user_image
+                      : info?.user_gender === "Male"
+                      ? "https://i.ibb.co/mtL872C/image.png"
+                      : "https://i.ibb.co.com/270Pssg6/women-hijab.jpg"
+                  }
                   alt="img"
                 />
                 {/* status and edit btn */}
@@ -162,7 +171,8 @@ const UserProfile = () => {
                         handleUpdateStatus(
                           info?._id,
                           info?.user_activeStatus,
-                          info?.account_status
+                          info?.account_status,
+                          info?.showImage
                         )
                       }
                       className={`flex h-fit w-8 items-center rounded-sm ${
@@ -200,6 +210,27 @@ const UserProfile = () => {
                     </button> */}
                   </div>
                 </div>
+                {/* Image hide button */}
+                <div className="flex gap-1 items-center mb-2">
+                  {info.showImage ? (
+                    <p>Hide your image to others</p>
+                  ) : (
+                    <p>Show your image to others</p>
+                  )}
+                  <button
+                    onClick={() =>
+                      handleHideImage(
+                        info?._id,
+
+                        info?.showImage,
+                        info
+                      )
+                    }
+                    className="px-2 py-[1px] bg-primary rounded-md text-white border-none"
+                  >
+                    {info.showImage ? "HIde" : "Show"}
+                  </button>
+                </div>
               </div>
               {/* ------- */}
               <div className="flex flex-col gap-2 md:gap-3 px-2 border-y py-2 mb-5">
@@ -227,6 +258,10 @@ const UserProfile = () => {
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p> MaritalStatus</p>
                   <p className="capitalize">: {info?.user_maritalStatus}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+                  <p> Gender</p>
+                  <p className="capitalize">: {info?.user_gender}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p>Religion</p>

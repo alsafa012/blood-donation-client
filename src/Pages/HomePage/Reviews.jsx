@@ -39,9 +39,11 @@ const Reviews = () => {
   return (
     <div className="bg-red-50 p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row md:items-center md:justify-between">
       {/* Left Section */}
-      <div className="md:w-1/2 text-center md:text-left space-y-3">
+      <div className="md:w-1/2 text-center md:text-left">
         <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2>
-        <p className="text-gray-600">রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন</p>
+        <p className="text-gray-600 my-3 text-xs">
+          রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন
+        </p>
         <button
           className="bg-primary mx-auto md:mx-0 text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
           onClick={NavigateAddReviewPage}
@@ -66,7 +68,7 @@ const Reviews = () => {
                 className="w-24 h-24 object-cover rounded-full border-2 border-red-500"
               />
               <div>
-                <h5 className="font-semibold">
+                <h5 className="font-semibold mt-3">
                   {review.reviewer_name},{" "}
                   <small>
                     <ShowBloodGroup blood={review?.reviewer_bloodGroup} />

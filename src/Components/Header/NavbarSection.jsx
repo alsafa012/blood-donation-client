@@ -74,7 +74,8 @@ const NavbarSection = () => {
             src="https://i.ibb.co.com/S7vw7fm/logo-with-heart-hand.png"
             alt=""
           />
-          <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">HOPE</h1>
+          <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">রক্তযোদ্ধা</h1>
+          {/* <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">Roktojoddha</h1> */}
         </div>
         {/* lists */}
         <div className="hidden md:block text-center mx-auto w-ful col-span-2">
@@ -101,7 +102,7 @@ const NavbarSection = () => {
           {/* profile icon */}
           <div className="relative w-fit text-black flex items-center gap-3">
             <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
-              <IoIosNotifications size={25}/>
+              <IoIosNotifications size={25} />
               <span className="absolute -top-3 -right-1">10</span>
             </button>
             <div onClick={() => setOpenDropdown(!openDropdown)}>

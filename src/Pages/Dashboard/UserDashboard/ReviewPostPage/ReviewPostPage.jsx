@@ -147,14 +147,14 @@ const ReviewPostPage = () => {
   };
   return (
     <div className="max-h-screen overflow-auto">
-      <button onClick={handleDelete} className="btn w-full my-5">
+      <button onClick={handleDelete} className="btn w-full my-5 hidden">
         Delete All Review
       </button>
-      <WebsiteTitle name={"Hope || Add a review"}></WebsiteTitle>
+      <WebsiteTitle name={"রক্তযোদ্ধা || Add a review"}></WebsiteTitle>
       <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
         <MdOutlineRateReview /> Write a Review
       </h1>
-      <form className="w-[80%] mx-auto space-y-3" onSubmit={handleMakeReview}>
+      <form className="w-[80%] mx-auto space-y-3 mt-5" onSubmit={handleMakeReview}>
         {/* <p>{userRating}</p> */}
         <div className="flex space-x-1 justify-center">
           {[1, 2, 3, 4, 5].map((star) => (

@@ -16,7 +16,7 @@ const AdminHome = () => {
   // };
   return (
     <div className="max-h-screen overflow-y-auto">
-      <WebsiteTitle name={"Hope || Admin Home"}></WebsiteTitle>
+      <WebsiteTitle name={"রক্তযোদ্ধা || Admin Home"}></WebsiteTitle>
       <div>
         <h3>Total Reviews: {reviewInfo?.length}</h3>{" "}
         <h3>Total Posts: {allPostsData?.length}</h3>{" "}

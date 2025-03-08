@@ -127,6 +127,20 @@ const DashboardLayout = () => {
                       ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
                       : "cursor-pointer pb-[6px]"
                   }
+                  to="/dashboard/cardDownload"
+                >
+                  <MdOutlineRateReview size={25} /> Download Card
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
                   to="/dashboard/admin/admin-home"
                 >
                   <BiSolidHomeHeart size={25} /> Admin Home

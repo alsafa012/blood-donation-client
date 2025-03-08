@@ -163,7 +163,7 @@ const AllPostPage = () => {
       {/* <button onClick={handleDeleteAllComments} className="btn">
         DeleteAllComments
       </button> */}
-      <WebsiteTitle name={"Hope || Posts"} />
+      <WebsiteTitle name={"রক্তযোদ্ধা || Posts"} />
       {allPostsInfo.length === 0 ? (
         <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
           <h1 className="text-2xl font-semibold">No Post Available</h1>

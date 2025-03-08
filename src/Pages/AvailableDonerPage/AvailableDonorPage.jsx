@@ -177,7 +177,7 @@ const AvailableDonorPage = () => {
 
   return (
     <MyContainer>
-      <WebsiteTitle name={"Hope || Available Donors"} />
+      <WebsiteTitle name={"রক্তযোদ্ধা || Available Donors"} />
       {/* filter section */}
       <div className="flex flex-wrap justify-center gap-5 my-5">
         {/* blood group */}

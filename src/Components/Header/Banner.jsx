@@ -1,5 +1,3 @@
-import HopeCard from "../../Shared/HopeCard";
-
 const Banner = () => {
   return (
     <div className="min-h-[70h">
@@ -9,9 +7,6 @@ const Banner = () => {
         src="https://i.ibb.co.com/vCqxFF9z/blood.jpg"
         alt=""
       />
-      <div>
-        <HopeCard />
-      </div>
     </div>
   );
 };

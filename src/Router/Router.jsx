@@ -16,6 +16,7 @@ import ReviewPostPage from "../Pages/Dashboard/UserDashboard/ReviewPostPage/Revi
 import ShowSelectedPostDetails from "../Pages/ShowSelectedPostDetails/ShowSelectedPostDetails";
 import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers";
+import DownloadCard from "../Pages/Dashboard/UserDashboard/DownloadCard/DownloadCard";
 
 const myCreatedRouter = createBrowserRouter([
   // http://localhost:5000
@@ -29,7 +30,7 @@ const myCreatedRouter = createBrowserRouter([
         path: "/",
         element: (
           // <PrivateRoute>
-            <HomePage />
+          <HomePage />
           // </PrivateRoute>
         ),
       },
@@ -91,6 +92,14 @@ const myCreatedRouter = createBrowserRouter([
       {
         path: "/dashboard/review",
         element: <ReviewPostPage />,
+      },
+      {
+        path: "/dashboard/cardDownload",
+        element: (
+          <PrivateRoute>
+            <DownloadCard />
+          </PrivateRoute>
+        ),
       },
 
       // admin dashboard

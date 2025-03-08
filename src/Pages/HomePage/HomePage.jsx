@@ -12,6 +12,7 @@ import {
 } from "../../Firebase/firebase.config";
 import Reviews from "./Reviews";
 import AvailableDonorNavigate from "./AvailableDonorNavigate";
+import NavigateDonorCard from "./NavigateDonorCard";
 
 const HomePage = () => {
   // const [loggedUserInfo] = useLoggedUserInfo();
@@ -190,14 +191,16 @@ const HomePage = () => {
 
   return (
     <MyContainer>
-      <WebsiteTitle name={"Hope || Home"} />
+      <WebsiteTitle name={"রক্তযোদ্ধা || Home"} />
+      {/* <WebsiteTitle name={"Roktojoddha || Home"} /> */}
       <button
-        className="p-4 bg-gray-200"
+        className="p-4 bg-gray-200 hidden"
         // onClick={requestNotificationPermission}
       >
         Click
       </button>
       <Banner />
+      <NavigateDonorCard />
       <Reviews />
       <ReviewSection />
       <div className="my-10">

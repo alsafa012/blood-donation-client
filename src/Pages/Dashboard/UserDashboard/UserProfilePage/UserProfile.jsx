@@ -101,7 +101,7 @@ const UserProfile = () => {
 
   return (
     <div className="text-black max-h-screen overflow-auto">
-      <WebsiteTitle name={"Hope || My Profile"}></WebsiteTitle>
+      <WebsiteTitle name={"রক্তযোদ্ধা || My Profile"}></WebsiteTitle>
       {/* <p>user dashboard</p> */}
       <div className="">
         <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">

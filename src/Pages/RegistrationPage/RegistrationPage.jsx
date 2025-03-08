@@ -230,7 +230,7 @@ const RegistrationPage = () => {
   return (
     <MyContainer>
       <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
-        <WebsiteTitle name={"Hope || Registration"} />
+        <WebsiteTitle name={"রক্তযোদ্ধা || Registration"} />
         <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
           <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
             <form onSubmit={handleRegister}>

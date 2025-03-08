@@ -197,26 +197,28 @@ const HopeCard = () => {
   };
   return (
     <MyContainer>
-      <div id="simple-content">
+      <div className="hidden" id="simple-content">
         <h1>Simple Test</h1>
         <p>This is a simple test for PDF generation.</p>
       </div>
-      <button onClick={handleSimpleDownload}>handleSimpleDownload</button>
+      <button className="hidden" onClick={handleSimpleDownload}>
+        handleSimpleDownload
+      </button>
 
-      <div className="min-h-[100vh] flex flex-col items-center justify-center w-full border border-blue-600">
+      <div className="min-h-[100vh flex flex-col items-center justify-center w-full">
         {/* Template div */}
         <div
           id="template-div"
-          className="flex justify-between w-[95%] md:w-[50%] lg:w-[40%] mx-auto md:gap-8 items-start flex-1 max-h-max p-4 rounded-lg shadow-lg border"
+          className="flex justify-between mx-auto md:gap-8 items-start flex-1 max-h-max p-4 rounded-lg shadow-lg border"
           style={{ background: currentGradient }}
         >
           {/* Donor info */}
           <div className="flex flex-col items-start gap-3 flex-1">
             {/* Image */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 lg:space-x-4">
               {user?.email ? (
                 <img
-                  className="w-16 md:w-24 h-16 md:h-24 rounded-full object-cover border-4 border-red-500"
+                  className="w-20 md:w-24 h-20 md:h-24 rounded-full object-cover border-2 border-red-500"
                   src={user?.photoURL}
                   alt="User profile"
                 />
@@ -228,29 +230,31 @@ const HopeCard = () => {
                 />
               )}
               <div>
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-lg lg:text-2xl font-bold">
                   {user?.displayName || "Ridoy"}
                 </h2>
-                <p className="text-md text-gray-600">
+                <p className="text-sm lg:text-md text-gray-600">
                   Age: <span className="font-semibold">28</span>
                 </p>
               </div>
             </div>
             {/* Information Section */}
             <div className="space-y-3 flex flex-col text-gray-700">
-              <p className="text-sm inline-flex items-center gap-[2px] md:text-lg font-medium">
+              <p className="text-sm md:text-lg font-medium inline-flex items-center gap-[2px]">
                 <MdOutlineBloodtype fill="red" /> Blood Group:{" "}
-                <span className="font-semibold ml-1">
+                <span className="font-semibold ml-[1px]">
                   <ShowBloodGroup blood={loggedUserInfo?.bloodGroup || "A+"} />
                 </span>
               </p>
-              <p className="text-sm inline-flex items-center gap-[2px] md:text-lg font-medium">
+              <p className="text-sm md:text-lg font-medium inline-flex items-center gap-[2px]">
                 <CiPhone fill="red" /> Mobile:{" "}
-                <span className="font-semibold ml-1">017xxxxxxxx</span>
+                <span className="font-semibold ml-[1px]">017xxxxxxxx</span>
               </p>
               <p className="text-sm md:text-lg font-medium">
                 📍 Address:{" "}
-                <span className="font-semibold ml-1">xxxxxx, Bangladesh</span>
+                <span className="font-semibold ml-[1px]">
+                  xxxxxx, Bangladesh
+                </span>
               </p>
             </div>
           </div>
@@ -263,6 +267,7 @@ const HopeCard = () => {
               alt="Website Logo"
             />
             <h4 className="text-lg md:text-2xl font-bold">Roktojoddha</h4>
+            <h4 className="text-lg md:text-2xl font-bold">রক্তযোদ্ধা</h4>
           </div>
         </div>
 
@@ -280,12 +285,12 @@ const HopeCard = () => {
           ))}
           {/* add a customixed color button */}
           {/* Custom Color Picker Button */}
-          <label className="relative flex items-center cursor-pointer">
+          <label className="relative flex items-center cursor-pointer w-10 h-10 border-2 rounded-full max-w-10 max-h-10 overflow-hidden">
             <input
               type="color"
               value={customColor}
               onChange={handleCustomColorChange}
-              className="w-10 h-10 p-0 border-2 border-gray-300 rounded-full cursor-pointer"
+              className="w-28 h-28 rounded-full cursor-pointer"
             />
           </label>
         </div>

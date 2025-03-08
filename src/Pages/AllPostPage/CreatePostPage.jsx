@@ -153,7 +153,7 @@ const CreatePostPage = () => {
   };
   return (
     <MyContainer>
-      <WebsiteTitle name={"Hope || Create Post"} />
+      <WebsiteTitle name={"রক্তযোদ্ধা || Create Post"} />
       {/*  */}
 
       <form

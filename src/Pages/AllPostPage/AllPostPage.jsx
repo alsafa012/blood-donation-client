@@ -180,20 +180,30 @@ const AllPostPage = () => {
       {/* ) : ( */}
       <div className="w-full grid grid-cols-4 lg:gap-3 mx-auto relative max-h-[85vh] overflow-auto">
         {/* left sidebar */}
-        <div className="hidden md:block col-span-1 sticky right-0 top-0 p-2 lg:p-3 min-h-[85vh] max-h-[85vh] overflow-auto">
-          <div>
-            <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
-            <p>
-              ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন
-            </p>
-            <p>
-              ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর আত্মীয়ের
-              সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান
-              করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয় পক্ষের কেউ দুর্নীতি
-              করতে না পারে।
-            </p>
-            <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
-          </div>
+        <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
+        <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
+            💉 রক্তদান করার আগে মনে রাখুন
+          </h2>
+          <ul className="space-y-4 text-gray-800">
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">১.</span> রোগীর ব্যাপারে
+              বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">২.</span> প্রতিবার
+              রক্তদানের পর তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৩.</span> রোগী দেখে
+              রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত আত্মীয়ের সাথে কথা বলে
+              জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান করছেন, যাতে
+              দালাল বা তৃতীয় পক্ষ দুর্নীতি করতে না পারে।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৪.</span> আপনার সংগঠনের
+              নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন।
+            </li>
+          </ul>
         </div>
 
         {/* <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50% lg:w-[45%"> */}
@@ -232,7 +242,7 @@ const AllPostPage = () => {
             {/* ------- */}
             {allPostsInfo?.map((user, ind) => (
               <div
-                className="p-border rounded-sm overflow-hidden border border-green-600"
+                className="p-border rounded-sm overflow-hidden"
                 key={user._id}
               >
                 {/* creator image and info */}
@@ -255,7 +265,7 @@ const AllPostPage = () => {
                       {/* <p className="text-[10px]">
                         {user?.post_created_date} at {user?.post_created_time}
                       </p> */}
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs text-gray-500">
                         Posted on {user?.post_created_date} at{" "}
                         {user?.post_created_time}
                       </p>
@@ -265,38 +275,44 @@ const AllPostPage = () => {
                     </div>
                   </div>
                   {/* status 3 dot */}
-                  {user?.creator_email === loggedUserInfo?.user_email && (
-                    <div className="relative flex items-center gap-1 md:gap-5">
-                      <div className="btn-bg inline-flex items-center px-3 text-re text-white py-1 font-semibold rounded-md text-sm">
-                        <FaTint className="text-xl" fill="red" />{" "}
-                        <ShowBloodGroup blood={user?.bloodGroup} /> <span className="text-white">Needed</span>
-                      </div>
-                      <button
-                        className={`${
-                          openUpdateStatus === user?._id ? "text-[#b5c99a]" : ""
-                        } h-full`}
-                        onClick={() =>
-                          setOpenUpdateStatus(
-                            openUpdateStatus === user?._id ? null : user?._id
-                          )
-                        }
-                      >
-                        <BiDotsVertical size={40} />
-                      </button>
-                      <div
-                        className={`${
-                          openUpdateStatus === user._id ? "" : "hidden"
-                        } absolute right-10 top-2 h-[80px] z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
-                      >
-                        <button
-                          onClick={() => handleUpdateStatus(user._id)}
-                          className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
-                        >
-                          If found donor click here
-                        </button>
-                      </div>
+                  <div className="flex items-center">
+                    <div className="btn-bg inline-flex items-center px-3 text-re text-white py-1 font-semibold rounded-md text-sm">
+                      <FaTint className="text-xl" fill="red" />{" "}
+                      <ShowBloodGroup blood={user?.bloodGroup} />{" "}
+                      <span className="text-white">Needed</span>
                     </div>
-                  )}
+
+                    {user?.creator_email === loggedUserInfo?.user_email && (
+                      <div className="relative flex items-center gap-1 md:gap-5">
+                        <button
+                          className={`${
+                            openUpdateStatus === user?._id
+                              ? "text-[#b5c99a]"
+                              : ""
+                          } h-full`}
+                          onClick={() =>
+                            setOpenUpdateStatus(
+                              openUpdateStatus === user?._id ? null : user?._id
+                            )
+                          }
+                        >
+                          <BiDotsVertical size={40} />
+                        </button>
+                        <div
+                          className={`${
+                            openUpdateStatus === user._id ? "" : "hidden"
+                          } absolute right-10 top-2 h-[80px] z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
+                        >
+                          <button
+                            onClick={() => handleUpdateStatus(user._id)}
+                            className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                          >
+                            If found donor click here
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 {/* content */}
                 <div>
@@ -607,19 +623,32 @@ const AllPostPage = () => {
         {/* ---------------------- */}
 
         {/* right sidebar */}
-        <div className="hidden md:block col-span-1 sticky right-0 top-0 p-2 lg:p-3 min-h-[85vh] max-h-[85vh] overflow-auto">
-          <p>১.রোগীর ব্যাপারে বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন</p>
-          <p>
-            ২.প্রতিবার রক্তদানের পর করে তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন
-          </p>
-          <p>
-            ৩.রোগী দেখে রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত রোগীর আত্মীয়ের
-            সাথে কথা বলে জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান
-            করছেন। যাতে দালাল, আত্মীয় সেজে কিংবা তৃতীয় পক্ষের কেউ দুর্নীতি করতে
-            না পারে।
-          </p>
-          <p>৪.আপনার সংগঠনের নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন</p>
+        <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
+          <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
+            💉 রক্তদান করার আগে মনে রাখুন
+          </h2>
+          <ul className="space-y-4 text-gray-800">
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">১.</span> রোগীর ব্যাপারে
+              বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">২.</span> প্রতিবার
+              রক্তদানের পর তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৩.</span> রোগী দেখে
+              রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত আত্মীয়ের সাথে কথা বলে
+              জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান করছেন, যাতে
+              দালাল বা তৃতীয় পক্ষ দুর্নীতি করতে না পারে।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৪.</span> আপনার সংগঠনের
+              নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন।
+            </li>
+          </ul>
         </div>
+
       </div>
       {/* )} */}
     </MyContainer>

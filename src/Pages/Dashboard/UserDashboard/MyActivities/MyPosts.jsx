@@ -7,10 +7,17 @@ import { MdOutlineCancel } from "react-icons/md";
 import LoadingAnimation from "../../../../Shared/LoadingAnimation";
 import useAllPostsInfo from "../../../../Components/hooks/useAllPostsInfo";
 import useAuth from "../../../../Components/hooks/useAuth";
+import ShowBloodGroup from "../../../../Shared/ShowBloodGroup";
+import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
+import { BiDotsVertical } from "react-icons/bi";
+import { FaPhone } from "react-icons/fa6";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
 const MyPosts = () => {
   const { user } = useAuth();
   const [allPostsData, , refetch, isLoading] = useAllPostsInfo();
+  const axiosPublic = useAxiosPublic();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
   const [myPosts, setMyPosts] = useState([]);
@@ -19,12 +26,13 @@ const MyPosts = () => {
   const [loggedUserInfo] = useLoggedUserInfo();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showSelectedImage, setShowSelectedImage] = useState(false);
+  const [openUpdateStatus, setOpenUpdateStatus] = useState(null);
   useEffect(() => {
     const filterByEmail = allPostsData?.filter(
       (post) => post?.creator_email === user?.email
     );
     setMyPosts(filterByEmail);
-  }, [user?.email,allPostsData]);
+  }, [user?.email, allPostsData]);
   // console.log(filterByEmail);
 
   useEffect(() => {
@@ -75,6 +83,38 @@ const MyPosts = () => {
       );
     }
   };
+  const handleUpdateStatus = (id) => {
+    // console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "If the donor found then click on and this Request will disappear from post page.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes. donor received.",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic
+          .patch(`/allPosts/${id}`, {
+            status: true,
+          })
+          .then((res) => {
+            if (res.data.modifiedCount > 0) {
+              Swal.fire({
+                title: "Success!",
+                text: `Post updated.`,
+                icon: "success",
+              });
+              refetch();
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+  };
   return (
     <div className="min-h-[80vh] overflow-y-auto">
       {myPosts.length === 0 && (
@@ -82,15 +122,15 @@ const MyPosts = () => {
           <h1 className="text-2xl font-semibold">No Post Available</h1>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5 my-5 px-10 md:px-2 overflow-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 px-10 md:px-2 overflow-auto">
         {myPosts?.map((post, ind) => (
           <div className="p-border rounded-sm max-h-max" key={post._id}>
             {/* image and info */}
-            <div className="flex justify-between border-b px-1 py-1">
-              <div className="flex gap-4">
+            <div className="flex justify-between border-b mx-2 px-1 py-2">
+              <div className="flex gap-2 md:gap-4">
                 <Link to={`/availableDonors/${post?.creator_id}`}>
                   <img
-                    className="w-[50px] h-[50px] object-cover rounded-full"
+                    className="w-[50px] h-[50px] object-cover rounded-full hover:opacity-85 duration-300"
                     src={post?.creator_image}
                     alt={"creator_image.png"}
                   />
@@ -98,17 +138,58 @@ const MyPosts = () => {
                 <div>
                   <Link
                     to={`/availableDonors/${post?.creator_id}`}
-                    className="text-[14px] font-semibold"
+                    className="text-[14px] font-semibold hover:underline"
                   >
                     {post?.creator_name}
                   </Link>
-                  <p className="text-[10px]">
-                    {post?.post_created_date} at {post?.post_created_time}
+                  {/* <p className="text-[10px]">
+                                    {user?.post_created_date} at {user?.post_created_time}
+                                  </p> */}
+                  <p className="text-xs text-gray-500">
+                    Posted on {post?.post_created_date} at{" "}
+                    {post?.post_created_time}
                   </p>
-                  <p className="text-[10px]">
-                    removed on {post?.post_deadline}
-                  </p>
+                  {/* <p className="text-[10px]">
+                                    removed on {post?.post_deadline}
+                                  </p> */}
                 </div>
+              </div>
+              {/* status 3 dot */}
+              <div className="flex items-center">
+                <div className="btn-bg inline-flex items-center px-3 text-re text-white py-1 font-semibold rounded-md text-sm">
+                  <FaTint className="text-xl" fill="red" />{" "}
+                  <ShowBloodGroup blood={post?.bloodGroup} />{" "}
+                  <span className="text-white">Needed</span>
+                </div>
+
+                {post?.creator_email === loggedUserInfo?.user_email && (
+                  <div className="relative flex items-center gap-1 md:gap-5">
+                    <button
+                      className={`${
+                        openUpdateStatus === post?._id ? "text-[#b5c99a]" : ""
+                      } h-full`}
+                      onClick={() =>
+                        setOpenUpdateStatus(
+                          openUpdateStatus === post?._id ? null : post?._id
+                        )
+                      }
+                    >
+                      <BiDotsVertical size={40} />
+                    </button>
+                    <div
+                      className={`${
+                        openUpdateStatus === post?._id ? "" : "hidden"
+                      } absolute right-10 top-2 h-[80px] z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
+                    >
+                      <button
+                        onClick={() => handleUpdateStatus(post?._id)}
+                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                      >
+                        If found donor click here
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             {/* content */}
@@ -125,21 +206,131 @@ const MyPosts = () => {
                   )
                 )}
               </div>
-              {/* image */}
-              {post?.post_images.length > 0 && (
-                <div className="border-t border-[#CFE1B9] flex gap-2 flex-wrap items-center justify-center py-1">
-                  {post?.post_images?.map((image, ind) => (
-                    <div className="size-28" key={ind}>
-                      <img
-                        className="md:hover:scale-y-105 p-border hover:rounded-md duration-300 size-28 object-cover cursor-pointer"
-                        src={image}
-                        alt=""
-                        onClick={() => handleShowSelectedImage(ind, post)}
-                      />
+
+              <div>
+                {/* content */}
+                <div className="px-2 mb-2">
+                  {/* Patient Details & Donation Info */}
+                  <div className="grid grid-cols-2 gap-4 mt-4 text-sm">
+                    {/* Left Column: Patient Info */}
+                    <div className="space-y-2">
+                      <p>
+                        <span className="font-semibold">Patient Name:</span>{" "}
+                        {post?.patient_name}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Age:</span>{" "}
+                        {post?.patient_age} years
+                      </p>
+                      <p>
+                        <span className="font-semibold">Gender:</span>{" "}
+                        {post?.patient_gender}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Region:</span>{" "}
+                        {post?.patient_region}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Relation:</span>{" "}
+                        {post?.relation_with_patient}
+                      </p>
                     </div>
-                  ))}
+
+                    {/* Right Column: Donation Details */}
+                    <div className="space-y-2">
+                      <p>
+                        <span className="font-semibold">Blood Needed:</span>{" "}
+                        {post?.unit_of_blood} Bag(s)
+                      </p>
+                      <p>
+                        <span className="font-semibold">Deadline:</span>{" "}
+                        {post?.post_deadline}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Hospital:</span>{" "}
+                        {post?.hospital_location}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Location:</span>{" "}
+                        {post?.district_name}, {post?.upazila_name}
+                      </p>
+                      {post?.google_map_location && (
+                        <a
+                          href={post?.google_map_location}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white bg-primar btn-bg px-3 py-1 rounded-md text-center inline-block"
+                        >
+                          View on Google Maps
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Contact Section */}
+                  <div className="bg-gray-100 p-3 rounded-md mt-4 hid">
+                    <p className="font-semibold">Contact:</p>
+                    <p className="text-sm">{post?.primary_number}</p>
+                    {post?.alternative_number && (
+                      <p className="text-sm">{post?.alternative_number}</p>
+                    )}
+                  </div>
+                  {/* Blood Request Info */}
+
+                  {/* Contact & Hospital Info */}
+                  <div className="space-y-2">
+                    <p className="flex items-center space-x-2">
+                      <FaPhone className="text-green-500" />
+                      <span>
+                        {post?.primary_number}
+                        {post?.alternative_number &&
+                          `, ${post?.alternative_number}`}
+                      </span>
+                    </p>
+                    <p className="flex items-center space-x-2">
+                      <FaMapMarkerAlt className="text-blue-500" />
+                      <span>{post?.hospital_location}</span>
+                    </p>
+                  </div>
+
+                  {/* Medical Reason Section */}
+                  {post?.medical_reason && (
+                    <div className="mt-4">
+                      <h4 className="font-semibold text-sm mb-1">
+                        Medical Reason:
+                      </h4>
+                      <div className="text-gray-700 text-sm bg-gray-50 p-2 rounded-md max-h-[150px] overflow-auto">
+                        {post?.medical_reason
+                          .split("\n")
+                          .map((line, index) =>
+                            line.trim() !== "" ? (
+                              <p key={index}>{line}</p>
+                            ) : (
+                              <br key={index} />
+                            )
+                          )}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {/* image */}
+                {post?.post_images.length > 0 && (
+                  <div className="border-t border-[#CFE1B9] flex gap-2 flex-wrap items-center justify-center py-1">
+                    {post?.post_images?.map((image, ind) => (
+                      <div className="size-28" key={ind}>
+                        <img
+                          className="md:hover:scale-y-105 p-border hover:rounded-md duration-300 size-28 object-cover cursor-pointer"
+                          src={image}
+                          alt=""
+                          onClick={() => handleShowSelectedImage(ind, post)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* react & comment div */}
               <div className="flex items-center btn-bg gap-2 justify-between text-[14px] p-1">
                 <button className="px-2 hover:bg-[#B5C99A] py-1 rounded-md">

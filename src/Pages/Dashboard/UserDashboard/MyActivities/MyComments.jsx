@@ -59,7 +59,7 @@ const MyComments = () => {
           <div key={comment._id}>
             <Link
               state={location.pathname}
-              to={`/selected-post/${comment.selected_post_id}`}
+              to={`/selected-post/${comment?.selected_post_id}`}
             >
               {/* <Link to={`/details/${comment.selected_post_id}`}> */}
               {/* <Link> */}

@@ -115,6 +115,13 @@ const MyPosts = () => {
       }
     });
   };
+  const handleEditPost = (id) => {
+    console.log(id);
+  };
+
+  const handleDeletePost = (id) => {
+    console.log(id);
+  };
   return (
     <div className="min-h-[80vh] overflow-y-auto">
       {myPosts.length === 0 && (
@@ -142,16 +149,10 @@ const MyPosts = () => {
                   >
                     {post?.creator_name}
                   </Link>
-                  {/* <p className="text-[10px]">
-                                    {user?.post_created_date} at {user?.post_created_time}
-                                  </p> */}
                   <p className="text-xs text-gray-500">
                     Posted on {post?.post_created_date} at{" "}
                     {post?.post_created_time}
                   </p>
-                  {/* <p className="text-[10px]">
-                                    removed on {post?.post_deadline}
-                                  </p> */}
                 </div>
               </div>
               {/* status 3 dot */}
@@ -161,9 +162,10 @@ const MyPosts = () => {
                   <ShowBloodGroup blood={post?.bloodGroup} />{" "}
                   <span className="text-white">Needed</span>
                 </div>
-
+                {/* 3 dot + post + edit functionalities */}
                 {post?.creator_email === loggedUserInfo?.user_email && (
                   <div className="relative flex items-center gap-1 md:gap-5">
+                    {/* 3 dot icon */}
                     <button
                       className={`${
                         openUpdateStatus === post?._id ? "text-[#b5c99a]" : ""
@@ -176,16 +178,31 @@ const MyPosts = () => {
                     >
                       <BiDotsVertical size={40} />
                     </button>
+                    {/* status change + edit + delete functions */}
                     <div
                       className={`${
                         openUpdateStatus === post?._id ? "" : "hidden"
-                      } absolute right-10 top-2 h-[80px] z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
+                      } absolute flex flex-col gap-1 right-10 top-2 min-h-max max-h-max z- min-w-max rounded-md bg-primary shadow-md px-3 py-2`}
                     >
                       <button
                         onClick={() => handleUpdateStatus(post?._id)}
                         className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
                       >
                         If found donor click here
+                      </button>
+                      {/* edit */}
+                      <button
+                        onClick={() => handleEditPost(post?._id)}
+                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                      >
+                        Edit
+                      </button>
+                      {/* delete */}
+                      <button
+                        onClick={() => handleDeletePost(post?._id)}
+                        className="btn-b bg-primary px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
@@ -194,19 +211,6 @@ const MyPosts = () => {
             </div>
             {/* content */}
             <div>
-              {/* texts */}
-              <div className="min-h-[50px] px-1 py-2">
-                {post?.comment?.split("\n")?.map((com, ind) =>
-                  com?.trim() !== "" ? (
-                    <p className="text-[14px] mt-1" key={ind}>
-                      {com}
-                    </p>
-                  ) : (
-                    <br key={ind} />
-                  )
-                )}
-              </div>
-
               <div>
                 {/* content */}
                 <div className="px-2 mb-2">

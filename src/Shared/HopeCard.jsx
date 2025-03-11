@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 // import domtoimage from "dom-to-image";
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
@@ -6,9 +6,10 @@ import MyContainer from "./MyContainer";
 import useAuth from "../Components/hooks/useAuth";
 import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
 import ShowBloodGroup from "./ShowBloodGroup";
-import { MdOutlineBloodtype } from "react-icons/md";
-import { CiPhone } from "react-icons/ci";
-const HopeCard = () => {
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+// const HopeCard = () => {
+const HopeCard = forwardRef((props, ref) => {
   const { user } = useAuth();
 
   const [loggedUserInfo] = useLoggedUserInfo();
@@ -24,7 +25,7 @@ const HopeCard = () => {
   const [currentGradient, setCurrentGradient] = useState(gradients[0]);
   // State to store custom color
   const [customColor, setCustomColor] = useState("#ffffff");
-  // Adjust handleSimpleDownload function to improve resolution and control card size
+  // Adjust handleCardDownload function to improve resolution and control card size
   const fixOklchColors = () => {
     const elements = document.querySelectorAll("*");
 
@@ -50,144 +51,148 @@ const HopeCard = () => {
       }
     });
   };
+
+  // download content as image using html2canvas
+  const handleDownloadCardAsImage = () => {
+    // Fix any 'oklch' color issues before rendering the content
+    fixOklchColors();
+
+    // Ensure the content is updated and fully rendered before capturing
+    const contentToDownload = document.getElementById("template-div");
+
+    // Optional: Wait for any async operations to complete (useful if content is dynamic)
+    setTimeout(() => {
+      // Use html2canvas to convert the content to a canvas
+      html2canvas(contentToDownload, {
+        useCORS: true, // Enable CORS if you're loading images from an external source
+        allowTaint: true, // Allow tainting for cross-origin content
+        logging: true, // Enable logging for debugging purposes
+      })
+        .then((canvas) => {
+          // Convert canvas to image (data URL)
+          const imgData = canvas.toDataURL("image/png");
+
+          // Create a temporary link element
+          const link = document.createElement("a");
+          link.href = imgData; // Set the href to the image data URL
+          link.download = "template-content.png"; // Specify the name of the image file
+          link.click(); // Trigger the download
+        })
+        .catch((error) => {
+          console.error("Error generating image:", error);
+        });
+    }, 100); // Delay in milliseconds (if needed for rendering content)
+  };
+
+  const handleCardDownload = () => {
+    const contentToDownload = document.getElementById("card-div");
+    fixOklchColors();
+    // Ensure images are fully loaded before capturing
+    const images = contentToDownload.getElementsByTagName("img");
+    let loadedImages = 0;
+
+    for (let img of images) {
+      if (img.complete) {
+        loadedImages++;
+      } else {
+        img.onload = () => {
+          loadedImages++;
+          if (loadedImages === images.length) {
+            capturePDF(contentToDownload);
+          }
+        };
+        img.onerror = () => console.warn("Image failed to load:", img.src);
+      }
+    }
+
+    // If all images are already loaded, proceed immediately
+    if (loadedImages === images.length) {
+      capturePDF(contentToDownload);
+    }
+  };
+
+  // Separate function to handle PDF generation
+  // const capturePDF = (contentToDownload) => {
+  //   setTimeout(() => {
+  //     html2canvas(contentToDownload, {
+  //       scale: 3, // High resolution
+  //       useCORS: true, // Allow external images
+  //       allowTaint: true, // Prevent taint issues
+  //       backgroundColor: null,
+  //       width: 1011, // Standard credit card width (3.37 inches at 300 DPI)
+  //       height: 638, // Standard credit card height (2.13 inches at 300 DPI)
+  //     })
+  //       .then((canvas) => {
+  //         const imgData = canvas.toDataURL("image/png");
+
+  //         // Set card size (Credit Card: 85.6mm × 54mm)
+  //         const doc = new jsPDF({
+  //           orientation: "landscape", // Business cards are usually landscape
+  //           unit: "mm",
+  //           format: [85.6, 54], // Standard card dimensions
+  //         });
+  //         const pageWidth = doc.internal.pageSize.getWidth();
+  //         const pageHeight = doc.internal.pageSize.getHeight();
+
+  //         // Centering calculations
+  //         const imgWidth = 81.6; // Adjusted width
+  //         const imgHeight = 50; // Adjusted height
+  //         const x = (pageWidth - imgWidth) / 2; // Center horizontally
+  //         const y = (pageHeight - imgHeight) / 2; // Center vertically
+
+  //         // Add image centered inside the PDF
+  //         doc.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+  //         // Adjust the image inside the card
+  //         // doc.addImage(imgData, "PNG", 2, 2, 81.6, 50); // Add margins and fit inside the card
+
+  //         doc.save("Roktojoddha_Card.pdf");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error generating PDF:", error);
+  //       });
+  //   }, 2000);
+  // };
+  const capturePDF = (contentToDownload) => {
+    setTimeout(() => {
+      html2canvas(contentToDownload, {
+        scale: 3, // High resolution
+        useCORS: true, // Allow external images
+        allowTaint: true, // Prevent taint issues
+        backgroundColor: "#fff", // Ensure proper rendering
+      })
+        .then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+
+          // **PDF size matching the captured image**
+          const imgWidth = 85.6; // mm (Full card width)
+          const imgHeight = (canvas.height / canvas.width) * imgWidth; // Maintain aspect ratio
+
+          const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "mm",
+            format: [imgWidth, imgHeight], // Match dimensions
+          });
+
+          // **Center the image in PDF**
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const x = (pageWidth - imgWidth) / 2; // Center horizontally
+          const y = (pageHeight - imgHeight) / 2; // Center vertically
+
+          // Add the image centered inside the PDF
+          doc.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+
+          doc.save("Roktojoddha_Card.pdf");
+        })
+        .catch((error) => {
+          console.error("Error generating PDF:", error);
+        });
+    }, 2000);
+  };
+
   // Function to handle gradient change on button click
   const handleGradientChange = (index) => {
     setCurrentGradient(gradients[index]);
-  };
-  // download content as PDF using domtoimage
-  // const handleDownload = () => {
-  //   const contentToDownload = document.getElementById("template-div");
-
-  //   domtoimage
-  //     .toPng(contentToDownload, {
-  //       width: 400, // Adjust width for a medium-sized card (you can tweak this value)
-  //       height: 300, // Adjust height to fit a medium size (you can tweak this value)
-  //       style: { transform: "scale(1)" }, // Ensure no unnecessary scaling is applied
-  //     })
-  //     .then((dataUrl) => {
-  //       const doc = new jsPDF({
-  //         unit: "mm", // Use millimeters for precision
-  //         format: "a4", // Default page size is A4 (210mm x 297mm)
-  //       });
-
-  //       // Get page dimensions (A4 size)
-  //       const pageWidth = doc.internal.pageSize.getWidth(); // 210 mm
-  //       const pageHeight = doc.internal.pageSize.getHeight(); // 297 mm
-
-  //       // Content dimensions (NID card size)
-  //       const contentWidth = 85.6; // NID card width
-  //       const contentHeight = 53.98; // NID card height
-
-  //       // Calculate horizontal and vertical offsets to center the content
-  //       const offsetX = (pageWidth - contentWidth) / 2; // Horizontal center
-  //       const offsetY = (pageHeight - contentHeight) / 2; // Vertical center
-
-  //       // Add the image to the PDF, centered on the page
-  //       doc.addImage(dataUrl, "PNG", offsetX, 50, contentWidth, contentHeight);
-
-  //       // Save the generated PDF
-  //       doc.save("template-content.pdf");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error generating the image:", error);
-  //     });
-  // };
-
-  // download content as image using html2canvas
-  // const handleDownload = () => {
-  //   // Fix any 'oklch' color issues before rendering the content
-  //   fixOklchColors();
-
-  //   // Ensure the content is updated and fully rendered before capturing
-  //   const contentToDownload = document.getElementById("template-div");
-
-  //   // Optional: Wait for any async operations to complete (useful if content is dynamic)
-  //   setTimeout(() => {
-  //     // Use html2canvas to convert the content to a canvas
-  //     html2canvas(contentToDownload, {
-  //       useCORS: true, // Enable CORS if you're loading images from an external source
-  //       allowTaint: true, // Allow tainting for cross-origin content
-  //       logging: true, // Enable logging for debugging purposes
-  //     })
-  //       .then((canvas) => {
-  //         // Convert canvas to image (data URL)
-  //         const imgData = canvas.toDataURL("image/png");
-
-  //         // Create a temporary link element
-  //         const link = document.createElement("a");
-  //         link.href = imgData; // Set the href to the image data URL
-  //         link.download = "template-content.png"; // Specify the name of the image file
-  //         link.click(); // Trigger the download
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error generating image:", error);
-  //       });
-  //   }, 100); // Delay in milliseconds (if needed for rendering content)
-  // };
-
-  // download content as image using domtoimage
-  const handleDownload = () => {
-    const contentToDownload = document.getElementById("template-div");
-
-    // Use domtoimage to capture the content and generate the image
-    domtoimage
-      .toPng(contentToDownload)
-      .then((dataUrl) => {
-        console.log("dataUrl", dataUrl);
-        // Create a temporary link element
-        const link = document.createElement("a");
-        link.href = dataUrl; // Set the href to the image data URL
-        link.download = "template-content.png"; // Specify the name of the image file
-        link.click(); // Trigger the download
-        // console.log("link", link);
-      })
-      .catch((error) => {
-        console.error("Error generating image:", error);
-      });
-  };
-
-  const a = 1;
-  // download content as PDF using html2canvas need to use set-timeout
-  // const handleDownload = () => {
-  //   // Step 1: Fix 'oklch' colors before rendering the image
-  //   fixOklchColors();
-
-  //   const contentToDownload = document.getElementById("template-div");
-
-  //   html2canvas(contentToDownload)
-  //     .then((canvas) => {
-  //       const imgData = canvas.toDataURL("image/png");
-  //       const doc = new jsPDF();
-  //       doc.addImage(imgData, "PNG", 10, 10, 180, 160);
-  //       doc.save("template-content.pdf");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error generating PDF:", error);
-  //     });
-  // };
-  const handleSimpleDownload = () => {
-    const contentToDownload = document.getElementById("simple-content");
-
-    // Step 1: Fix 'oklch' colors before rendering the image
-    fixOklchColors();
-
-    // Step 2: Use html2canvas to render the content to an image
-    html2canvas(contentToDownload, {
-      width: 400, // Adjust width for medium size (tweak this value)
-      height: 300, // Adjust height for medium size (tweak this value)
-      scale: 2, // This will improve the resolution
-    })
-      .then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const doc = new jsPDF();
-
-        // Add the generated image to the PDF, adjusting size
-        doc.addImage(imgData, "PNG", 10, 10, 180, 160); // Adjust these values for a better fit
-        doc.save("simple-content.pdf");
-      })
-      .catch((error) => {
-        console.error("Error generating PDF:", error);
-      });
   };
   // Handle custom color change
   const handleCustomColorChange = (event) => {
@@ -201,34 +206,35 @@ const HopeCard = () => {
         <h1>Simple Test</h1>
         <p>This is a simple test for PDF generation.</p>
       </div>
-      <button className="hidden" onClick={handleSimpleDownload}>
-        handleSimpleDownload
+      <button className="btn my-5 hidden" onClick={handleCardDownload}>
+        handleCardDownload
       </button>
 
-      <div className="min-h-[100vh flex flex-col items-center justify-center w-full">
-        {/* Template div */}
+      <div className="min-h-[100vh flex flex-col items-center justify-center w-full rounded-lg">
+        {/* card div */}
         <div
-          id="template-div"
-          className="flex justify-between mx-auto md:gap-8 items-start flex-1 max-h-max p-4 rounded-lg shadow-lg border"
+          ref={ref}
+          id="card-div"
+          className="flex justify-between mx-auto md:gap-8 items-start flex-1 max-h-max p-4 rounded-lg shadow-lg"
           style={{ background: currentGradient }}
         >
           {/* Donor info */}
           <div className="flex flex-col items-start gap-3 flex-1">
             {/* Image */}
             <div className="flex items-center space-x-2 lg:space-x-4">
-              {user?.email ? (
-                <img
-                  className="w-20 md:w-24 h-20 md:h-24 rounded-full object-cover border-2 border-red-500"
-                  src={user?.photoURL}
-                  alt="User profile"
-                />
-              ) : (
-                <img
-                  className="h-28 w-28 border rounded-full object-cover"
-                  src="https://i.ibb.co/mtL872C/image.png"
-                  alt="Default profile image"
-                />
-              )}
+              <div
+                className="w-20 h-20 rounded-full border-2 border-red-500"
+                style={{
+                  backgroundImage: `url(${
+                    user?.email
+                      ? user?.photoURL
+                      : "https://i.ibb.co/mtL872C/image.png"
+                  })`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              ></div>
+
               <div>
                 <h2 className="text-lg lg:text-2xl font-bold">
                   {user?.displayName || "Ridoy"}
@@ -239,33 +245,58 @@ const HopeCard = () => {
               </div>
             </div>
             {/* Information Section */}
-            <div className="space-y-3 flex flex-col text-gray-700">
-              <p className="text-sm md:text-lg font-medium inline-flex items-center gap-[2px]">
-                <MdOutlineBloodtype fill="red" /> Blood Group:{" "}
-                <span className="font-semibold ml-[1px]">
+            <div className="space-y-2 flex flex-col text-gray-700">
+              <p
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  display: "block",
+                  marginBottom: "2px",
+                }}
+              >
+                <span style={{ color: "red", fontSize: "16px" }}>🩸</span> Blood
+                Group:{" "}
+                <span style={{ fontWeight: "bold" }}>
                   <ShowBloodGroup blood={loggedUserInfo?.bloodGroup || "A+"} />
                 </span>
               </p>
-              <p className="text-sm md:text-lg font-medium inline-flex items-center gap-[2px]">
-                <CiPhone fill="red" /> Mobile:{" "}
-                <span className="font-semibold ml-[1px]">017xxxxxxxx</span>
+
+              <p
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  display: "block",
+                  marginBottom: "2px",
+                }}
+              >
+                <span style={{ color: "red", fontSize: "16px" }}>📞</span>{" "}
+                Mobile: <span style={{ fontWeight: "bold" }}>017xxxxxxxx</span>
               </p>
-              <p className="text-sm md:text-lg font-medium">
+
+              <p
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  display: "block",
+                  marginBottom: "2px",
+                }}
+              >
                 📍 Address:{" "}
-                <span className="font-semibold ml-[1px]">
-                  xxxxxx, Bangladesh
-                </span>
+                <span style={{ fontWeight: "bold" }}>xxxxxx, Bangladesh</span>
               </p>
             </div>
           </div>
 
           {/* Website logo */}
           <div className="flex flex-col items-center md:gap-2">
-            <img
-              className="w-16 md:w-24 h-16 md:h-24 border rounded-full shadow-md"
-              src="https://i.ibb.co/mtL872C/image.png"
-              alt="Website Logo"
-            />
+            <div
+              className="w-20 h-20 rounded-full border-2 border-red-500"
+              style={{
+                backgroundImage: `url("https://i.ibb.co/mtL872C/image.png")`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            ></div>
             <h4 className="text-lg md:text-2xl font-bold">Roktojoddha</h4>
             <h4 className="text-lg md:text-2xl font-bold">রক্তযোদ্ধা</h4>
           </div>
@@ -295,11 +326,11 @@ const HopeCard = () => {
           </label>
         </div>
       </div>
-
       {/* ---- */}
-      {/* </div> */}
     </MyContainer>
   );
-};
-
+});
+//   );
+// };
+HopeCard.displayName = "HopeCard";
 export default HopeCard;

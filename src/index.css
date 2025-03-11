@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+ 
+}
+
+body {
+
   font-family: Georgia, "Times New Roman", Times, serif;
+  background-color: #FFFFFF;
 }
 
 .hover-bg {
@@ -35,7 +41,7 @@ body {
   /* background-color: #87986A;  */
   /* background-color: #B5C99A; */
   background-color: #97a97c;
-  /* color: whitesmoke; */
+  color: whitesmoke;
   /* padding: 5px 0px; */
   border: none;
 }
@@ -120,7 +126,8 @@ input[type="number"]::-webkit-inner-spin-button {
 /* For Firefox (using -moz-appearance) */
 input[type="number"] {
   -moz-appearance: textfield;
-  appearance: none; /* Universal fallback for other browsers */
+  appearance: none;
+  /* Universal fallback for other browsers */
 }
 
 /* Base styles for the label */
@@ -139,29 +146,35 @@ input[type="number"] {
 }
 
 /* When the input is focused or contains a valid value, move the label */
-.post-input-field:focus + .post-input-label,
-.post-input-field:valid + .post-input-label {
-  top: -0.6rem; /* Move the label above the input */
+.post-input-field:focus+.post-input-label,
+.post-input-field:valid+.post-input-label {
+  top: -0.6rem;
+  /* Move the label above the input */
   font-size: 0.75rem;
   color: #000000;
   color: #ffffff;
-  background-color: #87986a; /* dark */
+  background-color: #87986a;
+  /* dark */
   background-color: #b5c99a;
-  background-color: #97a97c; /* halka */
+  background-color: #97a97c;
+  /* halka */
   border-radius: 0.375rem;
   z-index: 10;
 }
+
 /* When the input is empty and not focused, keep the label inside */
-.post-input-field:placeholder-shown + .post-input-label {
-  top: 0.5rem; /* Label stays inside the input when empty */
-  font-size: 1rem; /* Default font size */
+.post-input-field:placeholder-shown+.post-input-label {
+  top: 0.5rem;
+  /* Label stays inside the input when empty */
+  font-size: 1rem;
+  /* Default font size */
   color: #9ca3af;
   background-color: transparent;
   padding: 0 0.5rem;
 }
 
 /* Focused state, specifically for when input is focused, for "peer-focus" handling */
-.input-peer:focus + .post-input-label {
+.input-peer:focus+.post-input-label {
   top: -0.6rem;
   font-size: 0.75rem;
   color: #ffffff;

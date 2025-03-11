@@ -79,9 +79,9 @@ const Reviews = () => {
                 <p className=" max-h-[200px] overflow-auto p-1 -ml-1">
                   {review?.review_content?.split("\n")?.map((com, ind) =>
                     com?.trim() !== "" ? (
-                      <p className="text-[16px]" key={ind}>
+                      <span className="text-[16px] block" key={ind}>
                         {com}
-                      </p>
+                      </span>
                     ) : (
                       <br key={ind} />
                     )

@@ -49,7 +49,14 @@ const MyReports = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">My Reports</h1>
+      <h1
+        className={`${
+          reports.length === 0 ? "hidden" : "block"
+        } text-3xl font-bold text-gray-800 mb-6`}
+      >
+        My Reports
+      </h1>
+
       {reports.length > 0 ? (
         <div className="grid gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reports.map((report) => {
@@ -101,7 +108,7 @@ const MyReports = () => {
           })}
         </div>
       ) : (
-        <p className="text-center text-gray-600 text-lg">
+        <p className="text-center text-gray-600 text-lg mt-8">
           You haven't reported anyone yet.
         </p>
       )}

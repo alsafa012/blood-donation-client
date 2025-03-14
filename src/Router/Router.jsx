@@ -17,6 +17,7 @@ import ShowSelectedPostDetails from "../Pages/ShowSelectedPostDetails/ShowSelect
 import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers";
 import DownloadCard from "../Pages/Dashboard/UserDashboard/DownloadCard/DownloadCard";
+import UpdatePostPage from "../Pages/AllPostPage/UpdatePostPage";
 
 const myCreatedRouter = createBrowserRouter([
   // http://localhost:5000
@@ -47,6 +48,16 @@ const myCreatedRouter = createBrowserRouter([
         ),
       },
       {
+        path: "/updatePost/:id",
+        element: (
+          <PrivateRoute>
+            <UpdatePostPage />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/allPosts/${params.id}`),
+      },
+      {
         path: "/availableDonors",
         element: <AvailableDonorPage />,
       },
@@ -54,9 +65,7 @@ const myCreatedRouter = createBrowserRouter([
         path: "/availableDonors/:id",
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
-          fetch(
-            `http://localhost:5000/available-donor/${params.id}`
-          ),
+          fetch(`http://localhost:5000/available-donor/${params.id}`),
       },
       {
         path: "/selected-post/:id",
@@ -68,9 +77,7 @@ const myCreatedRouter = createBrowserRouter([
         path: "/updateProfile/:id",
         element: <UpdateUserProfile />,
         loader: ({ params }) =>
-          fetch(
-            `http://localhost:5000/users/${params.id}`
-          ),
+          fetch(`http://localhost:5000/users/${params.id}`),
       },
     ],
   },

@@ -193,7 +193,7 @@ const MyPosts = () => {
   // };
   return (
     <div className="min-h-[80vh] overflow-y-auto">
-      <p className="text-5xl">{myPosts.length}</p>
+      {/* <p className="text-5xl">{myPosts.length}</p> */}
       {myPosts.length === 0 && (
         <div className="flex justify-center items-center min-h-[50vh]">
           <h1 className="text-2xl font-semibold">No Post Available</h1>
@@ -223,6 +223,7 @@ const MyPosts = () => {
                     Posted on {post?.post_created_date} at{" "}
                     {post?.post_created_time}
                   </p>
+                  <small>{post?._id}</small>
                 </div>
               </div>
               {/* status 3 dot */}
@@ -262,12 +263,13 @@ const MyPosts = () => {
                         If found donor click here
                       </button>
                       {/* edit */}
-                      <button
-                        onClick={() => handleEditPost(post?._id)}
+                      <Link
+                        // onClick={() => handleEditPost(post?._id)}
+                        to={`/updatePost/${post?._id}`}
                         className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
                       >
                         Edit
-                      </button>
+                      </Link>
                       {/* delete */}
                       <button
                         onClick={() =>

@@ -1,31 +1,34 @@
-import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
-import moment from "moment";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useContext, useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import MyContainer from "../../Shared/MyContainer";
-import { Link, useNavigate } from "react-router-dom";
-import { FcGallery } from "react-icons/fc";
 import { FaArrowLeft, FaEarthAfrica } from "react-icons/fa6";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
+import { useContext, useState } from "react";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
-import BloodGroupDropdown from "../../Shared/Dropdowns/BloodGroupDropdown";
-import GenderDropDown from "../../Shared/Dropdowns/GenderDropDown";
+import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
+import { LocationContext } from "../../Provider/LocationContext";
 import RegionDropdown from "../../Shared/Dropdowns/RegionDropdown";
+import GenderDropDown from "../../Shared/Dropdowns/GenderDropDown";
 import DistrictDropdown from "../../Shared/Dropdowns/DistrictDropdown";
 import UpazilaDropdown from "../../Shared/Dropdowns/UpazilaDropdown";
-import { LocationContext } from "../../Provider/LocationContext";
+import { FcGallery } from "react-icons/fc";
+import BloodGroupDropdown from "../../Shared/Dropdowns/BloodGroupDropdown";
+import axios from "axios";
+import Swal from "sweetalert2";
+import moment from "moment";
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-const CreatePostPage = () => {
+const UpdatePostPage = () => {
+  const postDetails = useLoaderData();
+  console.log("postDetails", postDetails);
   const [loggedUserInfo] = useLoggedUserInfo();
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
   const [showImageDetails, setShowImageDetails] = useState([]);
   const [showImagePreview, setShowImagePreview] = useState([]);
-  const [bloodGroup, setBloodGroup] = useState("");
-  const [gender, setGender] = useState("");
-  const [region, setRegion] = useState("");
+  const [bloodGroup, setBloodGroup] = useState(postDetails?.bloodGroup || "");
+  console.log(bloodGroup);
+  const [gender, setGender] = useState(postDetails?.patient_gender || "");
+  const [region, setRegion] = useState(postDetails?.patient_region || "");
   const {
     selectedDistrict,
     selectedDistrictName,
@@ -50,92 +53,12 @@ const CreatePostPage = () => {
   const handleGenderChange = (e) => setGender(e.target.value);
   const handleBloodGroupChange = (e) => setBloodGroup(e.target.value);
   const handleRegionChange = (e) => setRegion(e.target.value);
+  //   const handleUpdatePost = () => {
+  //     alert("handleUpdatePost");
+  //   };
 
-  const handleCreatePost = async (e) => {
-    console.log("asdasdasdasdasd");
-    e.preventDefault();
-    // Check if the selected deadline is before today
-    const form = e.target;
-    const post_deadline = form.deadline.value;
-    const unit_of_blood = form.unit_of_blood.value;
-    const relation_with_patient = form.relation_with_patient.value;
-    const patient_name = form.patient_name.value;
-    const patient_age = form.patient_age.value;
-    const comment = form.comment.value;
-    const primary_number = form.primary_number.value;
-    const alternative_number = form.alternative_number.value || "";
-    const hospital_location = form.hospital_location.value;
-    const google_map_location = form.google_map_location.value || "";
-    // Get today's date in 'YYYY-MM-DD' format
-    const today = moment().format("YYYY-MM-DD");
-    // console.log("today", today);
-    if (moment(post_deadline).isBefore(today)) {
-      Swal.fire(
-        "Invalid deadline!",
-        "Deadline cannot be in the past.",
-        "error"
-      );
-      return; // Stop further execution if deadline is invalid
-    }
-    try {
-      const uploadPromises = showImageDetails.map((imageFile) => {
-        const formData = new FormData();
-        formData.append("image", imageFile);
-        return axios.post(image_hosting_api, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-      });
+ 
 
-      const responses = await Promise.all(uploadPromises);
-      const imageUrls = responses.map(
-        (response) => response.data.data.display_url
-      );
-      // console.log(responses.data);
-      // console.log(imageUrls);
-
-      const formData = {
-        creator_id: loggedUserInfo?._id,
-        creator_name: loggedUserInfo?.user_name,
-        creator_email: loggedUserInfo?.user_email,
-        post_created_time: moment().format("LT"),
-        post_created_date: moment().format("MMMM Do YYYY"),
-        creator_image: loggedUserInfo?.user_image,
-        post_deadline: post_deadline,
-        unit_of_blood: unit_of_blood,
-        post_images: imageUrls,
-        bloodGroup: bloodGroup,
-        relation_with_patient,
-        patient_name: patient_name,
-        patient_age: patient_age,
-        patient_gender: gender,
-        patient_region: region,
-        medical_reason: comment || "",
-        primary_number,
-        alternative_number,
-        hospital_location,
-        google_map_location,
-        district_name: selectedDistrictName,
-        upazila_name: selectedUpazila,
-        found_donor_successfully: false,
-      };
-      console.log("formData", formData);
-      axiosPublic
-        .post("/allPosts", formData)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.insertedId) {
-            Swal.fire("Good job!", "Post created successfully", "success");
-          }
-          navigate("/posts");
-        })
-        .catch((err) => {
-          console.error("Error adding user:", err);
-        });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      // Handle error appropriately
-    }
-  };
   // Remove the image at the specified index from the arrays
   const handleRemoveImage = (index) => {
     const updatedShowName = [...showImageDetails];
@@ -145,21 +68,29 @@ const CreatePostPage = () => {
     setShowImageDetails(updatedShowName);
     setShowImagePreview(updatedShowImagePreview);
   };
+
+  //   const handleShowAddress = () => {
+  //     console.log("openDistrict", openDistrict);
+  //     console.log("openUpazila", openUpazila);
+  //     setOpenDistrict((prevState) => !prevState);
+  //     // setOpenUpazila((prevState) => !prevState);
+  //   };
+
   return (
     <MyContainer>
-      <WebsiteTitle name={"রক্তযোদ্ধা || Create Post"} />
+      <WebsiteTitle name={"রক্তযোদ্ধা || Update Post"} />
       {/*  */}
 
       <form
         className="flex flex-col gap-3 w-[95%] md:w-[80%] lg:w-[65%] mx-auto p-border my-1 rounded-md mb-10"
-        onSubmit={handleCreatePost}
+        onSubmit={handleUpdatePost}
       >
         {/* page Title */}
         <div className="text-center text-xl font-semibold bg-[#CFE1B9] py-2 flex items-center gap-2 pl-2">
-          <Link className="cursor-pointer" to="/posts">
+          <Link className="cursor-pointer">
             <FaArrowLeft />
           </Link>
-          <h1 className="">Create Post</h1>
+          <h1 className="">Update Post</h1>
         </div>
         {/* ------ */}
         {/* creator details */}
@@ -197,6 +128,7 @@ const CreatePostPage = () => {
               name="deadline"
               type="text" // Initially, type is text
               className="post-input-field w-full input-peer"
+              defaultValue={postDetails?.postCreatedDate}
               required
               onFocus={(e) => {
                 // Set the type to date when the field is focused
@@ -224,6 +156,11 @@ const CreatePostPage = () => {
               placeholder=""
               className="post-input-field w-full input-peer"
               required
+              defaultValue={
+                postDetails?.unit_of_blood
+                  ? Number(postDetails.unit_of_blood)
+                  : ""
+              }
             />
             <label htmlFor="unit_of_blood" className="post-input-label">
               Total Unit/Bag
@@ -256,6 +193,7 @@ const CreatePostPage = () => {
               <input
                 id="relation-with-patient"
                 name="relation_with_patient"
+                defaultValue={postDetails?.relation_with_patient}
                 placeholder=""
                 className="post-input-field w-full input-peer"
               />
@@ -282,6 +220,7 @@ const CreatePostPage = () => {
                 type="text"
                 name="patient_name"
                 placeholder=""
+                defaultValue={postDetails?.patient_name}
                 className="post-input-field w-full input-peer"
               />
               <label htmlFor="patient_name" className="post-input-label">
@@ -295,6 +234,7 @@ const CreatePostPage = () => {
                 id="patient_age"
                 type="number"
                 placeholder=""
+                defaultValue={postDetails?.patient_age}
                 className="post-input-field w-full input-peer"
               />
               <label htmlFor="patient_age" className="post-input-label">
@@ -331,6 +271,7 @@ const CreatePostPage = () => {
                 cols={5}
                 placeholder="Medical Reason (Optional)"
                 name="comment"
+                defaultValue={postDetails?.medical_reason}
               />
             </div>
           </div>
@@ -350,6 +291,7 @@ const CreatePostPage = () => {
                 name="primary_number"
                 placeholder=" "
                 className="post-input-field w-full input-peer"
+                defaultValue={postDetails?.primary_number}
                 required
               />
               <label htmlFor="primary_number" className="post-input-label">
@@ -364,6 +306,7 @@ const CreatePostPage = () => {
                 id="alternative_number"
                 name="alternative_number"
                 className="post-input-field w-full input-peer"
+                defaultValue={postDetails?.alternative_number}
                 placeholder=" "
               />
               <label htmlFor="alternative_number" className="post-input-label">
@@ -379,6 +322,7 @@ const CreatePostPage = () => {
                 name="hospital_location"
                 placeholder=" "
                 className="post-input-field w-full input-peer"
+                defaultValue={postDetails?.hospital_location}
                 required
               />
               <label htmlFor="hospital_location" className="post-input-label">
@@ -394,6 +338,7 @@ const CreatePostPage = () => {
                 name="google_map_location"
                 placeholder=" "
                 className="post-input-field w-full input-peer"
+                defaultValue={postDetails?.google_map_location}
               />
               <label htmlFor="google_map_location" className="post-input-label">
                 Google Map Location
@@ -505,5 +450,4 @@ const CreatePostPage = () => {
     </MyContainer>
   );
 };
-
-export default CreatePostPage;
+export default UpdatePostPage;

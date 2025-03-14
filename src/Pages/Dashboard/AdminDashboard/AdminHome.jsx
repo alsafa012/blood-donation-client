@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 
 const AdminHome = () => {
   const [reviewInfo, refetchReviews] = useAllReviewInfo();
-  const [allPostsData, refetch] = useAllPostsInfo();
+  const [allPostsData, refetchPostData] = useAllPostsInfo();
   const [allUsers, refetchUser] = useAllUsersInfo();
   const [allReports] = useDonorReportInfo();
 
   // const handleDeleteReports = () => {
-  //   axios.delete("https://blood-donation-server-ebon.vercel.app/reportDonor");
+  //   axios.delete("http://localhost:5000/reportDonor");
   // };
   return (
     <div className="max-h-screen overflow-y-auto">

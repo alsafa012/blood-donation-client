@@ -55,21 +55,21 @@ const myCreatedRouter = createBrowserRouter([
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/available-donor/${params.id}`
+            `http://localhost:5000/available-donor/${params.id}`
           ),
       },
       {
         path: "/selected-post/:id",
         element: <ShowSelectedPostDetails />,
         // loader: ({ params }) =>
-        //   fetch(`https://blood-donation-server-ebon.vercel.app/allPosts/${params.id}`),
+        //   fetch(`http://localhost:5000/allPosts/${params.id}`),
       },
       {
         path: "/updateProfile/:id",
         element: <UpdateUserProfile />,
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/users/${params.id}`
+            `http://localhost:5000/users/${params.id}`
           ),
       },
     ],

@@ -24,7 +24,7 @@ import useAuth from "../../Components/hooks/useAuth";
 import { FaPhone } from "react-icons/fa6";
 import { FaMapMarkerAlt, FaTint } from "react-icons/fa";
 const AllPostPage = () => {
-  const [, allPostsInfo, refetch, isLoading] = useAllPostsInfo();
+  const [, allPostsInfo, refetchPostData, isLoading] = useAllPostsInfo();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
   const [showComments1, setShowComments1] = useState([]);
@@ -101,7 +101,7 @@ const AllPostPage = () => {
                 text: `Post updated.`,
                 icon: "success",
               });
-              refetch();
+              refetchPostData();
             }
           })
           .catch((err) => {

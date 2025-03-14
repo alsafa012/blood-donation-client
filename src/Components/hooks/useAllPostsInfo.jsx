@@ -5,7 +5,7 @@ const useAllPostsInfo = () => {
   const axiosPublic = useAxiosPublic();
   const {
     data: allPostsData = [],
-    refetch,
+    refetch: refetchPostData,
     isLoading,
   } = useQuery({
     queryKey: ["allPosts"],
@@ -30,7 +30,7 @@ const useAllPostsInfo = () => {
         new Date(a.postCreatedDate).getTime()
     );
 
-  return [allPostsData, allPostsInfo, refetch, isLoading];
+  return [allPostsData, allPostsInfo, refetchPostData, isLoading];
 };
 
 export default useAllPostsInfo;

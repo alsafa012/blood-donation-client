@@ -16,24 +16,24 @@ import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
 const MyPosts = () => {
   const { user } = useAuth();
-  const [allPostsData, , refetch, isLoading] = useAllPostsInfo();
+  const [allPostsData, , refetchPostData, isLoading] = useAllPostsInfo();
   const axiosPublic = useAxiosPublic();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
-  const [myPosts, setMyPosts] = useState([]);
+  // const [myPosts, setMyPosts] = useState([]);
   const [showComments1, setShowComments1] = useState([]);
   const [selectedPostDetail, setSelectedPostDetail] = useState({});
   const [loggedUserInfo] = useLoggedUserInfo();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showSelectedImage, setShowSelectedImage] = useState(false);
   const [openUpdateStatus, setOpenUpdateStatus] = useState(null);
-  useEffect(() => {
-    const filterByEmail = allPostsData?.filter(
-      (post) => post?.creator_email === user?.email
-    );
-    setMyPosts(filterByEmail);
-  }, [user?.email, allPostsData]);
+  // useEffect(() => {
+  //   setMyPosts(filterByEmail);
+  // }, [user?.email, allPostsData]);
   // console.log(filterByEmail);
+  const myPosts = allPostsData?.filter(
+    (post) => post?.creator_email === user?.email
+  );
 
   useEffect(() => {
     if (openComment) {
@@ -84,7 +84,6 @@ const MyPosts = () => {
     }
   };
   const handleUpdateStatus = (id) => {
-    // console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "If the donor found then click on and this Request will disappear from post page.",
@@ -106,7 +105,7 @@ const MyPosts = () => {
                 text: `Post updated.`,
                 icon: "success",
               });
-              refetch();
+              refetchPostData();
             }
           })
           .catch((err) => {
@@ -118,12 +117,83 @@ const MyPosts = () => {
   const handleEditPost = (id) => {
     console.log(id);
   };
+  const handleDeletePost = (id, userId) => {
+    console.log("postId:", id);
+    console.log("userId:", loggedUserInfo?._id);
 
-  const handleDeletePost = (id) => {
-    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic
+          .delete(`/allPosts/${id}`, {
+            // data: { userId: loggedUserInfo?._id },
+            data: { userId: userId },
+          })
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.message) {
+              refetchPostData();
+              Swal.fire({
+                title: "Deleted!",
+                text: res.data.message, // Display the response message
+                icon: "success",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting post:", error);
+            Swal.fire({
+              title: "Error!",
+              text: error.response?.data?.error || "Failed to delete post",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
+
+  // const handleDeletePost = (id, userId) => {
+  //   console.log(id);
+  //   console.log("userId", userId);
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       axiosPublic
+  //         .delete(`/allPosts/${id}`, {
+  //           data: { userId: userId },
+  //         })
+  //         .then((res) => {
+  //           console.log(res.data);
+  //           if (res.data.deletedCount > 0) {
+  //             // console.log(res.data);
+  //             Swal.fire({
+  //               title: "Deleted!",
+  //               text: "Your Post has been deleted.",
+  //               icon: "success",
+  //             });
+  //           }
+  //           // refetchPostData();
+  //         });
+  //     }
+  //   });
+  // };
   return (
     <div className="min-h-[80vh] overflow-y-auto">
+      <p className="text-5xl">{myPosts.length}</p>
       {myPosts.length === 0 && (
         <div className="flex justify-center items-center min-h-[50vh]">
           <h1 className="text-2xl font-semibold">No Post Available</h1>
@@ -186,21 +256,24 @@ const MyPosts = () => {
                     >
                       <button
                         onClick={() => handleUpdateStatus(post?._id)}
-                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
+                        disabled={post?.found_donor_successfully}
                       >
                         If found donor click here
                       </button>
                       {/* edit */}
                       <button
                         onClick={() => handleEditPost(post?._id)}
-                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
                       >
                         Edit
                       </button>
                       {/* delete */}
                       <button
-                        onClick={() => handleDeletePost(post?._id)}
-                        className="btn-b bg-primary px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#b5c99a]"
+                        onClick={() =>
+                          handleDeletePost(post?._id, post?.creator_id)
+                        }
+                        className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
                       >
                         Delete
                       </button>

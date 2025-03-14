@@ -8,7 +8,7 @@ import axios from "axios";
 const MyComments = () => {
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [allPostsData, allPostsInfo, refetch, isLoading] = useAllPostsInfo(); // Fetch posts data
+  const [allPostsData, allPostsInfo, refetchPostData, isLoading] = useAllPostsInfo(); // Fetch posts data
   const [loggedUserInfo] = useLoggedUserInfo();
   const location = useLocation();
   const [myComments, setMyComments] = useState([]);
@@ -33,10 +33,10 @@ const MyComments = () => {
 
   const handleDetails = async (id) => {
     axios
-      .get(`https://blood-donation-server-ebon.vercel.app/details/${id}`)
+      .get(`http://localhost:5000/details/${id}`)
       .then((res) => console.log(res.data));
     // const response = await fetch(
-    //   `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${id}`
+    //   `http://localhost:5000/available-donor?blood=${id}`
     // );
     // const data = await response.json();
     // console.log(data);

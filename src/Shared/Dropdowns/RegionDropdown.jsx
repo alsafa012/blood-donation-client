@@ -13,7 +13,6 @@ const RegionDropdown = ({ religious, onChange, css }) => {
         <option disabled value="">
           Select Religious
         </option>
-        <option value="All">All</option>
         <option value="Islam">Islam</option>
         <option value="Hindu">Hindu</option>
         <option value="Others">Others</option>

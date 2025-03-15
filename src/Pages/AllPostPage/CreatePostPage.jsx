@@ -52,7 +52,6 @@ const CreatePostPage = () => {
   const handleRegionChange = (e) => setRegion(e.target.value);
 
   const handleCreatePost = async (e) => {
-    console.log("asdasdasdasdasd");
     e.preventDefault();
     // Check if the selected deadline is before today
     const form = e.target;
@@ -129,9 +128,19 @@ const CreatePostPage = () => {
           navigate("/posts");
         })
         .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Something went wrong!",
+            text: "Try again after sometime",
+          });
           console.error("Error adding user:", err);
         });
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong!",
+        text: "Try again after sometime",
+      });
       console.error("Error submitting form:", error);
       // Handle error appropriately
     }

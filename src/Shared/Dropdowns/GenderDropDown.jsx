@@ -13,7 +13,6 @@ const GenderDropDown = ({ gender, onChange, css }) => {
         <option disabled value="">
           Select Gender
         </option>
-        <option value="All">All</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>

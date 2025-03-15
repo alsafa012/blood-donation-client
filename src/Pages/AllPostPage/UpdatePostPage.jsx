@@ -57,7 +57,107 @@ const UpdatePostPage = () => {
   //     alert("handleUpdatePost");
   //   };
 
- 
+  const handleUpdatePost = async (e) => {
+    e.preventDefault();
+    const postId = postDetails._id;
+    // console.log(postId);
+    // Check if the selected deadline is before today
+    const form = e.target;
+    // const post_deadline = document.getElementById("deadline").value;
+    // const unit_of_blood = document.getElementById("unit_of_blood").value;
+    // const relation_with_patient = document.getElementById(
+    //   "relation_with_patient"
+    // ).value;
+    // const patient_name = document.getElementById("patient_name").value;
+    // const patient_age = document.getElementById("patient_age").value;
+    // const comment = document.getElementById("comment").value;
+    // const primary_number = document.getElementById("primary_number").value;
+    // const alternative_number =
+    //   document.getElementById("alternative_number").value || "";
+    // const hospital_location =
+    //   document.getElementById("hospital_location").value;
+    // const google_map_location =
+    //   document.getElementById("google_map_location").value || "";
+    const post_deadline = form.deadline.value;
+    const unit_of_blood = form.unit_of_blood.value;
+    const relation_with_patient = form.relation_with_patient.value;
+    const patient_name = form.patient_name.value;
+    const patient_age = form.patient_age.value;
+    const comment = form.comment.value;
+    const primary_number = form.primary_number.value;
+    const alternative_number = form.alternative_number.value || "";
+    const hospital_location = form.hospital_location.value;
+    const google_map_location = form.google_map_location.value || "";
+    // Get today's date in 'YYYY-MM-DD' format
+    const today = moment().format("YYYY-MM-DD");
+    // console.log("today", today);
+    if (moment(post_deadline).isBefore(today)) {
+      Swal.fire(
+        "Invalid deadline!",
+        "Deadline cannot be in the past.",
+        "error"
+      );
+      return; // Stop further execution if deadline is invalid
+    }
+    try {
+      const uploadPromises = showImageDetails.map((imageFile) => {
+        const formData = new FormData();
+        formData.append("image", imageFile);
+        return axios.post(image_hosting_api, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      });
+
+      const responses = await Promise.all(uploadPromises);
+      const imageUrls = responses.map(
+        (response) => response.data.data.display_url
+      );
+      // console.log(responses.data);
+      // console.log(imageUrls);
+
+      const formData = {
+        userId: loggedUserInfo?._id,
+        creator_id: postDetails?.creator_id,
+        creator_name: postDetails?.creator_name,
+        creator_email: postDetails?.creator_email,
+        post_created_time: postDetails.post_created_time,
+        post_created_date: postDetails.post_created_date,
+        post_updated_time: moment().format("LT"),
+        post_updated_date: moment().format("MMMM Do YYYY"),
+        creator_image: loggedUserInfo?.user_image,
+        post_deadline: post_deadline,
+        unit_of_blood: unit_of_blood,
+        post_images: imageUrls,
+        bloodGroup: bloodGroup,
+        relation_with_patient,
+        patient_name: patient_name,
+        patient_age: patient_age,
+        patient_gender: gender,
+        patient_region: region,
+        medical_reason: comment || "",
+        primary_number,
+        alternative_number,
+        hospital_location,
+        google_map_location,
+        district_name: selectedDistrictName,
+        upazila_name: selectedUpazila,
+        found_donor_successfully: false,
+      };
+      console.log("formData", formData);
+
+      const updateRes = await axiosPublic.put(`/allPosts/${postId}`, formData);
+      console.log(updateRes.data);
+    } catch (error) {
+        Swal.fire({
+                  icon: "error",
+                  title: "Something went wrong!",
+                  text: `${error.response.data.error}`,
+                });
+      console.error("Error submitting form:", error);
+      console.log(error.response.data.error);
+      // Handle error appropriately
+    }
+  };
 
   // Remove the image at the specified index from the arrays
   const handleRemoveImage = (index) => {
@@ -69,21 +169,14 @@ const UpdatePostPage = () => {
     setShowImagePreview(updatedShowImagePreview);
   };
 
-  //   const handleShowAddress = () => {
-  //     console.log("openDistrict", openDistrict);
-  //     console.log("openUpazila", openUpazila);
-  //     setOpenDistrict((prevState) => !prevState);
-  //     // setOpenUpazila((prevState) => !prevState);
-  //   };
-
   return (
     <MyContainer>
       <WebsiteTitle name={"রক্তযোদ্ধা || Update Post"} />
       {/*  */}
 
       <form
-        className="flex flex-col gap-3 w-[95%] md:w-[80%] lg:w-[65%] mx-auto p-border my-1 rounded-md mb-10"
         onSubmit={handleUpdatePost}
+        className="flex flex-col gap-3 w-[95%] md:w-[80%] lg:w-[65%] mx-auto p-border my-1 rounded-md mb-10"
       >
         {/* page Title */}
         <div className="text-center text-xl font-semibold bg-[#CFE1B9] py-2 flex items-center gap-2 pl-2">
@@ -128,7 +221,7 @@ const UpdatePostPage = () => {
               name="deadline"
               type="text" // Initially, type is text
               className="post-input-field w-full input-peer"
-              defaultValue={postDetails?.postCreatedDate}
+              defaultValue={postDetails?.post_deadline}
               required
               onFocus={(e) => {
                 // Set the type to date when the field is focused
@@ -191,7 +284,7 @@ const UpdatePostPage = () => {
             {/* Relation with patient */}
             <div className="relative w-full">
               <input
-                id="relation-with-patient"
+                id="relation_with_patient"
                 name="relation_with_patient"
                 defaultValue={postDetails?.relation_with_patient}
                 placeholder=""
@@ -443,7 +536,11 @@ const UpdatePostPage = () => {
           </div>
         </div>
         {/* end of form content */}
-        <button type="submit" className="btn-bg py-1 rounded-md">
+        <button
+          type="submit"
+          // onClick={() => handleUpdatePost(postDetails?._id)}
+          className="btn-bg py-1 rounded-md"
+        >
           Post Request
         </button>
       </form>

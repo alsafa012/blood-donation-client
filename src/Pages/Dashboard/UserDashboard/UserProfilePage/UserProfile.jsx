@@ -8,11 +8,13 @@ import ShowBloodGroup from "../../../../Shared/ShowBloodGroup";
 import { FaRegEdit } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
+import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
 
 const UserProfile = () => {
   const [allUsers, refetchUser] = useAllUsersInfo();
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
+  const [loggedUserInfo] = useLoggedUserInfo();
   const location = useLocation();
   // const [toggle, setToggle] = useState(false);
   const filterData = allUsers?.filter(
@@ -234,6 +236,11 @@ const UserProfile = () => {
               </div>
               {/* ------- */}
               <div className="flex flex-col gap-2 md:gap-3 px-2 border-y py-2 mb-5">
+                {user?.email === loggedUserInfo?.user_email && (
+                  <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
+                    <p>UID</p> <p className="capitalize">: {info?._id}</p>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p>Name</p> <p className="capitalize">: {info?.user_name}</p>
                 </div>

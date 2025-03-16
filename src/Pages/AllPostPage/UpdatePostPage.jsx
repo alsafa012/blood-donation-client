@@ -1,8 +1,13 @@
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import MyContainer from "../../Shared/MyContainer";
 import { FaArrowLeft, FaEarthAfrica } from "react-icons/fa6";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
 import { LocationContext } from "../../Provider/LocationContext";
@@ -19,14 +24,19 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const UpdatePostPage = () => {
   const postDetails = useLoaderData();
-  console.log("postDetails", postDetails);
+  // console.log("postDetails", postDetails);
   const [loggedUserInfo] = useLoggedUserInfo();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.pathname || "/";
   const axiosPublic = useAxiosPublic();
   const [showImageDetails, setShowImageDetails] = useState([]);
   const [showImagePreview, setShowImagePreview] = useState([]);
+  const [updating, setUpdating] = useState(false);
+  console.log("showImageDetails", showImageDetails);
+  // console.log("showImagePreview", showImagePreview);
   const [bloodGroup, setBloodGroup] = useState(postDetails?.bloodGroup || "");
-  console.log(bloodGroup);
+  // console.log(bloodGroup);
   const [gender, setGender] = useState(postDetails?.patient_gender || "");
   const [region, setRegion] = useState(postDetails?.patient_region || "");
   const {
@@ -47,37 +57,40 @@ const UpdatePostPage = () => {
     upazila,
     handleDistrictChange,
   } = useContext(LocationContext);
-  // } = useLocationContext();
-  console.log("selectedDistrictName", selectedDistrictName);
+  // console.log("selectedDistrictName", selectedDistrictName);
+  useEffect(() => {
+    // Set initial image details when the component mounts
+    setShowImageDetails(postDetails?.post_images);
+    setShowImagePreview(postDetails?.post_images);
+  }, [postDetails?.post_images]);
 
   const handleGenderChange = (e) => setGender(e.target.value);
   const handleBloodGroupChange = (e) => setBloodGroup(e.target.value);
   const handleRegionChange = (e) => setRegion(e.target.value);
-  //   const handleUpdatePost = () => {
-  //     alert("handleUpdatePost");
-  //   };
+
+
+  // Allowed image MIME types
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  const filterFiles = showImageDetails?.filter(
+    (file) => file instanceof File && !allowedTypes.includes(file.type)
+  );
+  // console.log("Filtered files:", filterFiles);
+
+  if (filterFiles.length > 0) {
+    // alert(`"use only jpeg,png, gif, webp`);
+    Swal.fire(
+      "Invalid Image Extension!",
+      "use only jpeg or png or gif or webp",
+      "info"
+    );
+    setShowImageDetails([]);
+    return;
+  }
 
   const handleUpdatePost = async (e) => {
     e.preventDefault();
-    const postId = postDetails._id;
-    // console.log(postId);
-    // Check if the selected deadline is before today
+    const postId = postDetails?._id;
     const form = e.target;
-    // const post_deadline = document.getElementById("deadline").value;
-    // const unit_of_blood = document.getElementById("unit_of_blood").value;
-    // const relation_with_patient = document.getElementById(
-    //   "relation_with_patient"
-    // ).value;
-    // const patient_name = document.getElementById("patient_name").value;
-    // const patient_age = document.getElementById("patient_age").value;
-    // const comment = document.getElementById("comment").value;
-    // const primary_number = document.getElementById("primary_number").value;
-    // const alternative_number =
-    //   document.getElementById("alternative_number").value || "";
-    // const hospital_location =
-    //   document.getElementById("hospital_location").value;
-    // const google_map_location =
-    //   document.getElementById("google_map_location").value || "";
     const post_deadline = form.deadline.value;
     const unit_of_blood = form.unit_of_blood.value;
     const relation_with_patient = form.relation_with_patient.value;
@@ -88,30 +101,60 @@ const UpdatePostPage = () => {
     const alternative_number = form.alternative_number.value || "";
     const hospital_location = form.hospital_location.value;
     const google_map_location = form.google_map_location.value || "";
+
+    
     // Get today's date in 'YYYY-MM-DD' format
     const today = moment().format("YYYY-MM-DD");
-    // console.log("today", today);
+    // Check if the selected deadline is before today
     if (moment(post_deadline).isBefore(today)) {
       Swal.fire(
         "Invalid deadline!",
         "Deadline cannot be in the past.",
         "error"
       );
-      return; // Stop further execution if deadline is invalid
+      return;
     }
     try {
+      setUpdating(true);
       const uploadPromises = showImageDetails.map((imageFile) => {
         const formData = new FormData();
         formData.append("image", imageFile);
-        return axios.post(image_hosting_api, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        return axios
+          .post(image_hosting_api, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .catch((err) => {
+            setUpdating(false);
+            // Log the error
+            // console.error("Upload failed for:", imageFile.name);
+            console.error("Upload failed for err:", err);
+            // Show error alert
+            Swal.fire({
+              icon: "error",
+              title: "Upload Failed",
+              text: `Failed to upload Image. Please try again or post without image.`,
+            });
+          });
       });
 
       const responses = await Promise.all(uploadPromises);
       const imageUrls = responses.map(
         (response) => response.data.data.display_url
       );
+      console.log("responses", responses);
+      // Extract failed uploads
+      const errors = responses
+        .filter((result) => result.status === "rejected")
+        .map((result) => result.reason);
+
+      if (errors.length > 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Upload Failed",
+          text: `Some images failed to upload. Please check your internet connection and try again.`,
+        });
+        console.error("Upload errors:", errors);
+      }
       // console.log(responses.data);
       // console.log(imageUrls);
 
@@ -120,11 +163,11 @@ const UpdatePostPage = () => {
         creator_id: postDetails?.creator_id,
         creator_name: postDetails?.creator_name,
         creator_email: postDetails?.creator_email,
+        creator_image: postDetails?.creator_image,
         post_created_time: postDetails.post_created_time,
         post_created_date: postDetails.post_created_date,
         post_updated_time: moment().format("LT"),
         post_updated_date: moment().format("MMMM Do YYYY"),
-        creator_image: loggedUserInfo?.user_image,
         post_deadline: post_deadline,
         unit_of_blood: unit_of_blood,
         post_images: imageUrls,
@@ -146,15 +189,25 @@ const UpdatePostPage = () => {
       console.log("formData", formData);
 
       const updateRes = await axiosPublic.put(`/allPosts/${postId}`, formData);
-      console.log(updateRes.data);
-    } catch (error) {
+      console.log(updateRes.data.message);
+      if (updateRes.data.message) {
         Swal.fire({
-                  icon: "error",
-                  title: "Something went wrong!",
-                  text: `${error.response.data.error}`,
-                });
+          // title: `${updateRes.data.message}`,
+          text: `${updateRes.data.message}`,
+          icon: "success",
+        });
+        navigate(from, { replace: true });
+        setUpdating(false);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong!",
+        text: `${error.response.data.error}`,
+      });
       console.error("Error submitting form:", error);
       console.log(error.response.data.error);
+      setUpdating(false);
       // Handle error appropriately
     }
   };
@@ -478,9 +531,33 @@ const UpdatePostPage = () => {
             }`}
           >
             {/* show selected image on ui */}
-            {showImageDetails?.length > 0 && (
+            {showImageDetails?.length > 0 ? (
               <div className="flex items-center justify-center gap-2 flex-wrap">
-                {showImageDetails.map((image, index) => (
+                {showImageDetails?.map((image, index) => (
+                  <div
+                    key={index}
+                    className="p-border rounded-xl overflow-hidden relative my-2"
+                  >
+                    <img
+                      className="w-28 lg:w-40 h-28 lg:h-40 object-cover"
+                      src={showImagePreview[index]}
+                      alt={image?.name}
+                    />
+                    {/* <p>{image.name}</p> */}
+                    <button
+                      type="button"
+                      title="remove"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-0 btn-bg text-white rounded w-6 md:w-8 h-6 md:h-8 flex justify-center items-center hover:bg-[#B5C99A]"
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-2 flex-wrap">
+                {showImageDetails?.map((image, index) => (
                   <div
                     key={index}
                     className="p-border rounded-xl overflow-hidden relative my-2"
@@ -537,11 +614,12 @@ const UpdatePostPage = () => {
         </div>
         {/* end of form content */}
         <button
+          disabled={updating}
           type="submit"
           // onClick={() => handleUpdatePost(postDetails?._id)}
           className="btn-bg py-1 rounded-md"
         >
-          Post Request
+          {updating ? "Updating...." : "Update Post"}
         </button>
       </form>
     </MyContainer>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAllComments from "../../../../Components/hooks/useAllComments";
 import { useEffect, useState } from "react";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
@@ -18,6 +18,7 @@ const MyPosts = () => {
   const { user } = useAuth();
   const [allPostsData, , refetchPostData, isLoading] = useAllPostsInfo();
   const axiosPublic = useAxiosPublic();
+  const location = useLocation();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
   // const [myPosts, setMyPosts] = useState([]);
@@ -27,10 +28,6 @@ const MyPosts = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showSelectedImage, setShowSelectedImage] = useState(false);
   const [openUpdateStatus, setOpenUpdateStatus] = useState(null);
-  // useEffect(() => {
-  //   setMyPosts(filterByEmail);
-  // }, [user?.email, allPostsData]);
-  // console.log(filterByEmail);
   const myPosts = allPostsData?.filter(
     (post) => post?.creator_email === user?.email
   );
@@ -113,9 +110,6 @@ const MyPosts = () => {
           });
       }
     });
-  };
-  const handleEditPost = (id) => {
-    console.log(id);
   };
   const handleDeletePost = (id, userId) => {
     console.log("postId:", id);
@@ -223,13 +217,13 @@ const MyPosts = () => {
                     Posted on {post?.post_created_date} at{" "}
                     {post?.post_created_time}
                   </p>
-                  <small>{post?._id}</small>
+                  {/* <small>{post?._id}</small> */}
                 </div>
               </div>
               {/* status 3 dot */}
               <div className="flex items-center">
-                <div className="btn-bg inline-flex items-center px-3 text-re text-white py-1 font-semibold rounded-md text-sm">
-                  <FaTint className="text-xl" fill="red" />{" "}
+                <div className="btn-bg inline-flex items-center px-1 md:px-3 text-re text-white py-1 font-semibold rounded-md text-sm">
+                  <FaTint className="text-lg" fill="red" />{" "}
                   <ShowBloodGroup blood={post?.bloodGroup} />{" "}
                   <span className="text-white">Needed</span>
                 </div>
@@ -266,6 +260,7 @@ const MyPosts = () => {
                       <Link
                         // onClick={() => handleEditPost(post?._id)}
                         to={`/updatePost/${post?._id}`}
+                        state={location.pathname}
                         className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
                       >
                         Edit

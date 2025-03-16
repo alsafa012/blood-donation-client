@@ -10,6 +10,7 @@ import BloodGroupDropdown from "../../../Shared/Dropdowns/BloodGroupDropdown";
 import GenderDropDown from "../../../Shared/Dropdowns/GenderDropDown";
 import { FaFilter } from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
+import ShowBloodGroup from "../../../Shared/ShowBloodGroup";
 
 const ManageUsers = () => {
   const [allUsers, refetchUser] = useAllUsersInfo();
@@ -29,7 +30,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
+          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
         );
 
         // Group reports by user ID
@@ -78,7 +79,7 @@ const ManageUsers = () => {
     };
 
     axios
-      .patch(`http://localhost:5000/users/${id}`, accountStatusUpdate)
+      .patch(`https://blood-donation-server-ebon.vercel.app/users/${id}`, accountStatusUpdate)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           // Optimistic UI update: Update user status immediately in the local state
@@ -110,6 +111,30 @@ const ManageUsers = () => {
         console.error(err);
       });
   };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "User ID has been copied to clipboard.",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: "Failed to copy the User ID.",
+        });
+      });
+  };
   return (
     <MyContainer>
       <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full lg:min-h-[10vh] lg:max-h-[10vh]">
@@ -139,7 +164,7 @@ const ManageUsers = () => {
               <thead>
                 <tr className="text-left bg-gray-100 text-gray-700 whitespace-nowrap">
                   <th className="px-6 py-4 text-sm font-medium">User Image</th>
-                  <th className="px-6 py-4 text-sm font-medium">User Name</th>
+                  {/* <th className="px-6 py-4 text-sm font-medium">User Name</th> */}
                   <th className="px-6 py-4 text-sm font-medium">Email</th>
                   <th className="px-6 py-4 text-sm font-medium">Reports</th>
                   <th className="px-6 py-4 text-sm font-medium">
@@ -161,23 +186,40 @@ const ManageUsers = () => {
                       className="border-b hover:bg-gray-50 transition-colors duration-300"
                     >
                       {/* image */}
-                      <td className="px-6 py-4">
-                        <img
-                          src={user.user_image || "/path-to-default-image.png"}
-                          alt={user.user_name}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
+                      <td className="px-4 py-2">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex gap-2 items-start">
+                            <img
+                              src={
+                                user.user_image || "/path-to-default-image.png"
+                              }
+                              alt={user.user_name}
+                              className="w-12 h-12 rounded-lg object-cover"
+                            />
+                            <div className="text-sm">
+                              <p className="text-nowrap text-base"> {user.user_name}</p>
+                              <ShowBloodGroup blood={user?.bloodGroup} />
+                            </div>
+                          </div>
+                          <p
+                            className="text-center text-sm cursor-pointer text-blue-500 hover:underline"
+                            onClick={() => copyToClipboard(user._id)}
+                          >
+                            {user._id}
+                          </p>
+                          {/* <p className="text-center text-sm"> {user._id}</p> */}
+                        </div>
                       </td>
                       {/* name */}
-                      <td className="px-6 py-4 text-sm text-gray-800">
+                      {/* <td className="px-4 py-2 text-sm text-gray-800">
                         {user.user_name}
-                      </td>
+                      </td> */}
                       {/* email */}
-                      <td className="px-6 py-4 text-sm text-gray-600">
+                      <td className="px-4 py-2 text-sm text-gray-600">
                         {user.user_email}
                       </td>
                       {/* Report details */}
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-4 py-2 text-sm text-gray-700">
                         <div className="flex flex-col items-center gap-1 justify-center">
                           <p>
                             {reportCount}{" "}
@@ -194,7 +236,7 @@ const ManageUsers = () => {
                         </div>
                       </td>
                       {/* User blood donation active status */}
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                      <td className="px-4 py-2 text-sm font-medium text-gray-800">
                         <span
                           className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full capitalize ${
                             user?.user_activeStatus === "active"
@@ -207,7 +249,7 @@ const ManageUsers = () => {
                       </td>
                       {/* Account status */}
 
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                      <td className="px-4 py-2 text-sm font-medium text-gray-800">
                         <div>
                           <span
                             className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full capitalize ${
@@ -222,7 +264,7 @@ const ManageUsers = () => {
                       </td>
 
                       {/* Actions */}
-                      <td className="px-6 py-4 space-x-3">
+                      <td className="px-4 py-2 space-x-3">
                         <div className="flex flex-col items-center gap-1 justify-center">
                           <Link
                             to={`/availableDonors/${user._id}`}

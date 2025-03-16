@@ -18,7 +18,7 @@ const MyReports = () => {
     queryKey: ["myReports", loggedUserInfo?._id],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:5000/myReports?reported_by=${loggedUserInfo._id}`
+        `https://blood-donation-server-ebon.vercel.app/myReports?reported_by=${loggedUserInfo._id}`
       );
       return response.data;
     },

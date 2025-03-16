@@ -30,7 +30,7 @@ const ShowAvailableDonorDetails = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/hasReported?reported_by=${loggedUserInfo._id}&reported_to=${donorDetails._id}`
+        `https://blood-donation-server-ebon.vercel.app/hasReported?reported_by=${loggedUserInfo._id}&reported_to=${donorDetails._id}`
       );
 
       if (res.data.reported) {

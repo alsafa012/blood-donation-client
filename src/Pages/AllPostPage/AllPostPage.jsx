@@ -166,22 +166,10 @@ const AllPostPage = () => {
         DeleteAllComments
       </button> */}
       <WebsiteTitle name={"রক্তযোদ্ধা || Posts"} />
-      {/* {allPostsInfo?.length === 0 ? ( */}
-      {/* <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
-          <h1 className="text-2xl font-semibold">No Post Available</h1>
-          <Link
-            onClick={NavigateCreatePostPage}
-            // to={"/createPost"}
-            className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
-          >
-            Add Request <TbHandClick size={20} />
-          </Link>
-        </div> */}
-      {/* ) : ( */}
       <div className="w-full grid grid-cols-4 lg:gap-3 mx-auto relative max-h-[85vh] overflow-auto">
         {/* left sidebar */}
         <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
-        <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
+          <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
             💉 রক্তদান করার আগে মনে রাখুন
           </h2>
           <ul className="space-y-4 text-gray-800">
@@ -225,7 +213,7 @@ const AllPostPage = () => {
                 Add A Post
               </button>
             </Link>
-            {/* post btn */}
+            {/* post btn as hidden */}
             <div className="flex items-center gap-3 hidden">
               <img
                 className="rounded-full h-12 w-12"
@@ -354,11 +342,13 @@ const AllPostPage = () => {
                           <span className="font-semibold">Deadline:</span>{" "}
                           {user?.post_deadline}
                         </p>
-                        <p>
+                        {/* hospital_location as hidden */}
+                        <p className="hidden">
                           <span className="font-semibold">Hospital:</span>{" "}
                           {user?.hospital_location}
                         </p>
-                        <p>
+                        {/* district_name as hidden */}
+                        <p className="hidden">
                           <span className="font-semibold">Location:</span>{" "}
                           {user?.district_name}, {user?.upazila_name}
                         </p>
@@ -375,8 +365,8 @@ const AllPostPage = () => {
                       </div>
                     </div>
 
-                    {/* Contact Section */}
-                    <div className="bg-gray-100 p-3 rounded-md mt-4 hid">
+                    {/* Contact Section as hidden */}
+                    <div className="bg-gray-100 p-3 rounded-md mt-4 hidden">
                       <p className="font-semibold">Contact:</p>
                       <p className="text-sm">{user?.primary_number}</p>
                       {user?.alternative_number && (
@@ -473,13 +463,13 @@ const AllPostPage = () => {
             }}
             className={`${
               showSelectedImage ? "block" : "hidden"
-            } absolute z-10`}
+            } absolute z-10 w-[90%] md:w-auto max-w-max`}
           >
             {showSelectedImage &&
               selectedPostDetail.post_images &&
               selectedPostDetail.post_images.length > 0 && (
                 <img
-                  className="object-contain md:object-fill md:min-h-[80vh] max-h-[90vh] rounded-md"
+                  className="mx-auto object-fill md:object-fill max-h-[90vh] rounded-md"
                   // src={displayImage}
                   src={selectedPostDetail.post_images[selectedImageIndex]}
                   alt="displayImage.png"
@@ -648,7 +638,6 @@ const AllPostPage = () => {
             </li>
           </ul>
         </div>
-
       </div>
       {/* )} */}
     </MyContainer>

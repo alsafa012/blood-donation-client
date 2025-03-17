@@ -193,7 +193,7 @@ const MyPosts = () => {
           <h1 className="text-2xl font-semibold">No Post Available</h1>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 px-10 md:px-2 overflow-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 px-2 md:px-2 overflow-auto">
         {myPosts?.map((post, ind) => (
           <div className="p-border rounded-sm max-h-max" key={post._id}>
             {/* image and info */}
@@ -320,20 +320,23 @@ const MyPosts = () => {
                         <span className="font-semibold">Deadline:</span>{" "}
                         {post?.post_deadline}
                       </p>
-                      <p>
+                      {/* hospital_location as hidden */}
+                      <p className="hidden">
                         <span className="font-semibold">Hospital:</span>{" "}
                         {post?.hospital_location}
                       </p>
-                      <p>
+                      {/* district_name as hidden */}
+                      <p className="hidden">
                         <span className="font-semibold">Location:</span>{" "}
                         {post?.district_name}, {post?.upazila_name}
                       </p>
+                      {/* google_map_location as hidden */}
                       {post?.google_map_location && (
                         <a
                           href={post?.google_map_location}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-white bg-primar btn-bg px-3 py-1 rounded-md text-center inline-block"
+                          className="text-white bg-primar btn-bg px-3 py-1 rounded-md text-center inline-block hidden"
                         >
                           View on Google Maps
                         </a>
@@ -341,18 +344,17 @@ const MyPosts = () => {
                     </div>
                   </div>
 
-                  {/* Contact Section */}
-                  <div className="bg-gray-100 p-3 rounded-md mt-4 hid">
+                  {/* Contact Section as hidden */}
+                  <div className="bg-gray-100 p-3 rounded-md mt-4 hidden">
                     <p className="font-semibold">Contact:</p>
                     <p className="text-sm">{post?.primary_number}</p>
                     {post?.alternative_number && (
                       <p className="text-sm">{post?.alternative_number}</p>
                     )}
                   </div>
-                  {/* Blood Request Info */}
 
                   {/* Contact & Hospital Info */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 mt-2">
                     <p className="flex items-center space-x-2">
                       <FaPhone className="text-green-500" />
                       <span>
@@ -365,6 +367,20 @@ const MyPosts = () => {
                       <FaMapMarkerAlt className="text-blue-500" />
                       <span>{post?.hospital_location}</span>
                     </p>
+                  </div>
+
+                  {/* google map navigate btn */}
+                  <div className="text-right mt-2">
+                    {post?.google_map_location && (
+                      <a
+                        href={post?.google_map_location}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white bg-primar btn-bg px-3 py-1 rounded-md text-center inline-block"
+                      >
+                        View on Google Maps
+                      </a>
+                    )}
                   </div>
 
                   {/* Medical Reason Section */}
@@ -437,18 +453,21 @@ const MyPosts = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
           }}
-          className={`${showSelectedImage ? "block" : "hidden"} absolute z-10`}
+          className={`${
+            showSelectedImage ? "block" : "hidden"
+          } absolute z-10 w-[90%] md:w-auto max-w-max`}
         >
           {showSelectedImage &&
             selectedPostDetail.post_images &&
             selectedPostDetail.post_images.length > 0 && (
               <img
-                className="object-fill md:object-fill md:min-h-[80vh] max-h-[90vh] rounded-md"
+                className="mx-auto object-fill md:object-fill max-h-[90vh] rounded-md"
                 // src={displayImage}
                 src={selectedPostDetail.post_images[selectedImageIndex]}
                 alt="displayImage.png"
               />
             )}
+          {/* cancel btn */}
           <button
             onClick={() => setShowSelectedImage(false)}
             className="absolute top-2 right-2 hover:rotate-180 transition-transform duration-300 rounded-full btn-bg"
@@ -476,7 +495,6 @@ const MyPosts = () => {
             )}
         </div>
       </div>
-
       {/* show all comment div */}
       <div
         className={`fixed z-[100] flex items-center justify-center top-0 left-0 overflow-hidden h-screen w-full border border-yellow-500 bg-black/20 backdrop-blur-sm ${

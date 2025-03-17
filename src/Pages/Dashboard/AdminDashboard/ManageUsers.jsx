@@ -79,7 +79,10 @@ const ManageUsers = () => {
     };
 
     axios
-      .patch(`https://blood-donation-server-ebon.vercel.app/users/${id}`, accountStatusUpdate)
+      .patch(
+        `https://blood-donation-server-ebon.vercel.app/users/${id}`,
+        accountStatusUpdate
+      )
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           // Optimistic UI update: Update user status immediately in the local state
@@ -89,8 +92,8 @@ const ManageUsers = () => {
                 ? {
                     ...user,
                     account_status: !accountStatus, // Toggle the account status
-                    user_activeStatus:
-                      activeStatus === "active" ? "inactive" : "active", // Toggle active status
+                    // user_activeStatus
+                    // activeStatus === "active" ? "inactive" : "active",
                   }
                 : user
             )
@@ -197,7 +200,10 @@ const ManageUsers = () => {
                               className="w-12 h-12 rounded-lg object-cover"
                             />
                             <div className="text-sm">
-                              <p className="text-nowrap text-base"> {user.user_name}</p>
+                              <p className="text-nowrap text-base">
+                                {" "}
+                                {user.user_name}
+                              </p>
                               <ShowBloodGroup blood={user?.bloodGroup} />
                             </div>
                           </div>

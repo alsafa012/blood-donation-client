@@ -8,7 +8,7 @@ const ShowDonorAsCard = forwardRef(({ availableDonor }, ref) => {
   return (
     <MyContainer>
       <div
-        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 my-5 px-1`}
+        className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5 px-1`}
       >
         {/* show searchable data */}
         {/* {[1,2,3,4,5,6,7,8,9,10]?.map((info) => ( */}

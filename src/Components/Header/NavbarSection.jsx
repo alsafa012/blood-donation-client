@@ -100,44 +100,52 @@ const NavbarSection = () => {
         {/*profile icon fiv */}
         <div className="col-span-1 flex justify-end items-center gap-2">
           {/* profile icon */}
-          <div className="relative w-fit text-black flex items-center gap-3">
-            <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
-              <IoIosNotifications size={25} />
-              <span className="absolute -top-3 -right-1">10</span>
-            </button>
-            <div onClick={() => setOpenDropdown(!openDropdown)}>
-              <img
-                // width={40}
-                // height={40}
-                className="size-8 md:size-8 rounded-full cursor-pointer bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
-                src={user?.photoURL}
-                alt="avatar"
-              />
-            </div>
+          {user ? (
+            <div className="relative w-fit text-black flex items-center gap-3">
+              <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
+                <IoIosNotifications size={25} />
+                <span className="absolute -top-3 -right-1">10</span>
+              </button>
+              <div onClick={() => setOpenDropdown(!openDropdown)}>
+                <img
+                  // width={40}
+                  // height={40}
+                  className="size-8 md:size-8 rounded-full cursor-pointer bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
+                  src={user?.photoURL}
+                  alt="avatar"
+                />
+              </div>
 
-            <ul
-              className={` ${
-                openDropdown ? "" : "hidden"
-              } absolute top-[68px] right-5 z- w-fit rounded-sm bg-primary shadow-md`}
-            >
-              {items?.map((item, idx) => (
-                <Link key={idx} to={item?.navigate}>
-                  <li
-                    onClick={() =>
-                      `${item?.name === "Log Out" && handleSignout()}`
-                    }
-                    className={`rounded-sm px-6 py-2 cursor-pointer ${
-                      item?.name === "Log Out"
-                        ? "text-red-500 hover:bg-red-600 hover:text-white"
-                        : "hover:bg-[#CFE1B9]"
-                    }`}
-                  >
-                    {item?.name}
-                  </li>
-                </Link>
-              ))}
-            </ul>
-          </div>
+              <ul
+                className={` ${
+                  openDropdown ? "" : "hidden"
+                } absolute top-[68px] right-5 z- w-fit rounded-sm bg-primary shadow-md`}
+              >
+                {items?.map((item, idx) => (
+                  <Link key={idx} to={item?.navigate}>
+                    <li
+                      onClick={() =>
+                        `${item?.name === "Log Out" && handleSignout()}`
+                      }
+                      className={`rounded-sm px-6 py-2 cursor-pointer ${
+                        item?.name === "Log Out"
+                          ? "text-red-500 hover:bg-red-600 hover:text-white"
+                          : "hover:bg-[#CFE1B9]"
+                      }`}
+                    >
+                      {item?.name}
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <Link to='/registration'>
+                <button className="btn-bg bg-primar rounded-md px-2 py-1">Login/Registration</button>
+              </Link>
+            </div>
+          )}
 
           {/* ------------------ */}
           {/* 3dot icon for mobile device */}

@@ -36,7 +36,7 @@ const BloodGroupDropdown = React.memo(({ blood, onChange, css, status }) => {
       <select
         value={blood}
         onChange={onChange}
-        className={`${css} text-sm md:text-base font-medium w-full`}
+        className={`${css} text-sm font-medium w-full`}
         required
       >
         <option disabled value="">

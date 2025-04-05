@@ -37,7 +37,7 @@ const Reviews = () => {
   }, [reviewInfo?.length]);
 
   return (
-    <div className="bg-red-50 p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row md:items-center md:justify-between">
+    <div className="bg-red-5 bg-[#E1F5DA] p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row md:items-center md:justify-between">
       {/* Left Section */}
       <div className="md:w-1/2 text-center md:text-left">
         <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2>

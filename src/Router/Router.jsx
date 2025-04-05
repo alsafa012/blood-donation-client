@@ -5,7 +5,7 @@ import AllPostPage from "../Pages/AllPostPage/AllPostPage";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import DashboardLayout from "../Layout/DashboardLayout";
 import HomePage from "../Pages/HomePage/HomePage";
-import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
+// import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
 import PrivateRoute from "./PrivateRoute";
 import ShowAvailableDonorDetails from "../Pages/AvailableDonerPage/ShowAvailableDonorDetails";
 import UserProfile from "../Pages/Dashboard/UserDashboard/UserProfilePage/UserProfile";
@@ -18,6 +18,7 @@ import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers";
 import DownloadCard from "../Pages/Dashboard/UserDashboard/DownloadCard/DownloadCard";
 import UpdatePostPage from "../Pages/AllPostPage/UpdatePostPage";
+import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
 
 const myCreatedRouter = createBrowserRouter([
   // http://localhost:5000

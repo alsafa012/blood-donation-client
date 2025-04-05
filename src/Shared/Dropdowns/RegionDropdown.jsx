@@ -7,7 +7,7 @@ const RegionDropdown = ({ religious, onChange, css }) => {
       <select
         value={religious}
         onChange={onChange}
-        className={`${css} text-sm md:text-base font-medium w-full`}
+        className={`${css} text-sm font-medium w-full`}
         required
       >
         <option disabled value="">

@@ -44,7 +44,7 @@ const DownloadCard = () => {
       // Check for background-color
       const bgColor = computedStyle.backgroundColor;
       if (bgColor.includes("oklch")) {
-        el.style.backgroundColor = "rgba(255, 99, 132, 1)"; // Fallback color
+        el.style.backgroundColor = "rgba(255, 255, 255, 0)"; // Fallback color
       }
 
       // Check for text color

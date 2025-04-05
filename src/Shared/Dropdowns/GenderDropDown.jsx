@@ -7,7 +7,7 @@ const GenderDropDown = ({ gender, onChange, css }) => {
       <select
         value={gender}
         onChange={onChange}
-        className={`${css} text-sm md:text-base font-medium w-full`}
+        className={`${css} text-sm font-medium w-full`}
         required
       >
         <option disabled value="">

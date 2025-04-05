@@ -15,8 +15,8 @@ const NavigateDonorCard = () => {
   };
   return (
     <div className="">
-      <div className="bg-red-50 p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row items-center justify-between my-5">
-        <div className=" md:w-auto lg:w-1/2 text-center md:text-left">
+      <div className="bg-[#E1F5DA] p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row items-center justify-between my-5">
+        <div className="md:w-auto lg:w-1/2 text-center md:text-left">
           <h2 className="text-xl max-w-max font-bold border-b border-dashed pb-2">
             রক্তযোদ্ধা ব্লাড কার্ড :
           </h2>
@@ -30,7 +30,7 @@ const NavigateDonorCard = () => {
             ডাউনলোড করুন →
           </button>
         </div>
-        <div className=" md:w-auto lg:w-1/2">
+        <div className="md:w-auto lg:w-1/2">
           <HopeCard />
         </div>
       </div>

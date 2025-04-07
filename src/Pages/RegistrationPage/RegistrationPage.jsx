@@ -13,14 +13,6 @@ const userReligiousStatus = [
   { id: "Hindu", label: "Hindu" },
   { id: "Others", label: "Others" },
 ];
-const maritalStatusOptions = [
-  { id: "Single", label: "Single" },
-  { id: "Married", label: "Married" },
-  { id: "Divorced", label: "Divorced" },
-  { id: "Widowed", label: "Widowed" },
-  { id: "Separated", label: "Separated" },
-  { id: "Others", label: "Others" },
-];
 const activeStatus = [
   { id: "Yes", label: "Yes" },
   { id: "No", label: "No" },
@@ -83,7 +75,6 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 const RegistrationPage = () => {
   const [showName, setShowName] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
-  const [userMaritalStatus, setUserMaritalStatus] = useState("");
   const [userReligious, setUserReligious] = useState("");
   const [userActiveStatus, setUserActiveStatus] = useState("");
   const [userGender, setUserGender] = useState("");
@@ -124,6 +115,7 @@ const RegistrationPage = () => {
     const name = form.name.value;
     const age = form.age.value;
     const phone_number = form.phone_number.value;
+    const alternative_phone_number = form.alternative_phone_number.value;
     const user_email = form.user_email.value;
     const whatsapp = form.whatsapp.value || "";
     const messenger = form.messenger.value || "";
@@ -185,13 +177,13 @@ const RegistrationPage = () => {
         user_age: age,
         bloodGroup: bloodGroup,
         phone_number: phone_number,
+        alternative_phone_number: alternative_phone_number,
         user_email: user_email,
         user_whatsapp: whatsapp,
         user_messenger: messenger,
         user_nationality: nationality,
         user_address: address,
         user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
-        user_maritalStatus: userMaritalStatus.toLowerCase(),
         user_religious: userReligious.toLowerCase(),
         user_password: password,
         user_district: selectedDistrictName,
@@ -205,6 +197,7 @@ const RegistrationPage = () => {
         account_createdTime: moment().format("MMMM Do YYYY, h:mm:ss a"),
         account_status: false,
         showImage: true,
+        user_full_address: `${address}, ${selectedUpazila}, ${selectedDistrictName}`,
       };
       console.log(userInfo);
       const response = await axiosPublic.post("/users", userInfo, {
@@ -230,10 +223,24 @@ const RegistrationPage = () => {
 
   return (
     <MyContainer>
-      <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
+      {/* <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover"> */}
+      <div className="min-h-screen">
         <WebsiteTitle name={"রক্তযোদ্ধা || Registration"} />
         <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
-          <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
+          <div
+            //   style={{
+            //     boxShadow: `
+            //   8px 8px 15px rgba(0, 0, 0, 0.1),
+            //   -8px -8px 15px rgba(255, 255, 255, 0.7),
+            //   inset 8px 8px 15px rgba(0, 0, 0, 0.1),
+            //   inset -8px -8px 15px rgba(255, 255, 255, 0.7)
+            // `,
+            //   }}
+            className="p-border  rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] xl:w-[55%] pt-2 mx-auto px-1 md:px-10"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2d3a4b] mb-6">
+              রক্তযোদ্ধা || Registration
+            </h2>
             <form onSubmit={handleRegister}>
               {/* Image */}
               <div className="">
@@ -274,39 +281,47 @@ const RegistrationPage = () => {
                 </div>
               </div>
               {/* ****************** */}
-              <div className="flex gap-2 text-center justify-center pt-5 pb-3">
+              <div className="flex text-sm gap-2 text-center justify-center pt-5 pb-3">
                 <h1>Already have an account?</h1>
                 <Link to={"/login"} className="text-[#87986A] hover:underline">
                   login here
                 </Link>
               </div>
               {/* ----------- */}
-              <div className="flex flex-col gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Name */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Name:*</label>
+                <div className="relative w-full">
                   <input
-                    name="name"
                     type="text"
-                    placeholder="Enter your name"
-                    className="input-field text-base font-medium"
+                    id="name"
+                    name="name"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Name:*
+                  </label>
                 </div>
+
                 {/* age */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Age:*</label>
+                <div className="relative w-full">
                   <input
+                    id="age"
                     name="age"
                     type="number"
-                    placeholder="Enter your age"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Enter Age:*
+                  </label>
                 </div>
+
                 {/* Blood Group:* */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
+                <div className="gri grid-cols-2 gap-2 w-full">
+                  <label className="text-base font-semibold hidden">
                     Blood Group:*
                   </label>
                   <select
@@ -315,7 +330,7 @@ const RegistrationPage = () => {
                     id="bloodGroup"
                     // value={bloodGroup}
                     onChange={(e) => setBloodGroup(e.target.value)}
-                    className="input-field text-base font-medium"
+                    className="post-input-field text-base font-medium w-full"
                     required
                   >
                     <option disabled value="">
@@ -332,102 +347,144 @@ const RegistrationPage = () => {
                   </select>
                 </div>
                 {/* phone_number */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Phone No:*</label>
+
+                <div className="relative w-full">
                   <input
+                    id="phone_number"
                     name="phone_number"
                     type="number"
-                    placeholder="Enter your Phone No"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Phone No:*
+                  </label>
                 </div>
-                {/* Email */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Email:*</label>
+                {/* alternative_phone_number */}
+
+                <div className="relative w-full">
                   <input
+                    id="alternative_phone_number"
+                    name="alternative_phone_number"
+                    type="number"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
+                  />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Alternative Phone No:* (optional)
+                  </label>
+                </div>
+
+                {/* Email */}
+                <div className="relative w-full">
+                  <input
+                    id="user_email"
                     name="user_email"
                     type="email"
-                    placeholder="Enter your email"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
-                </div>
-                {/* Whatsapp */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
-                    Whatsapp user name:*
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Email:*
                   </label>
+                </div>
+
+                {/* Whatsapp */}
+                <div className="relative w-full">
                   <input
+                    id="whatsapp"
                     name="whatsapp"
                     type="text"
-                    placeholder="Enter your whatsapp user name"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
+                    // required
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Whatsapp No:*
+                  </label>
                 </div>
                 {/* Messenger */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
-                    Messenger user name:*
-                  </label>
+                <div className="relative w-full">
                   <input
+                    id="messenger"
                     name="messenger"
                     type="text"
-                    placeholder="Enter your messenger user name"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                   />
-                </div>
-                {/* Nationality */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
-                    Nationality:*
+                  <label htmlFor="primary_number" className="post-input-label">
+                    messenger user name:*
                   </label>
+                </div>
+
+                {/* Address */}
+
+                <div className="relative w-full">
                   <input
-                    name="nationality"
-                    value="Bangladesh"
+                    id="address"
+                    name="address"
                     type="text"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
+                    required
+                  />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Address:*
+                  </label>
+                </div>
+
+                {/* Nationality */}
+                <div className="relative w-full">
+                  <input
+                    id="nationality"
+                    name="nationality"
+                    type="text"
+                    placeholder=" "
+                    value="Bangladeshi"
+                    className="post-input-field w-full input-peer"
                     readOnly
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Nationality:*
+                  </label>
                 </div>
-                {/* Address */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Address:*</label>
+
+                {/* <div></div> */}
+                {/* password */}
+
+                <div className="relative w-full">
                   <input
-                    name="address"
-                    placeholder="Enter your address"
-                    type="text"
-                    className="input-field text-base font-medium"
-                    required
-                  />
-                </div>
-                {/* Password */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Password:*</label>
-                  <input
+                    id="password"
                     name="password"
                     type="text"
-                    placeholder="Enter your password"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
-                </div>
-                {/* Re-Password */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
-                    Re-Password:*
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Password:*
                   </label>
+                </div>
+
+                {/* Re-Password */}
+                <div className="relative w-full">
                   <input
+                    id="re_password"
                     name="re_password"
                     type="text"
-                    placeholder="Re-Enter your password"
-                    className="input-field text-base font-medium"
+                    placeholder=" "
+                    className="post-input-field w-full input-peer"
                     required
                   />
+                  <label htmlFor="primary_number" className="post-input-label">
+                    Re-Password:*
+                  </label>
                 </div>
 
                 {/* user District or Division */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <label className="text-base font-semibold">Division:*</label>
                   {/* District select dropdown */}
                   <select
@@ -443,7 +500,7 @@ const RegistrationPage = () => {
 
                       setSelectedUpazila(""); // Reset selected upazila when district changes
                     }}
-                    className="input-field text-lg md:text-xl font-medium"
+                    className="post-input-field text-lg md:text-xl font-medium"
                     required
                   >
                     <option disabled value="">
@@ -458,14 +515,14 @@ const RegistrationPage = () => {
                   </select>
                 </div>
                 {/* user upazila or Area */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <label className="text-base font-semibold">Area:*</label>
                   {/* Upazila select dropdown */}
                   <select
                     // defaultValue="default"
                     value={selectedUpazila}
                     onChange={(e) => setSelectedUpazila(e.target.value)}
-                    className="input-field text-lg md:text-xl font-medium"
+                    className="post-input-field text-lg md:text-xl font-medium"
                     disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
                     required
                   >
@@ -481,45 +538,8 @@ const RegistrationPage = () => {
                   </select>
                 </div>
 
-                {/* Marital Status */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">
-                    Marital Status:*
-                  </label>
-                  <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
-                    {maritalStatusOptions?.map((status, ind) => (
-                      <div
-                        key={ind}
-                        className="text-xl flex flex-row-reverse items-center gap-[6px]"
-                      >
-                        <label
-                          htmlFor={status.id}
-                          className="font-semibold text-base md:text-lg text-black pr-5"
-                        >
-                          {status.label}
-                        </label>
-                        <input
-                          onChange={() => setUserMaritalStatus(status.id)}
-                          checked={userMaritalStatus === status.id}
-                          className="input-radio"
-                          style={{
-                            backgroundColor:
-                              userMaritalStatus === status.label
-                                ? "#87986A"
-                                : "#FFFFFF",
-                          }}
-                          type="radio"
-                          id={status.id}
-                          name="maritalStatus"
-                          value={status.id}
-                          required
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
                 {/* Religion */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <label className="text-base font-semibold">Religion:*</label>
                   <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
                     {userReligiousStatus?.map((status, ind) => (
@@ -536,7 +556,7 @@ const RegistrationPage = () => {
                         <input
                           onChange={() => setUserReligious(status.id)}
                           checked={userReligious === status.id}
-                          className="input-radio"
+                          className="input-radio p-border"
                           style={{
                             backgroundColor:
                               userReligious === status.label
@@ -554,7 +574,7 @@ const RegistrationPage = () => {
                   </div>
                 </div>
                 {/* Gender */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <label className="text-base font-semibold">Gender:*</label>
                   <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
                     {usersGender?.map((status, ind) => (
@@ -571,7 +591,7 @@ const RegistrationPage = () => {
                         <input
                           onChange={() => setUserGender(status.id)}
                           checked={userGender === status.id}
-                          className="input-radio"
+                          className="input-radio p-border"
                           style={{
                             backgroundColor:
                               userGender === status.label
@@ -589,7 +609,7 @@ const RegistrationPage = () => {
                   </div>
                 </div>
                 {/* Able to Donate Now: */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-2">
                   <label className="text-base font-semibold">
                     Able to Donate Now:*
                   </label>
@@ -608,7 +628,7 @@ const RegistrationPage = () => {
                         <input
                           onChange={() => setUserActiveStatus(status.id)}
                           checked={userActiveStatus === status.id}
-                          className="input-radio"
+                          className="input-radio p-border"
                           style={{
                             backgroundColor:
                               userActiveStatus === status.label
@@ -626,10 +646,10 @@ const RegistrationPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="mx-auto w-full text-center pt-8 pb-3 overflow-hidden">
+              <div className="mx-auto rounded-md w-full text-center mt-8 mb-3 overflow-hidden">
                 <button
                   type="submit"
-                  className="btn- w-[65%] hover:rounded-xl transition-all hover:scale-105 rounded-xl text-[#97A97C text-white bg-[#87986A] py-2 text-xl font-semibold"
+                  className="btn- w-full hover:rounded-md transition-all hover:scale-105 text-[#97A97C text-white bg-[#87986A] py-1 text-xl font-semibold"
                 >
                   {isLoading ? "loading..." : "Submit"}
                 </button>

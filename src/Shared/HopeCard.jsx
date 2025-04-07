@@ -270,7 +270,10 @@ const HopeCard = forwardRef((props, ref) => {
                 }}
               >
                 <span style={{ color: "red", fontSize: "16px" }}>📞</span>{" "}
-                Mobile: <span style={{ fontWeight: "bold" }}>017xxxxxxxx</span>
+                Mobile:{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {loggedUserInfo?.phone_number || "017xxxxxxxx"}
+                </span>
               </p>
 
               <p
@@ -280,9 +283,12 @@ const HopeCard = forwardRef((props, ref) => {
                   display: "block",
                   marginBottom: "2px",
                 }}
+                className="max-w-[300px] overflow-hidden text-wrap"
               >
                 📍 Address:{" "}
-                <span style={{ fontWeight: "bold" }}>xxxxxx, Bangladesh</span>
+                <span style={{ fontWeight: "bold" }}>
+                  {loggedUserInfo?.user_full_address || "XYZ, Bangladesh"}
+                </span>
               </p>
             </div>
           </div>

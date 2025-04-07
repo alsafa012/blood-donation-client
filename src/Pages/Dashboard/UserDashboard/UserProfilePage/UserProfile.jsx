@@ -259,12 +259,20 @@ const UserProfile = () => {
                   <p>: {info?.phone_number}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p>Contact Via Email</p>
-                  <p>: {info?.user_email}</p>
+                  <p>Alternative Phone No</p>
+                  <p>: {info?.alternative_phone_number}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
-                  <p> MaritalStatus</p>
-                  <p className="capitalize">: {info?.user_maritalStatus}</p>
+                  <p>Contact Via Email</p>
+                  <p className="inline-flex gap-1">
+                    <span>:</span>{" "}
+                    <a
+                      className="max-w-min"
+                      href={`mailto:${info?.user_email}`}
+                    >
+                      {info?.user_email}
+                    </a>
+                  </p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p> Gender</p>
@@ -277,7 +285,8 @@ const UserProfile = () => {
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">
                   <p> Address</p>
                   <p>
-                    : {info?.user_area}, {info?.user_district}
+                    : {info?.user_full_address} {info?.user_area},{" "}
+                    {info?.user_district}
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium">

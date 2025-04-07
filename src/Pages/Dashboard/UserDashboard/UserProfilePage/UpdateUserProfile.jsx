@@ -95,12 +95,10 @@ const UpdateUserProfile = () => {
   const [showName, setShowName] = useState({});
   const [showImagePreview, setShowImagePreview] = useState({});
   const userInfo = useLoaderData();
+  console.log(userInfo);
   const { user, updateUserProfile } = useAuth();
   const [errorMessage, setErrorMessage] = useState(false);
 
-  const [userMaritalStatus, setUserMaritalStatus] = useState(
-    userInfo?.user_maritalStatus || ""
-  );
   const [userReligious, setUserReligious] = useState(
     userInfo?.user_religious || ""
   );
@@ -157,12 +155,14 @@ const UpdateUserProfile = () => {
       const name = form.name.value;
       const age = form.age.value;
       const phone_number = form.phone_number.value;
+      const alternative_phone_number =
+        form.alternative_phone_number.value || "";
       const user_email = form.user_email.value;
       const whatsapp = form.whatsapp.value;
       const messenger = form.messenger.value;
       const nationality = "Bangladeshi";
       const imageFile = { image: showName };
-      // const address = form.address.value;
+      const address = form.address.value;
       // const password = form.password.value;
       // const imageFile = { image: showName };
       // Check if an image is selected
@@ -186,16 +186,18 @@ const UpdateUserProfile = () => {
         user_age: age,
         bloodGroup: bloodGroup,
         phone_number: phone_number,
+        alternative_phone_number: alternative_phone_number,
+        user_full_address: `${address}, ${selectedUpazila}, ${selectedDistrictName}`,
         user_email: user_email,
         user_whatsapp: whatsapp,
         user_messenger: messenger,
         user_nationality: nationality,
         user_activeStatus: userActiveStatus === "Yes" ? "active" : "inactive",
-        user_maritalStatus: userMaritalStatus.toLowerCase(),
         user_religious: userReligious.toLowerCase(),
         user_district: selectedDistrictName,
         user_area: selectedUpazila,
         user_gender: userGender,
+        user_address: address,
         // imageFile: imageFile,
         user_image: response?.data?.data.display_url || userInfo?.user_image,
         user_role: "donor",
@@ -344,6 +346,20 @@ const UpdateUserProfile = () => {
                     className="input-field text-sm md:text-xl font-medium"
                   />
                 </div>
+                {/* alternative_phone_number */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Alternative Phone No:*
+                  </label>
+                  <input
+                    defaultValue={userInfo?.alternative_phone_number}
+                    name="alternative_phone_number"
+                    disabled={isLoading}
+                    type="number"
+                    placeholder="Enter your Phone No"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
                 {/* Email */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base md:text-xl font-semibold">
@@ -362,14 +378,14 @@ const UpdateUserProfile = () => {
                 {/* Whatsapp */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base md:text-xl font-semibold">
-                    Whatsapp user name:*
+                    Whatsapp Number:*
                   </label>
                   <input
                     defaultValue={userInfo?.user_whatsapp}
                     name="whatsapp"
                     disabled={isLoading}
                     type="text"
-                    placeholder="Enter your whatsapp user name"
+                    placeholder="Enter your whatsapp number"
                     className="input-field text-sm md:text-xl font-medium"
                   />
                 </div>
@@ -387,7 +403,21 @@ const UpdateUserProfile = () => {
                     className="input-field text-sm md:text-xl font-medium"
                   />
                 </div>
-                {/* Nationality */}
+                {/* address */}
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="text-base md:text-xl font-semibold">
+                    Address:*
+                  </label>
+                  <input
+                    // defaultValue={userInfo?.user_nationality}
+                    name="address"
+                    disabled={isLoading}
+                    defaultValue={userInfo?.user_address}
+                    type="text"
+                    className="input-field text-sm md:text-xl font-medium"
+                  />
+                </div>
+                {/* nationality */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base md:text-xl font-semibold">
                     Nationality:*
@@ -458,44 +488,6 @@ const UpdateUserProfile = () => {
                   </select>
                 </div>
 
-                {/* Marital Status */}
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base md:text-xl font-semibold">
-                    Marital Status
-                  </label>
-                  <div className="flex flex-wrap gap text-center text-base md:text-xl font-semibold">
-                    {maritalStatusOptions?.map((status, ind) => (
-                      <div
-                        key={ind}
-                        className="text-xl flex flex-row-reverse items-center gap-[6px] capitalize"
-                      >
-                        <label
-                          htmlFor={status.id}
-                          className="font-semibold text-base md:text-lg text-black pr-5"
-                        >
-                          {status.label}
-                        </label>
-                        <input
-                          onChange={() => setUserMaritalStatus(status.id)}
-                          checked={userMaritalStatus === status.id}
-                          className="input-radio"
-                          disabled={isLoading}
-                          style={{
-                            backgroundColor:
-                              userMaritalStatus === status.label
-                                ? "#87986A"
-                                : "#FFFFFF",
-                          }}
-                          type="radio"
-                          id={status.id}
-                          //   name and value given for if need to get selected values from form
-                          name="maritalStatus"
-                          value={status.id}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
                 {/* Religion */}
                 <div className="grid grid-cols-2 gap-2">
                   <label className="text-base md:text-xl font-semibold">
@@ -536,7 +528,9 @@ const UpdateUserProfile = () => {
                 </div>
                 {/* Gender */}
                 <div className="grid grid-cols-2 gap-2">
-                  <label className="text-base font-semibold">Gender:*</label>
+                  <label className="text-base md:text-xl font-semibold">
+                    Gender:*
+                  </label>
                   <div className="flex flex-wrap gap- text-center text-base md:text-xl font-semibold">
                     {usersGender?.map((status, ind) => (
                       <div

@@ -214,6 +214,7 @@ const RegistrationPage = () => {
       Swal.fire({
         title: "Error!",
         text: "Something went wrong. Please try again.",
+        footer: error,
         icon: "error",
       });
     } finally {

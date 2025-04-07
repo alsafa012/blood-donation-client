@@ -149,6 +149,13 @@ const ShowAvailableDonorDetails = () => {
               value: donorDetails?.phone_number,
             },
             {
+              label: donorDetails?.alternative_phone_number
+                ? "Alternative Phone Number"
+                : "",
+              text: "capitalize",
+              value: donorDetails?.alternative_phone_number || "",
+            },
+            {
               label: "Contact Via Email",
               text: "",
               value: donorDetails?.user_email,
@@ -159,11 +166,6 @@ const ShowAvailableDonorDetails = () => {
               value: donorDetails?.user_gender,
             },
             {
-              label: "Marital Status",
-              text: "capitalize",
-              value: donorDetails?.user_maritalStatus,
-            },
-            {
               label: "Religion",
               text: "capitalize",
               value: donorDetails?.user_religious,
@@ -171,29 +173,38 @@ const ShowAvailableDonorDetails = () => {
             {
               label: "Address",
               text: "capitalize",
-              value: `${donorDetails?.user_area}, ${donorDetails?.user_district}`,
+              value: `${donorDetails?.user_address}, ${donorDetails?.user_area}, ${donorDetails?.user_district}`,
             },
             {
               label: "Nationality",
               text: "capitalize",
               value: donorDetails?.user_nationality,
             },
-          ].map(({ label, value, text }) => (
-            <div
-              className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium"
-              key={label}
-            >
-              <p>{label}</p>{" "}
-              <div className="flex items-center gap-1">
-                <span>:</span>
-                <span style={{ textTransform: text }}>{value}</span>
-              </div>
-            </div>
-          ))}
+          ].map(
+            ({ label, value, text }) =>
+              label && (
+                <div
+                  className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium"
+                  key={label}
+                >
+                  <p>{label}</p>{" "}
+                  <div className="flex items-start gap-1">
+                    <span>:</span>
+                    <span style={{ textTransform: text }}>{value}</span>
+                  </div>
+                </div>
+              )
+          )}
         </div>
         {/* show selected image */}
         <ShowImage
-          displayImage={donorDetails?.user_image}
+          displayImage={
+            donorDetails?.showImage
+              ? donorDetails?.user_image
+              : donorDetails?.user_gender === "Male"
+              ? "https://i.ibb.co/mtL872C/image.png"
+              : "https://i.ibb.co/270Pssg6/women-hijab.jpg"
+          }
           showImage={showImage}
           setShowImage={setShowImage}
         />

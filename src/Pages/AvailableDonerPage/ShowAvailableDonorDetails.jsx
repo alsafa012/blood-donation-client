@@ -74,12 +74,13 @@ const ShowAvailableDonorDetails = () => {
   return (
     <MyContainer>
       <WebsiteTitle name={`${donorDetails?.user_name}'s Details`} />
-      <div className="px-1 w-full md:w-[80%] lg:w-[65%] mx-auto flex gap-2 flex-col justify-center mt-2 mb-5">
-        <div className="">
+      <div className="w-[98%] md:w-[80%] lg:w-[70%] mt-2 mx-auto p-5 rounded-lg shadow-lg bg-white flex flex-col md:flex-row gap-2 md:gap-5">
+        {/* img && social links */}
+        <div className="w-full md:w-1/4 flex-shrink-0">
           <div className="">
             <img
               onClick={() => setShowImage(true)}
-              className="h-[300px] w-auto md:h-[380px] lg:h-[350px] object-contain rounded-md cursor-pointer"
+              className="h-[300px] w-full md:h-[300px] lg:h-[300px] object-cover rounded-md cursor-pointer"
               src={
                 donorDetails?.showImage
                   ? donorDetails?.user_image
@@ -126,76 +127,59 @@ const ShowAvailableDonorDetails = () => {
               </button>
             )}
           </div>
+        </div>
 
-          {/* ------------- */}
+        <div className="flex-1">
+          {/* Info Display */}
+          <h3 className="text-2xl font-semibold capitalize mb-2">
+            {donorDetails?.user_name}
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 text-base">
+            <div>
+              <span className="font-semibold">Age:</span>{" "}
+              {donorDetails?.user_age}
+            </div>
+            <div>
+              <span className="font-semibold">Blood Group:</span>{" "}
+              <ShowBloodGroup blood={donorDetails?.bloodGroup} />
+            </div>
+            <div>
+              <span className="font-semibold">Phone No:</span>{" "}
+              {donorDetails?.phone_number}
+            </div>
+            <div>
+              <span className="font-semibold">Alternative Phone:</span>{" "}
+              {donorDetails?.alternative_phone_number || "N/A"}
+            </div>
+            <div>
+              <span className="font-semibold">Email:</span>
+              <a
+                className="text-blue-500 ml-1"
+                href={`mailto:${donorDetails?.user_email}`}
+              >
+                {donorDetails?.user_email}
+              </a>
+            </div>
+            <div>
+              <span className="font-semibold">Gender:</span>{" "}
+              {donorDetails?.user_gender}
+            </div>
+            <div>
+              <span className="font-semibold">Religion:</span>{" "}
+              {donorDetails?.user_religious}
+            </div>
+            <div>
+              <span className="font-semibold">Address:</span>{" "}
+              {donorDetails?.user_full_address}, {donorDetails?.user_area},{" "}
+              {donorDetails?.user_district}
+            </div>
+            <div>
+              <span className="font-semibold">Nationality:</span>{" "}
+              {donorDetails?.user_nationality}
+            </div>
+          </div>
         </div>
-        {/* User details display */}
-        <div className="flex flex-col gap-2 px-2 border-y py-2">
-          {[
-            {
-              label: "Name",
-              text: "capitalize",
-              value: donorDetails?.user_name,
-            },
-            { label: "Age", text: "capitalize", value: donorDetails?.user_age },
-            {
-              label: "Blood Group",
-              text: "capitalize",
-              value: <ShowBloodGroup blood={donorDetails?.bloodGroup} />,
-            },
-            {
-              label: "Phone No",
-              text: "capitalize",
-              value: donorDetails?.phone_number,
-            },
-            {
-              label: donorDetails?.alternative_phone_number
-                ? "Alternative Phone Number"
-                : "",
-              text: "capitalize",
-              value: donorDetails?.alternative_phone_number || "",
-            },
-            {
-              label: "Contact Via Email",
-              text: "",
-              value: donorDetails?.user_email,
-            },
-            {
-              label: "Gender",
-              text: "capitalize",
-              value: donorDetails?.user_gender,
-            },
-            {
-              label: "Religion",
-              text: "capitalize",
-              value: donorDetails?.user_religious,
-            },
-            {
-              label: "Address",
-              text: "capitalize",
-              value: `${donorDetails?.user_address}, ${donorDetails?.user_area}, ${donorDetails?.user_district}`,
-            },
-            {
-              label: "Nationality",
-              text: "capitalize",
-              value: donorDetails?.user_nationality,
-            },
-          ].map(
-            ({ label, value, text }) =>
-              label && (
-                <div
-                  className="grid grid-cols-2 gap-2 md:gap-10 lg:gap-36 text-base md:text-lg lg:text-xl xl:text-2xl font-medium"
-                  key={label}
-                >
-                  <p>{label}</p>{" "}
-                  <div className="flex items-start gap-1">
-                    <span>:</span>
-                    <span style={{ textTransform: text }}>{value}</span>
-                  </div>
-                </div>
-              )
-          )}
-        </div>
+
         {/* show selected image */}
         <ShowImage
           displayImage={

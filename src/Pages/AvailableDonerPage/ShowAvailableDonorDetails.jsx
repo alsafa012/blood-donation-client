@@ -74,7 +74,7 @@ const ShowAvailableDonorDetails = () => {
   return (
     <MyContainer>
       <WebsiteTitle name={`${donorDetails?.user_name}'s Details`} />
-      <div className="w-[98%] md:w-[80%] lg:w-[70%] mt-2 mx-auto p-5 rounded-lg shadow-lg bg-white flex flex-col md:flex-row gap-2 md:gap-5">
+      <div className="w-[98%] md:w-[80%] lg:w-[70%] mx-auto p-5 rounded-lg shadow-lg bg-white flex flex-col md:flex-row gap-2 md:gap-5">
         {/* img && social links */}
         <div className="w-full md:w-1/4 flex-shrink-0">
           <div className="">
@@ -129,7 +129,7 @@ const ShowAvailableDonorDetails = () => {
           </div>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 mt-1 md:mt-0">
           {/* Info Display */}
           <h3 className="text-2xl font-semibold capitalize mb-2">
             {donorDetails?.user_name}

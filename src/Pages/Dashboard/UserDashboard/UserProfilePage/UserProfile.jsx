@@ -339,7 +339,7 @@ const UserProfile = () => {
                 <div className="flex-1">
                   {/* name && Action buttons */}
                   <div className="flex flex-col-reverse md:flex-row justify-between items-end md:items-start mb-2">
-                    <div className="flex flex-col gap-2 text-start w-full">
+                    <div className="flex flex-col gap-2 text-start w-full mt-2 md:mt-0">
                       <h3 className="inline-flex gap-1 text-sm">
                         <span className="font-semibold">UID:</span> {info?._id}
                       </h3>

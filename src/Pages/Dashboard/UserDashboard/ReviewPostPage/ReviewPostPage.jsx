@@ -3,20 +3,15 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../../Components/hooks/useAuth";
 import useLoggedUserInfo from "../../../../Components/hooks/useLoggedUserInfo";
 import moment from "moment";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaRegEdit } from "react-icons/fa";
-import { IoMdSend } from "react-icons/io";
 import {
   MdDeleteForever,
   MdOutlineCancel,
   MdOutlineRateReview,
 } from "react-icons/md";
-import { data } from "autoprefixer";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 import WebsiteTitle from "../../../../Shared/WebsiteTitle";
-import { RxActivityLog } from "react-icons/rx";
 import useAllReviewInfo from "../../../../Components/hooks/useAllReviewInfo";
 
 const ReviewPostPage = () => {
@@ -154,7 +149,7 @@ const ReviewPostPage = () => {
       <h1 className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 inline-flex gap-1 items-center w-full">
         <MdOutlineRateReview /> Write a Review
       </h1>
-      <form className="w-[80%] mx-auto space-y-3 mt-5" onSubmit={handleMakeReview}>
+      <form className="w-[98%] mx-auto space-y-3 mt-5" onSubmit={handleMakeReview}>
         {/* <p>{userRating}</p> */}
         <div className="flex space-x-1 justify-center">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -193,9 +188,9 @@ const ReviewPostPage = () => {
         </div>
         <button className="btn-bg px-10 py-2 rounded-md">Submit</button>
       </form>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-5">
         {reviewInfo?.map((review) => (
-          <div key={review._id} className="my-10 mx-auto">
+          <div key={review._id} className="my-10 w-ful mx-auto">
             <div className="flex justify-between items-end">
               {/* star svg */}
               <div className="flex space-x-[1px] justify-center">
@@ -232,7 +227,7 @@ const ReviewPostPage = () => {
               </div>
             </div>
             {/* review_content */}
-            <div className="py-5">
+            <div className="py-5 overflow-hidden overflow-y-auto mx-1 text-wrap max-h-[200px]">
               {review?.review_content?.split("\n")?.map((com, ind) =>
                 com?.trim() !== "" ? (
                   <p className="text-[16px]" key={ind}>

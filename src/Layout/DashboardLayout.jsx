@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import MyContainer from "../Shared/MyContainer";
 import { CgLogOut } from "react-icons/cg";
 import { FaHome, FaListUl } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import useAuth from "../Components/hooks/useAuth";
 import { IoClose } from "react-icons/io5";
 import { BiSolidHomeHeart } from "react-icons/bi";
 import { MdOutlineManageAccounts, MdOutlineRateReview } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
+import Swal from "sweetalert2";
 
 const DashboardLayout = () => {
   const { user, userSignOut } = useAuth();
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
 
   const [loggedUserInfo] = useLoggedUserInfo();
   // console.log(loggedUserInfo);
@@ -30,6 +32,28 @@ const DashboardLayout = () => {
     user,
     userSignOut,
   ]);
+
+  // Sign out function
+  const handleSignout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to sign out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        userSignOut()
+          .then(() => {
+            Swal.fire("Good job!", "User Sign out successfully", "success");
+            navigate("/");
+          })
+          .catch();
+      }
+    });
+  };
 
   return (
     <MyContainer>
@@ -173,7 +197,7 @@ const DashboardLayout = () => {
             {user && (
               <li>
                 <button
-                  //   onClick={handleUserSignOut}
+                  onClick={handleSignout}
                   className="flex items-center gap-2 red"
                 >
                   <CgLogOut size={25} />

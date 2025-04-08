@@ -138,6 +138,14 @@ const ManageUsers = () => {
         });
       });
   };
+
+  const handleRefreshFilterData = () => {
+    setSearchData("");
+    setBloodGroup("");
+    setSelectedGender("");
+    setAvailableStatus("");
+    setAccountStatus("");
+  };
   return (
     <MyContainer>
       <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full lg:min-h-[10vh] lg:max-h-[10vh]">
@@ -384,8 +392,9 @@ const ManageUsers = () => {
                   {/* Cancel icon */}
                   {searchData && (
                     <MdCancel
+                      size={25}
                       onClick={() => setSearchData("")}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                      className="absolute right-3 bg-white  top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
                     />
                   )}
                 </div>
@@ -469,8 +478,15 @@ const ManageUsers = () => {
               </div>
             </div>
             <button
-              onClick={() => setShowFilterOptions(false)}
+              // onClick={() => setShowFilterOptions(false)}
+              onClick={handleRefreshFilterData}
               className="sticky bottom-0 mt-4 w-full btn-bg text-white py-2 rounded-md"
+            >
+              Refresh
+            </button>
+            <button
+              onClick={() => setShowFilterOptions(false)}
+              className="sticky bottom-0 mt-2 w-full btn-bg text-white py-2 rounded-md"
             >
               Close
             </button>

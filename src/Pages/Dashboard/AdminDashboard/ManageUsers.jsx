@@ -5,7 +5,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import MyContainer from "../../../Shared/MyContainer";
-import { MdCancel, MdOutlineManageAccounts } from "react-icons/md";
+import {
+  MdCancel,
+  MdOutlineCancel,
+  MdOutlineManageAccounts,
+} from "react-icons/md";
 import BloodGroupDropdown from "../../../Shared/Dropdowns/BloodGroupDropdown";
 import GenderDropDown from "../../../Shared/Dropdowns/GenderDropDown";
 import { FaFilter } from "react-icons/fa6";
@@ -25,7 +29,8 @@ const ManageUsers = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [availableStatus, setAvailableStatus] = useState("");
   const [accountStatus, setAccountStatus] = useState("");
-  console.log("availableStatus", availableStatus);
+  // console.log("availableStatus", availableStatus);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -151,7 +156,8 @@ const ManageUsers = () => {
       <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full lg:min-h-[10vh] lg:max-h-[10vh]">
         <div className="relative w-full">
           <h1 className="inline-flex gap-1 items-center">
-            <MdOutlineManageAccounts /> User Information
+            <MdOutlineManageAccounts /> User Information(
+            {userReportsMap?.length})
           </h1>
           <div
             onClick={() => setShowFilterOptions(!showFilterOptions)}
@@ -369,9 +375,15 @@ const ManageUsers = () => {
       {showFilterOptions && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-96 max-w-full p-4 overflow-hidden h-[70vh] md:h-[500px] relative flex flex-col">
-            <h2 className="sticky top-0 left-0 bg-white z-10 text-xl font-semibold text-gray-800 py-1 md:py-2">
-              Filter By
-            </h2>
+            <div className="sticky top-0 left-0 bg-white flex justify-between items-center z-10 text-xl font-semibold text-gray-800 py-1 md:py-2">
+              <h2>Filter By</h2>
+              <button
+                className="hover:rotate-90 transition-transform duration-300"
+                onClick={() => setShowFilterOptions(false)}
+              >
+                <MdOutlineCancel size={35} fill="#B5C99A" />
+              </button>
+            </div>
 
             <div className="flex-1 overflow-auto px4 py-2">
               <div className="flex flex-col gap-3">
@@ -478,17 +490,17 @@ const ManageUsers = () => {
               </div>
             </div>
             <button
-              // onClick={() => setShowFilterOptions(false)}
               onClick={handleRefreshFilterData}
               className="sticky bottom-0 mt-4 w-full btn-bg text-white py-2 rounded-md"
             >
-              Refresh
+              Clear all
             </button>
             <button
+              // onClick={fetchUsers}
               onClick={() => setShowFilterOptions(false)}
               className="sticky bottom-0 mt-2 w-full btn-bg text-white py-2 rounded-md"
             >
-              Close
+              Done
             </button>
           </div>
         </div>

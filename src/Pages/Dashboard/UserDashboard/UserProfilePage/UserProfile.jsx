@@ -451,8 +451,11 @@ const UserProfile = () => {
                     </div>
                     <div>
                       <span className="font-semibold">Address:</span>{" "}
-                      {info?.user_full_address}, {info?.user_area},{" "}
-                      {info?.user_district}
+                      {info?.user_full_address
+                        ? info.user_full_address
+                        : `${info?.user_address || ""}, ${
+                            info?.user_area || ""
+                          }, ${info?.user_district || ""}`}
                     </div>
                     <div>
                       <span className="font-semibold">Nationality:</span>{" "}

@@ -290,7 +290,7 @@ const HopeCard = forwardRef((props, ref) => {
                   display: "block",
                   marginBottom: "2px",
                 }}
-                className="max-w-[300px] overflow-hidden text-wrap"
+                className="max-w-[300px] overflow-hidde text-wrap"
               >
                 📍 Address:{" "}
                 <span style={{ fontWeight: "bold" }}>

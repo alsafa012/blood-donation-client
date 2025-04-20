@@ -186,14 +186,37 @@ const MyPosts = () => {
   //   });
   // };
   return (
-    <div className="min-h-[80vh] overflow-y-auto">
+    <div className="min-h-[80vh] px-2 md:px-2 my-3 overflow-y-auto">
       {/* <p className="text-5xl">{myPosts.length}</p> */}
-      {myPosts.length === 0 && (
-        <div className="flex justify-center items-center min-h-[50vh]">
-          <h1 className="text-2xl font-semibold">No Post Available</h1>
+      {myPosts?.length === 0 && (
+        <div className="flex px-5 md:px-0 justify-center items-center min-h-[80vh]">
+          <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center border-t-4 border-red-500">
+            <div className="flex justify-center mb-4 text-red-500 text-5xl">
+              <FaTint />
+            </div>
+            <h1 className="text-lg lg:text-2xl font-bold text-gray-800 mb-2">
+              No Blood Requests Found
+            </h1>
+            <p className="text-gray-600 text-sm  mb-3 lg:mb-6">
+              Looks like you haven't requested blood yet. If you or someone in
+              need requires blood, post a request and let our donors help.
+            </p>
+            <Link
+              to="/createPost"
+              className="inline-block btn-bg text-white px-2 py-1 lg:px-6 lg:py-3 rounded-md font-semibold shadow-md hover:-skew-y-1 transition duration-300"
+            >
+              Create Blood Request
+            </Link>
+          </div>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 px-2 md:px-2 overflow-auto">
+      <h2 className="text-2xl font-bold mb-4">My Posts</h2>
+      <p className="text-gray-700 mb-6">
+        You’ve made <span className="font-semibold">{myPosts?.length}</span>{" "}
+        post
+        {myPosts?.length !== 1 ? "s" : ""} on blood requests.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 overflow-auto">
         {myPosts?.map((post, ind) => (
           <div className="p-border rounded-sm max-h-max" key={post._id}>
             {/* image and info */}
@@ -290,11 +313,12 @@ const MyPosts = () => {
                     <div className="space-y-2">
                       <p>
                         <span className="font-semibold">Patient Name:</span>{" "}
-                        {post?.patient_name}
+                        {post?.patient_name || "N/A"}
                       </p>
                       <p>
                         <span className="font-semibold">Age:</span>{" "}
-                        {post?.patient_age} years
+                        {post?.patient_age}{" "}
+                        {post?.patient_age ? "years" : "N/A"}
                       </p>
                       <p>
                         <span className="font-semibold">Gender:</span>{" "}
@@ -304,9 +328,12 @@ const MyPosts = () => {
                         <span className="font-semibold">Region:</span>{" "}
                         {post?.patient_region}
                       </p>
+
                       <p>
-                        <span className="font-semibold">Relation:</span>{" "}
-                        {post?.relation_with_patient}
+                        <span className="font-semibold">
+                          Relation with patient:
+                        </span>{" "}
+                        {post?.relation_with_patient || "N/A"}
                       </p>
                     </div>
 

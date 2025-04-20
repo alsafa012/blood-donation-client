@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MyPosts from "./MyPosts";
 import MyComments from "./MyComments";
 import MyReports from "./MyReports";
+import { FaFlag, FaRegCommentDots, FaRegNewspaper } from "react-icons/fa";
 
 const MyActivities = () => {
   const [activities, setActivities] = useState(() => {
@@ -11,38 +12,31 @@ const MyActivities = () => {
     // Update localStorage whenever activities state changes
     localStorage.setItem("activities", activities);
   }, [activities]);
+  const tabs = [
+    { id: "posts", label: "Posts", icon: <FaRegNewspaper /> },
+    { id: "comments", label: "Comments", icon: <FaRegCommentDots /> },
+    { id: "reports", label: "Reports", icon: <FaFlag /> },
+  ];
 
   return (
     <div className="min-h-screen max-h-screen overflow-y-auto">
-      <div className="flex overflow-x-auto justify-center gap-5 overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
-        {/* Posts */}
-        <button
-          onClick={() => setActivities("posts")}
-          className={`${
-            activities === "posts" ? "border-b-2 border-blue-500" : ""
-          } inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none`}
-        >
-          Posts
-        </button>
-        {/* comments */}
-        <button
-          onClick={() => setActivities("comments")}
-          className={`${
-            activities === "comments" ? "border-b-2 border-blue-500" : ""
-          } inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none`}
-        >
-          Comments
-        </button>
-
-        {/* report */}
-        <button
-          onClick={() => setActivities("reports")}
-          className={`${
-            activities === "reports" ? "border-b-2 border-blue-500" : ""
-          } inline-flex items-center h-10 px-4 -mb-px text-sm text-center text-blue-600 bg-transparent sm:text-base dark:border-blue-400 dark:text-blue-300 whitespace-nowrap focus:outline-none`}
-        >
-          Reports
-        </button>
+      <div className="h-[60px] md:h-[60px] sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-sm">
+        <div className="flex justify-center h-full overflow-x-auto border-b border-[#cfe1b9] dark:border-gray-700">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActivities(tab.id)}
+              className={`inline-flex items-center gap-2 px-5 text-sm sm:text-base whitespace-nowrap transition-all duration-200 ${
+                activities === tab.id
+                  ? "border-b-2 border-[#87986a] p-text  font-medium"
+                  : "text-gray-500 dark:text-gray-400 hover:text-[#87986a]"
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
       {activities === "posts" && <MyPosts />}
       {activities === "comments" && <MyComments />}

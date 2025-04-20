@@ -48,18 +48,19 @@ const MyReports = () => {
   }
 
   return (
-    <div className="p-6 min-h-screen">
-      <h1
-        className={`${
-          reports.length === 0 ? "hidden" : "block"
-        } text-3xl font-bold text-gray-800 mb-6`}
-      >
-        My Reports
-      </h1>
+    <div className="min-h-[80vh] px-2 md:px-2 my-3 overflow-y-auto">
+      <div className={`${reports.length === 0 ? "hidden" : "block"}`}>
+        <h2 className="text-2xl font-bold mb-4"> My Reports</h2>
+        <p className="text-gray-700 mb-6">
+          You’ve made <span className="font-semibold">{reports?.length}</span>{" "}
+          post
+          {reports?.length !== 1 ? "s" : ""} on blood requests.
+        </p>
+      </div>
 
-      {reports.length > 0 ? (
+      {reports?.length > 0 ? (
         <div className="grid gap-2 md:gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {reports.map((report) => {
+          {reports?.map((report) => {
             const reportedUser = allUsers?.find(
               (user) => user._id === report.reported_to
             );

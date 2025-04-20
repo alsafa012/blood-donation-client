@@ -170,8 +170,13 @@ const ShowAvailableDonorDetails = () => {
             </div>
             <div>
               <span className="font-semibold">Address:</span>{" "}
-              {donorDetails?.user_full_address}, {donorDetails?.user_area},{" "}
-              {donorDetails?.user_district}
+              {donorDetails?.user_full_address
+                ? donorDetails.user_full_address
+                : `${donorDetails?.user_address || ""}, ${
+                    donorDetails?.user_area || ""
+                  }, ${donorDetails?.user_district || ""}`}
+              {/* {donorDetails?.user_full_address}, {donorDetails?.user_area},{" "}
+              {donorDetails?.user_district} */}
             </div>
             <div>
               <span className="font-semibold">Nationality:</span>{" "}

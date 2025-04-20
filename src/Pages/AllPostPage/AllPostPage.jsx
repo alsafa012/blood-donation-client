@@ -312,11 +312,12 @@ const AllPostPage = () => {
                       <div className="space-y-2">
                         <p>
                           <span className="font-semibold">Patient Name:</span>{" "}
-                          {user?.patient_name}
+                          {user?.patient_name || "N/A"}
                         </p>
                         <p>
                           <span className="font-semibold">Age:</span>{" "}
-                          {user?.patient_age} years
+                          {user?.patient_age}{" "}
+                          {user?.patient_age ? "years" : "N/A"}
                         </p>
                         <p>
                           <span className="font-semibold">Gender:</span>{" "}
@@ -327,8 +328,10 @@ const AllPostPage = () => {
                           {user?.patient_region}
                         </p>
                         <p>
-                          <span className="font-semibold">Relation:</span>{" "}
-                          {user?.relation_with_patient}
+                          <span className="font-semibold">
+                            Relation with patient:
+                          </span>{" "}
+                          {user?.relation_with_patient || "N/A"}
                         </p>
                       </div>
 

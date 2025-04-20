@@ -75,8 +75,14 @@ const myCreatedRouter = createBrowserRouter([
       {
         path: "/selected-post/:id",
         element: <ShowSelectedPostDetails />,
+        loader: ({ params }) =>
+          fetch(
+            `https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`
+          ),
         // loader: ({ params }) =>
-        //   fetch(`https://blood-donation-server-ebon.vercel.app/allPosts/${params.id}`),
+        //   fetch(
+        //     `https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`
+        //   ),
       },
       {
         path: "/updateProfile/:id",

@@ -71,8 +71,8 @@ const fakeData = Array.from({ length: 55 }, (_, i) => ({
 }));
 const AvailableDonorPage = () => {
   const donorListRef = useRef();
-  console.log(donorListRef);
-  console.log(donorListRef.current);
+  // console.log(donorListRef);
+  // console.log(donorListRef.current);
 
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -98,8 +98,6 @@ const AvailableDonorPage = () => {
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
-  const getEmail = availableDonor.map((email) => email.user_email);
-  console.log("getEmail", getEmail);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -303,6 +301,12 @@ const AvailableDonorPage = () => {
     // setHide(false);
   };
 
+  const handleInstantRequest = () => {
+    alert("Functionality not ready");
+    const getEmail = availableDonor?.map((email) => email.user_email);
+    console.log("getEmail", getEmail);
+  };
+
   // const handleDownload = async () => {
   //   setHide(true);
   //   fixOklchColors();
@@ -502,6 +506,13 @@ const AvailableDonorPage = () => {
           className="btn-bg rounded-md px-3 text-sm py-1"
         >
           {hide ? "Downloading..." : "Download List"}
+        </button>
+
+        <button
+          onClick={handleInstantRequest}
+          className="btn-bg rounded-md px-3 text-sm py-1"
+        >
+          Instant Request
         </button>
         {/* <button onClick={handleDelete} className="btn btn-primary">
           Delete

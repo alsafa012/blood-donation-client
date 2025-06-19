@@ -4,7 +4,7 @@ const ReviewSection = () => {
   const [loggedUserInfo] = useLoggedUserInfo();
   // const {loggedUserInfo} = useLoggedUserInfo()
 
-  console.log(loggedUserInfo);
+  // console.log(loggedUserInfo);
   const handleSendEmail = (e) => {
     e.preventDefault();
     const formInput = e.target;
@@ -26,7 +26,7 @@ const ReviewSection = () => {
         Messenger: ${loggedUserInfo?.user_messenger}
       `,
     };
-    console.log(formData);
+    // console.log(formData);
 
     fetch("https://yourmailsender.pythonanywhere.com/send/mail/", {
       method: "POST",

@@ -13,7 +13,7 @@ const HopeCard = forwardRef((props, ref) => {
   const { user } = useAuth();
 
   const [loggedUserInfo] = useLoggedUserInfo();
-  console.log(loggedUserInfo);
+  // console.log(loggedUserInfo);
 
   const gradients = [
     "radial-gradient(circle farthest-corner at 14.2% 27.5%, rgba(104, 199, 255, 1) 0%, rgba(181, 126, 255, 1) 90%)",

@@ -11,7 +11,7 @@ const Reviews = () => {
   const [reviewInfo] = useAllReviewInfo();
   const navigate = useNavigate();
   const [currentSlider, setCurrentSlider] = useState(0);
-  console.log(reviewInfo);
+  // console.log(reviewInfo);
   const NavigateAddReviewPage = () => {
     if (user) {
       navigate("/dashboard/review");

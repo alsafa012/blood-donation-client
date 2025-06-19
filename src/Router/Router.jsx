@@ -56,9 +56,7 @@ const myCreatedRouter = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/allPosts/${params.id}`
-          ),
+          fetch(`https://blood-donation-server-ebon.vercel.app/allPosts/${params.id}`),
       },
       {
         path: "/availableDonors",
@@ -68,29 +66,19 @@ const myCreatedRouter = createBrowserRouter([
         path: "/availableDonors/:id",
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/available-donor/${params.id}`
-          ),
+          fetch(`https://blood-donation-server-ebon.vercel.app/available-donor/${params.id}`),
       },
       {
         path: "/selected-post/:id",
         element: <ShowSelectedPostDetails />,
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`
-          ),
-        // loader: ({ params }) =>
-        //   fetch(
-        //     `https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`
-        //   ),
+          fetch(`https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`),
       },
       {
         path: "/updateProfile/:id",
         element: <UpdateUserProfile />,
         loader: ({ params }) =>
-          fetch(
-            `https://blood-donation-server-ebon.vercel.app/users/${params.id}`
-          ),
+          fetch(`https://blood-donation-server-ebon.vercel.app/users/${params.id}`),
       },
     ],
   },

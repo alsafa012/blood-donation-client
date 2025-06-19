@@ -29,13 +29,14 @@ const ManageUsers = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [availableStatus, setAvailableStatus] = useState("");
   const [accountStatus, setAccountStatus] = useState("");
-  // console.log("availableStatus", availableStatus);
+  const [reportStatus, setReportStatus] = useState("");
+  console.log("reportStatus", reportStatus);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}`
+          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}&reportStatus=${reportStatus}`
         );
 
         // Group reports by user ID
@@ -51,6 +52,11 @@ const ManageUsers = () => {
         // setAllUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Something went wrong!",
+          text: "Try after sometimes",
+        });
       }
     };
     fetchUsers();
@@ -484,6 +490,31 @@ const ManageUsers = () => {
                       <option value="All">All</option>
                       <option value="activate">Activate</option>
                       <option value="deactivate">Deactivate</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Account Active Status */}
+                <div className="grid grid-cols-3 gap-2 items-center">
+                  <label className="text-nowrap flex justify-between">
+                    <span>Report Status</span>
+                    <span>:</span>
+                  </label>
+                  <div className="w-full col-span-2">
+                    <select
+                      value={reportStatus}
+                      id="available_status"
+                      onChange={(e) => setReportStatus(e.target.value)}
+                      className="post-input-field text-base font-medium w-full"
+                    >
+                      <option disabled value="">
+                        Select
+                      </option>
+                      <option value="All">All</option>
+                      <option value="reported_users">Reported users</option>
+                      <option value="non_reported_users">
+                        Non Reported users
+                      </option>
                     </select>
                   </div>
                 </div>

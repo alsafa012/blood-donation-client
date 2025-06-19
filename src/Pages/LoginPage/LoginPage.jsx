@@ -30,33 +30,23 @@ const LoginPage = () => {
     }
     setIsLoading(true);
     const form = e.target;
-    const user_email = form.email.value;
+    const user_email = form.email.value.trim();
     const password = form.password.value;
+    // console.log("login via", user_email);
 
     try {
       // Check account status by calling backend API
       const accountStatusResponse = await axios.post(
-        "https://blood-donation-server-ebon.vercel.app/login",
+        // "https://blood-donation-server-ebon.vercel.app/login",
+        "http://localhost:5000/login",
         { user_email, password }
       );
-      const { user, message } = accountStatusResponse.data;
-      console.log("user", user);
-      console.log("message ", message);
+      const { user: userEmail, message } = accountStatusResponse.data;
+      // console.log("user", userEmail);
+      // console.log("message ", message);
 
-      if (user?.account_status === true) {
-        // If account is suspended, show an error and stop further login
-        setIsLoading(false);
-        Swal.fire({
-          title: "Account Suspended!",
-          text: "This account has been suspended. For more information, please contact support.",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
-        return;
-      }
-
-      // If account is active, proceed with Firebase authentication
-      await userSignIn(user_email, password);
+      // proceed with Firebase authentication
+      await userSignIn(userEmail, password);
       setIsLoading(false);
 
       Swal.fire("Good job!", "User login successfully", "success");
@@ -123,7 +113,7 @@ const LoginPage = () => {
                   className="absolute left-2 top-0.5 text-xs text-[#1B8EF8] duration-300 peer-placeholder-shown:left-2 peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-2 peer-focus:top-0.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-[#1B8EF8]"
                   htmlFor="navigate_ui_input_55"
                 >
-                  Email
+                  Email or Phone number
                 </label>
               </div>
               {/* new Pass */}

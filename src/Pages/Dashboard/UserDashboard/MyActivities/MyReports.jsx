@@ -92,7 +92,7 @@ const MyReports = () => {
                     {report.report_reason}
                   </p>
                   <p className="mt-2 text-sm text-gray-500">
-                    <span className="font-medium">Date:</span>{" "}
+                    <span className="font-medium">Reported on:</span>{" "}
                     {new Date(report.reportDate).toLocaleDateString()}
                   </p>
                 </div>

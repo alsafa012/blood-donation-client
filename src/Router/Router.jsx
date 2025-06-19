@@ -21,7 +21,7 @@ import UpdatePostPage from "../Pages/AllPostPage/UpdatePostPage";
 import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
 
 const myCreatedRouter = createBrowserRouter([
-  // http://localhost:5000
+  // https://blood-donation-server-ebon.vercel.app
   // https://blood-donation-server-ebon.vercel.app
   {
     path: "/",

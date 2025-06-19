@@ -18,14 +18,6 @@ const userReligiousStatus = [
   { id: "hindu", label: "hindu" },
   { id: "others", label: "others" },
 ];
-const maritalStatusOptions = [
-  { id: "single", label: "single" },
-  { id: "married", label: "married" },
-  { id: "divorced", label: "divorced" },
-  { id: "widowed", label: "widowed" },
-  { id: "separated", label: "separated" },
-  // { id: "others", label: "others" },
-];
 const activeStatus = [
   { id: "Yes", label: "Yes" },
   { id: "No", label: "No" },
@@ -161,26 +153,22 @@ const UpdateUserProfile = () => {
       const whatsapp = form.whatsapp.value;
       const messenger = form.messenger.value;
       const nationality = "Bangladeshi";
-      const imageFile = { image: showName };
       const address = form.address.value;
-      // const password = form.password.value;
-      // const imageFile = { image: showName };
-      // Check if an image is selected
-      // console.log(userInfo);
-      const response = await axios.post(image_hosting_api, imageFile, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      if (
-        !response.data ||
-        !response.data.data ||
-        !response.data.data.display_url
-      ) {
-        throw new Error("Failed to upload image or image URL is missing");
+      let photoUrl = userInfo?.user_image;
+
+      if (showName?.name) {
+        // User has uploaded an image
+        const imageFile = new FormData();
+        imageFile.append("image", showName);
+
+        const res = await axios.post(image_hosting_api, imageFile, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (res.data.success) {
+          photoUrl = res.data.data.display_url;
+        }
       }
-      console.log(
-        "Image uploaded successfully:",
-        response?.data?.data.display_url
-      );
       const userUpdatedInfo = {
         user_name: name,
         user_age: age,
@@ -199,7 +187,8 @@ const UpdateUserProfile = () => {
         user_gender: userGender,
         user_address: address,
         // imageFile: imageFile,
-        user_image: response?.data?.data.display_url || userInfo?.user_image,
+        // user_image: response?.data?.data.display_url || userInfo?.user_image,
+        user_image: photoUrl,
         user_role: "donor",
         account_updated_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
       };
@@ -209,7 +198,9 @@ const UpdateUserProfile = () => {
       //   console.log("from database",contextRes.data);
       if (updateRes.data.modifiedCount > 0 || updateRes.data.acknowledged) {
         // setLoading(false);
-        updateUserProfile(name, response?.data?.data.display_url);
+        // updateUserProfile(name, response?.data?.data.display_url); old
+        // /new
+        updateUserProfile(name, photoUrl);
         Swal.fire({
           title: "Good job!",
           text: "Profile successfully updated..",

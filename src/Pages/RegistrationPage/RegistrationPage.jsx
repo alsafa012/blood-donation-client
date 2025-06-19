@@ -81,6 +81,8 @@ const RegistrationPage = () => {
   const [bloodGroup, setBloodGroup] = useState("");
   // console.log(userMaritalStatus.toLowerCase());
   // console.log(userReligious);
+  const [fieldErrors, setFieldErrors] = useState({});
+  console.log("fieldErrors", fieldErrors);
   // console.log(bloodGroup);
 
   const navigate = useNavigate();
@@ -124,6 +126,48 @@ const RegistrationPage = () => {
     const password = form.password.value;
     const re_password = form.re_password.value;
     let photoUrl = "https://i.ibb.co/mtL872C/image.png"; // Default profile image
+
+    const errors = {};
+
+    if (!name.trim()) errors.name = "Name is required";
+    if (!age.trim()) errors.age = "Age is required";
+    // if (!phone_number.trim()) errors.phone_number = "Phone number is required";
+    if (!phone_number.trim()) {
+      errors.phone_number = "Phone number is required";
+    } else if (!/^01[3-9][0-9]{8}$/.test(phone_number)) {
+      errors.phone_number = "Enter a valid number";
+    }
+    if (whatsapp && !/^01[3-9][0-9]{8}$/.test(whatsapp)) {
+      errors.whatsapp = "Enter a valid number";
+    }
+    if (
+      alternative_phone_number &&
+      !/^01[3-9][0-9]{8}$/.test(alternative_phone_number)
+    ) {
+      errors.alternative_phone_number = "Enter a valid number";
+    }
+
+    if (!user_email.trim()) errors.user_email = "Email is required";
+    if (!address.trim()) errors.address = "Address is required";
+    if (!password.trim()) errors.password = "Password is required";
+    if (!re_password.trim()) errors.re_password = "Re-enter password";
+    if (!bloodGroup) errors.bloodGroup = "Blood group is required";
+    if (!selectedDistrict) errors.district = "District is required";
+    if (!selectedUpazila) errors.upazila = "Area is required";
+    if (!userReligious) errors.religious = "Select your religion";
+    if (!userGender) errors.userGender = "Select your gender";
+    if (!userActiveStatus) errors.activeStatus = "Select donation ability";
+
+    console.log(Object.keys(errors));
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setIsLoading(false);
+      return;
+    } else {
+      setFieldErrors({}); // clear old errors if all valid
+    }
+
+    console.log("form errors", errors);
 
     // Check if passwords match
     if (password !== re_password) {
@@ -298,11 +342,15 @@ const RegistrationPage = () => {
                     name="name"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="name" className="post-input-label">
                     Name:*
                   </label>
+                  {fieldErrors.name && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.name}
+                    </p>
+                  )}
                 </div>
 
                 {/* age */}
@@ -313,11 +361,16 @@ const RegistrationPage = () => {
                     type="number"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="age" className="post-input-label">
                     Enter Age:*
                   </label>
+                  {fieldErrors.age && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.age}
+                    </p>
+                  )}
                 </div>
 
                 {/* Blood Group:* */}
@@ -332,7 +385,7 @@ const RegistrationPage = () => {
                     // value={bloodGroup}
                     onChange={(e) => setBloodGroup(e.target.value)}
                     className="post-input-field text-base font-medium w-full"
-                    required
+                    // required
                   >
                     <option disabled value="">
                       Select bloodGroup
@@ -346,6 +399,11 @@ const RegistrationPage = () => {
                     <option value="BNegative">B-</option>
                     <option value="ONegative">O-</option>
                   </select>
+                  {fieldErrors.bloodGroup && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.bloodGroup}
+                    </p>
+                  )}
                 </div>
                 {/* phone_number */}
 
@@ -356,11 +414,16 @@ const RegistrationPage = () => {
                     type="number"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
                   <label htmlFor="primary_number" className="post-input-label">
                     Phone No:*
                   </label>
+                  {fieldErrors.phone_number && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.phone_number}
+                    </p>
+                  )}
                 </div>
                 {/* alternative_phone_number */}
 
@@ -372,9 +435,17 @@ const RegistrationPage = () => {
                     placeholder=" "
                     className="post-input-field w-full input-peer"
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label
+                    htmlFor="alternative_phone_number"
+                    className="post-input-label"
+                  >
                     Alternative Phone No:* (optional)
                   </label>
+                  {fieldErrors.alternative_phone_number && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.alternative_phone_number}
+                    </p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -385,11 +456,16 @@ const RegistrationPage = () => {
                     type="email"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="user_email" className="post-input-label">
                     Email:*
                   </label>
+                  {fieldErrors.user_email && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.user_email}
+                    </p>
+                  )}
                 </div>
 
                 {/* Whatsapp */}
@@ -402,9 +478,14 @@ const RegistrationPage = () => {
                     className="post-input-field w-full input-peer"
                     // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="whatsapp" className="post-input-label">
                     Whatsapp No:*
                   </label>
+                  {fieldErrors.whatsapp && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.whatsapp}
+                    </p>
+                  )}
                 </div>
                 {/* Messenger */}
                 <div className="relative w-full">
@@ -415,9 +496,14 @@ const RegistrationPage = () => {
                     placeholder=" "
                     className="post-input-field w-full input-peer"
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="messenger" className="post-input-label">
                     messenger user name:*
                   </label>
+                  {/* {fieldErrors.name && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.name}
+                    </p>
+                  )} */}
                 </div>
 
                 {/* Address */}
@@ -429,11 +515,16 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="address" className="post-input-label">
                     Address:*
                   </label>
+                  {fieldErrors.address && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.address}
+                    </p>
+                  )}
                 </div>
 
                 {/* Nationality */}
@@ -447,7 +538,7 @@ const RegistrationPage = () => {
                     className="post-input-field w-full input-peer"
                     readOnly
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="nationality" className="post-input-label">
                     Nationality:*
                   </label>
                 </div>
@@ -462,11 +553,16 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="password" className="post-input-label">
                     Password:*
                   </label>
+                  {fieldErrors.password && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.password}
+                    </p>
+                  )}
                 </div>
 
                 {/* Re-Password */}
@@ -477,11 +573,16 @@ const RegistrationPage = () => {
                     type="text"
                     placeholder=" "
                     className="post-input-field w-full input-peer"
-                    required
+                    // required
                   />
-                  <label htmlFor="primary_number" className="post-input-label">
+                  <label htmlFor="re_password" className="post-input-label">
                     Re-Password:*
                   </label>
+                  {fieldErrors.re_password && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.re_password}
+                    </p>
+                  )}
                 </div>
 
                 {/* user District or Division */}
@@ -502,7 +603,7 @@ const RegistrationPage = () => {
                       setSelectedUpazila(""); // Reset selected upazila when district changes
                     }}
                     className="post-input-field text-lg md:text-xl font-medium"
-                    required
+                    // required
                   >
                     <option disabled value="">
                       Select District
@@ -514,6 +615,11 @@ const RegistrationPage = () => {
                       </option>
                     ))}
                   </select>
+                  {fieldErrors.district && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.district}
+                    </p>
+                  )}
                 </div>
                 {/* user upazila or Area */}
                 <div className="flex flex-col gap-2">
@@ -525,7 +631,7 @@ const RegistrationPage = () => {
                     onChange={(e) => setSelectedUpazila(e.target.value)}
                     className="post-input-field text-lg md:text-xl font-medium"
                     disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
-                    required
+                    // required
                   >
                     <option disabled value="">
                       Select Upazila
@@ -568,11 +674,17 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="religious"
                           value={status.id}
-                          required
+                          // required
                         />
                       </div>
                     ))}
                   </div>
+
+                  {fieldErrors.religious && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.religious}
+                    </p>
+                  )}
                 </div>
                 {/* Gender */}
                 <div className="flex flex-col gap-2">
@@ -603,11 +715,21 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="active_status"
                           value={status.id}
-                          required
+                          // required
                         />
                       </div>
                     ))}
                   </div>
+                  {fieldErrors.userGender && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.userGender}
+                    </p>
+                  )}
+                  {/* {fieldErrors.userReligious && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.userReligious}
+                    </p>
+                  )} */}
                 </div>
                 {/* Able to Donate Now: */}
                 <div className="flex flex-col gap-2">
@@ -640,11 +762,16 @@ const RegistrationPage = () => {
                           id={status.id}
                           name="active_status"
                           value={status.id}
-                          required
+                          // required
                         />
                       </div>
                     ))}
                   </div>
+                  {fieldErrors.activeStatus && (
+                    <p className="text-red-500 text-sm mt-1 ml-2">
+                      {fieldErrors.activeStatus}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="mx-auto rounded-md w-full text-center mt-8 mb-3 overflow-hidden">

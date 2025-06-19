@@ -33,10 +33,10 @@
 
 //   const handleDetails = async (id) => {
 //     axios
-//       .get(`https://blood-donation-server-ebon.vercel.app/details/${id}`)
+//       .get(`http://localhost:5000/details/${id}`)
 //       .then((res) => console.log(res.data));
 //     // const response = await fetch(
-//     //   `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${id}`
+//     //   `http://localhost:5000/available-donor?blood=${id}`
 //     // );
 //     // const data = await response.json();
 //     // console.log(data);
@@ -145,7 +145,7 @@ const MyComments = () => {
     }));
   };
   const handleDeleteComments = () => {
-    axios.delete("https://blood-donation-server-ebon.vercel.app/allComments");
+    axios.delete("http://localhost:5000/allComments");
   };
 
   return (

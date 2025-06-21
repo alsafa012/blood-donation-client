@@ -209,13 +209,6 @@ const RegistrationPage = () => {
         }
       }
 
-      // Creating a new user
-      const result = await createUser(user_email, password);
-      console.log(result?.user);
-
-      // Updating user profile
-      await updateUserProfile(name, photoUrl);
-
       const userInfo = {
         user_name: name,
         user_age: age,
@@ -247,20 +240,41 @@ const RegistrationPage = () => {
       const response = await axiosPublic.post("/users", userInfo, {
         headers: { "Content-Type": "application/json" },
       });
+      console.log(response.data.message);
 
-      if (response.data.insertedId) {
+      if (!response.data.status) {
+        Swal.fire({
+          title: "Registration Failed!",
+          text: response.data.message,
+          icon: "error",
+        });
+        return;
+      }
+
+      if (response.data.status) {
+        // Creating a new user
+        await createUser(user_email, password);
+        // console.log(result?.user);
+        // Updating user profile
+        await updateUserProfile(name, photoUrl);
         console.log("User added successfully in the database");
-        Swal.fire("Good job!", "User created successfully", "success");
+        Swal.fire({
+          title: "Welcome to Roktojoddha!",
+          // text: `${response.data.message}`,
+          text: "Account created successfully",
+          icon: "success",
+        });
+        // Swal.fire("Good job!", "User created successfully", "success");
         navigate("/");
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      Swal.fire({
-        title: "Error!",
-        text: "Something went wrong. Please try again.",
-        footer: error,
-        icon: "error",
-      });
+      // Swal.fire({
+      //   title: "Error!",
+      //   text: "Something went wrong. Please try again.",
+      //   footer: error,
+      //   icon: "error",
+      // });
     } finally {
       setIsLoading(false);
     }

@@ -122,7 +122,7 @@ const AvailableDonorPage = () => {
           search: new URLSearchParams(params).toString(), // Convert params to query string
         });
         const response = await fetch(
-          `http://localhost:5000/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}&gender=${selectedGender}`
+          `https://blood-donation-server-ebon.vercel.app/available-donor?blood=${bloodGroup}&religious=${userReligious}&district=${selectedDistrictName}&area=${selectedUpazila}&gender=${selectedGender}`
         );
         const data = await response.json();
         setAvailableDonor(data); // Update state with fetched users based on filters

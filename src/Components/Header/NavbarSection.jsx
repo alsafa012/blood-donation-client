@@ -15,6 +15,11 @@ const navData = [
     navigate: "/posts",
   },
   {
+    id: 2,
+    name: "Blogs",
+    navigate: "/blogs",
+  },
+  {
     id: 3,
     name: "Available Doner",
     navigate: "/availableDonors",

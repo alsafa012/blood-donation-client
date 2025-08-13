@@ -36,7 +36,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}&reportStatus=${reportStatus}`
+          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}&reportStatus=${reportStatus}`
         );
 
         // Group reports by user ID
@@ -91,7 +91,7 @@ const ManageUsers = () => {
 
     axios
       .patch(
-        `http://localhost:5000/users/${id}`,
+        `https://blood-donation-server-ebon.vercel.app/users/${id}`,
         accountStatusUpdate
       )
       .then((res) => {

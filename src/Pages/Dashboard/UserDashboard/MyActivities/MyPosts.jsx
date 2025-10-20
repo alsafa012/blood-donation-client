@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAllComments from "../../../../Components/hooks/useAllComments";
 import { useEffect, useState } from "react";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
@@ -14,11 +14,11 @@ import { FaPhone } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
 
-const MyPosts = () => {
+const MyPosts = ({ location }) => {
   const { user } = useAuth();
   const [allPostsData, , refetchPostData, isLoading] = useAllPostsInfo();
   const axiosPublic = useAxiosPublic();
-  const location = useLocation();
+  // const location = useLocation();
   const [allCommentsInfo, refetchComments] = useAllComments();
   const [openComment, setOpenComment] = useState(false);
   // const [myPosts, setMyPosts] = useState([]);
@@ -283,7 +283,7 @@ const MyPosts = () => {
                       <Link
                         // onClick={() => handleEditPost(post?._id)}
                         to={`/updatePost/${post?._id}`}
-                        state={location.pathname}
+                        state={location?.pathname}
                         className="btn-bg px-2 py-1 text-sm font-semibold rounded-md hover:bg-[#bfd3a4]"
                       >
                         Edit

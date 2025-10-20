@@ -1,7 +1,7 @@
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 import { useEffect, useRef, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
@@ -76,6 +76,7 @@ const AvailableDonorPage = () => {
 
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const location = useLocation()
   // const [changeUIDesign, setChangeUIDesign] = useState("card");
   // Check localStorage for saved design preference, default to 'card'
   const storedDesign = localStorage.getItem("UI_design") || "card";
@@ -534,9 +535,10 @@ const AvailableDonorPage = () => {
             ref={donorListRef}
             donorList={availableDonor}
             hide={hide}
+            location={location}
           />
         ) : (
-          <ShowDonorAsCard ref={donorListRef} availableDonor={availableDonor} />
+          <ShowDonorAsCard ref={donorListRef} availableDonor={availableDonor} location={location} />
         )}
       </div>
     </MyContainer>

@@ -15,12 +15,17 @@ const navData = [
     navigate: "/posts",
   },
   {
-    id: 2,
+    id: 3,
     name: "Blogs",
     navigate: "/blogs",
   },
   {
-    id: 3,
+    id: 4,
+    name: "Blood Banks",
+    navigate: "/bloodBanks",
+  },
+  {
+    id: 5,
     name: "Available Doner",
     navigate: "/availableDonors",
   },

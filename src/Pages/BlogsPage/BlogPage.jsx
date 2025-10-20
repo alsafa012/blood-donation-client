@@ -160,15 +160,15 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-10 px-4">
+    <div className="max-w-7xl mx-auto py-6 px-4">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-5">
         <h2 className="text-3xl font-bold">
           {language === "en" ? "Blog Posts" : "ব্লগ পোস্ট"}
         </h2>
         <button
           onClick={toggleLanguage}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition"
+          className="btn-bg text-white px-4 py-2 rounded-lg shadow-md transition"
         >
           {language === "en" ? "বাংলা" : "English"}
         </button>
@@ -198,7 +198,7 @@ const BlogPage = () => {
               </p>
               <button
                 onClick={() => togglePost(post.id)}
-                className="mt-3 text-red-500 hover:text-red-600 font-medium"
+                className="mt-3 text-sm text-red-500 hover:text-red-600 font-medium"
               >
                 {expandedPostId === post.id
                   ? language === "en"

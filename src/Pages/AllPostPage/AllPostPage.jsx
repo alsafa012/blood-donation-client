@@ -196,15 +196,17 @@ const AllPostPage = () => {
 
         {/* <div className="grid grid-cols-1 gap-5 px-1 mx-auto lg:px-2 w-full md:w-[50% lg:w-[45%"> */}
         {allPostsInfo?.length === 0 ? (
-          <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
-            <h1 className="text-2xl font-semibold">No Post Available</h1>
-            <Link
-              onClick={NavigateCreatePostPage}
-              // to={"/createPost"}
-              className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
-            >
-              Add Request <TbHandClick size={20} />
-            </Link>
+          <div className="col-span-4 md:col-span-2">
+            <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
+              <h1 className="text-2xl font-semibold">No Post Available</h1>
+              <Link
+                onClick={NavigateCreatePostPage}
+                // to={"/createPost"}
+                className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
+              >
+                Add Request <TbHandClick size={20} />
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="col-span-4 md:col-span-2 px-2 lg:px-4 space-y-3 md:space-y-5 mb-3 md:mb-5">
@@ -618,26 +620,36 @@ const AllPostPage = () => {
         {/* right sidebar */}
         <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
           <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
-            💉 রক্তদান করার আগে মনে রাখুন
+            💉 রক্তদানের পর করণীয়
           </h2>
           <ul className="space-y-4 text-gray-800">
             <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">১.</span> রোগীর ব্যাপারে
-              বিস্তারিত জেনে নিশ্চিত হয়ে রক্ত দিন।
+              <span className="text-red-500 font-bold">১.</span> রক্তদানের পর
+              অন্তত ১০–১৫ মিনিট বিশ্রাম নিন।
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">২.</span> প্রতিবার
-              রক্তদানের পর তারিখ পরিবর্তন করে দিন বা যোগাযোগ করুন।
+              <span className="text-red-500 font-bold">২.</span> প্রচুর পানি,
+              ফলের রস বা শরবত পান করুন।
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">৩.</span> রোগী দেখে
-              রক্তদান করুন। অবশ্যই রোগীর নিকট উপস্থিত আত্মীয়ের সাথে কথা বলে
-              জানিয়ে দিন যে আপনি স্বেচ্ছায় এবং বিনামূল্যে রক্তদান করছেন, যাতে
-              দালাল বা তৃতীয় পক্ষ দুর্নীতি করতে না পারে।
+              <span className="text-red-500 font-bold">৩.</span> ২৪ ঘণ্টার মধ্যে
+              ভারী কাজ বা ব্যায়াম থেকে বিরত থাকুন।
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">৪.</span> আপনার সংগঠনের
-              নাম দেখতে চাইলে আমাদের সাথে যোগাযোগ করুন।
+              <span className="text-red-500 font-bold">৪.</span> ডিম, মাছ, মাংস,
+              ডাল ও শাকসবজি জাতীয় আয়রনসমৃদ্ধ খাবার খান।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৫.</span> রক্ত নেয়া
+              স্থানে পরিষ্কার ও শুকনো রাখুন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৬.</span> মাথা ঘোরা বা
+              দুর্বল লাগলে দ্রুত ডাক্তারের পরামর্শ নিন।
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-500 font-bold">৭.</span> পরবর্তী
+              রক্তদানের তারিখ নোট করে রাখুন (পুরুষ: ৩ মাস পর, নারী: ৪ মাস পর)।
             </li>
           </ul>
         </div>

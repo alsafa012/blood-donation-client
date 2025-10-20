@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Link,
   useLoaderData,
   useLocation,
   useNavigate,
@@ -13,6 +14,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import useAxiosPublic from "../../../../Components/hooks/useAxiosPublic";
+import { FaArrowLeft } from "react-icons/fa6";
 const userReligiousStatus = [
   { id: "islam", label: "islam" },
   { id: "hindu", label: "hindu" },
@@ -227,6 +229,12 @@ const UpdateUserProfile = () => {
       <div className="min-h-screen bg-[url('https://st2.depositphotos.com/3643473/5841/i/450/depositphotos_58411043-stock-photo-old-key-with-hope-sign.jpg')] bg-no-repeat bg-cover">
         <div className="backdrop-blur-xl h-full min-h-screen py-5 w-full">
           <div className="p-border rounded-md min-h-screen w-[99%] md:w-[80%] lg:w-[65%] pt-2 mx-auto backdrop-blur-xl px-1 md:px-10">
+            <Link
+              to={location.state || "/"}
+              className="flex items-center p-border max-w-max hover:-skew-y-3 transition gap-2 px-3 py-1 bg rounded-md text-sm font-medium"
+            >
+              <FaArrowLeft /> Go Back
+            </Link>
             <form onSubmit={handleUpdateStatus}>
               {/* Image */}
               <div className="">

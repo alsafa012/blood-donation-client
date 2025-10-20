@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import MyContainer from "../../Shared/MyContainer";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import { forwardRef } from "react";
-const ShowDonorAsList = forwardRef(({ donorList, hide }, ref) => {
+const ShowDonorAsList = forwardRef(({ donorList, hide, location }, ref) => {
   const fakeData = Array.from({ length: 55 }, (_, i) => ({
     _id: `id${i + 1}`,
     user_name: `User ${i + 1}`,
@@ -48,6 +48,7 @@ const ShowDonorAsList = forwardRef(({ donorList, hide }, ref) => {
                   <td className="py-2 px-4">
                     <Link
                       to={`/availableDonors/${info?._id}`}
+                      state={location?.pathname}
                       className="hover:underline"
                     >
                       View details

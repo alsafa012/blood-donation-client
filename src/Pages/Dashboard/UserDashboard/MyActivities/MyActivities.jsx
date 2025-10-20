@@ -3,11 +3,13 @@ import MyPosts from "./MyPosts";
 import MyComments from "./MyComments";
 import MyReports from "./MyReports";
 import { FaFlag, FaRegCommentDots, FaRegNewspaper } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const MyActivities = () => {
   const [activities, setActivities] = useState(() => {
     return localStorage.getItem("activities") || "posts";
   });
+  const location = useLocation();
   useEffect(() => {
     // Update localStorage whenever activities state changes
     localStorage.setItem("activities", activities);
@@ -38,7 +40,7 @@ const MyActivities = () => {
           ))}
         </div>
       </div>
-      {activities === "posts" && <MyPosts />}
+      {activities === "posts" && <MyPosts location={location} />}
       {activities === "comments" && <MyComments />}
       {activities === "reports" && <MyReports />}
     </div>

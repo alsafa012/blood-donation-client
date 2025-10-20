@@ -28,7 +28,9 @@ const UpdatePostPage = () => {
   const [loggedUserInfo] = useLoggedUserInfo();
   const navigate = useNavigate();
   const location = useLocation();
+  console.log("location", location);
   const from = location.pathname || "/";
+  console.log("from",from);
   const axiosPublic = useAxiosPublic();
   const [showImageDetails, setShowImageDetails] = useState([]);
   const [showImagePreview, setShowImagePreview] = useState([]);
@@ -68,7 +70,6 @@ const UpdatePostPage = () => {
   const handleBloodGroupChange = (e) => setBloodGroup(e.target.value);
   const handleRegionChange = (e) => setRegion(e.target.value);
 
-
   // Allowed image MIME types
   const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   const filterFiles = showImageDetails?.filter(
@@ -102,7 +103,6 @@ const UpdatePostPage = () => {
     const hospital_location = form.hospital_location.value;
     const google_map_location = form.google_map_location.value || "";
 
-    
     // Get today's date in 'YYYY-MM-DD' format
     const today = moment().format("YYYY-MM-DD");
     // Check if the selected deadline is before today
@@ -196,6 +196,7 @@ const UpdatePostPage = () => {
           text: `${updateRes.data.message}`,
           icon: "success",
         });
+        // navigate("/")
         navigate(from, { replace: true });
         setUpdating(false);
       }
@@ -233,7 +234,7 @@ const UpdatePostPage = () => {
       >
         {/* page Title */}
         <div className="text-center text-xl font-semibold bg-[#CFE1B9] py-2 flex items-center gap-2 pl-2">
-          <Link className="cursor-pointer">
+          <Link to={location?.state} className="cursor-pointer">
             <FaArrowLeft />
           </Link>
           <h1 className="">Update Post</h1>

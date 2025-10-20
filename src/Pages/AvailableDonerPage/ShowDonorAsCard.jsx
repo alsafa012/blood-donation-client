@@ -3,7 +3,7 @@ import MyContainer from "../../Shared/MyContainer";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import { forwardRef } from "react";
 
-const ShowDonorAsCard = forwardRef(({ availableDonor }, ref) => {
+const ShowDonorAsCard = forwardRef(({ availableDonor,location }, ref) => {
   // const ShowDonorAsCard = ({ availableDonor }) => {
   return (
     <MyContainer>
@@ -48,7 +48,7 @@ const ShowDonorAsCard = forwardRef(({ availableDonor }, ref) => {
                   {info?.bloodGroup}
                 </p> */}
             </div>
-            <Link to={`/availableDonors/${info._id}`}>
+            <Link state={location?.pathname} to={`/availableDonors/${info._id}`}>
               <button className="btn-bg py-2 w-full">View Details</button>
             </Link>
           </div>

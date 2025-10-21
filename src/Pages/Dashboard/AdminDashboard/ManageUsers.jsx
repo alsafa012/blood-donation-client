@@ -3,7 +3,7 @@ import useAllUsersInfo from "../../../Components/hooks/useAllUsersInfo";
 import useDonorReportInfo from "../../../Components/hooks/useDonorReportInfo";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MyContainer from "../../../Shared/MyContainer";
 import {
   MdCancel,
@@ -27,6 +27,7 @@ const ManageUsers = () => {
   const [searchData, setSearchData] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
+  const location = useLocation()
   const [availableStatus, setAvailableStatus] = useState("");
   const [accountStatus, setAccountStatus] = useState("");
   const [reportStatus, setReportStatus] = useState("");
@@ -336,6 +337,7 @@ const ManageUsers = () => {
                       <li key={index} className="bg-gray-100 p-4 rounded-md">
                         <Link
                           to={`/availableDonors/${report?.reported_by}`}
+                          state={location?.pathname}
                           className="text-md"
                         >
                           <span className="font-semibold">Reported by:</span>{" "}

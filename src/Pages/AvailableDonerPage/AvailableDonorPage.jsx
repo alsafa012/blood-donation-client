@@ -1,7 +1,12 @@
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 import { useEffect, useRef, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import axios from "axios";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
@@ -13,6 +18,10 @@ import RegionDropdown from "../../Shared/Dropdowns/RegionDropdown";
 import ShowDonorAsCard from "./ShowDonorAsCard";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { FaDownload } from "react-icons/fa6";
+import { MdClear } from "react-icons/md";
+import { FiSend } from "react-icons/fi";
+import { FaSearch } from "react-icons/fa";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -76,7 +85,7 @@ const AvailableDonorPage = () => {
 
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
   // const [changeUIDesign, setChangeUIDesign] = useState("card");
   // Check localStorage for saved design preference, default to 'card'
   const storedDesign = localStorage.getItem("UI_design") || "card";
@@ -388,139 +397,119 @@ const AvailableDonorPage = () => {
   return (
     <MyContainer>
       <WebsiteTitle name={"রক্তযোদ্ধা || Available Donors"} />
-      {/* <div
-        className={`${hide ? "bg-yellow-300 z-10 absolute top-0 left-0 opacity-75 block" : "opacity-0 hidden"} h-screen`}
-      ></div> */}
       {/* filter section */}
-      <div className="flex flex-wrap justify-center gap-5 my-5">
-        {/* blood group */}
-        {/* <select
-          // defaultValue="default"
-          value={bloodGroup}
-          id="bloodGroup"
-          // value={bloodGroup}
-          onChange={(e) => setBloodGroup(e.target.value)}
-          className="input-field text-sm md:text-base font-medium"
-        >
-          <option disabled value="">
-            Select bloodGroup
-          </option>
-          <option value="All">All</option>
-          <option value="ABPositive">AB+</option>
-          <option value="APositive">A+</option>
-          <option value="BPositive">B+</option>
-          <option value="OPositive">O+</option>
-          <option value="ABNegative">AB-</option>
-          <option value="ANegative">A-</option>
-          <option value="BNegative">B-</option>
-          <option value="ONegative">O-</option>
-        </select> */}
-
-        <select
-          // defaultValue="default"
-          value={changeUIDesign}
-          id="bloodGroup"
-          // value={bloodGroup}
-          onChange={(e) => setChangeUIDesign(e.target.value)}
-          className="input-field text-sm font-medium"
-        >
-          <option disabled value="">
-            Select UI
-          </option>
-          <option value="card">Card</option>
-          <option value="list">List</option>
-        </select>
-
-        <BloodGroupDropdown
-          blood={bloodGroup}
-          onChange={(e) => setBloodGroup(e.target.value)}
-          css={"input-field"}
-        />
-        <GenderDropDown
-          gender={selectedGender}
-          onChange={(e) => setSelectedGender(e.target.value)}
-          css={"input-field"}
-        />
-        <RegionDropdown
-          religious={userReligious}
-          onChange={(e) => setUserReligious(e.target.value)}
-          css={"input-field"}
-        />
-        {/* District select dropdown */}
-        <select
-          value={selectedDistrict}
-          onChange={(e) => {
-            const selectedDistrictId = e.target.value; // Get the district ID from the option value
-            setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
-
-            const selectedDistrictObj = district?.find(
-              (d) => d.id === selectedDistrictId
-            );
-            setSelectedDistrictName(selectedDistrictObj?.name || ""); // Store the district name in a separate state
-
-            setSelectedUpazila(""); // Reset selected upazila when district changes
-          }}
-          className="input-field text-sm font-medium"
-        >
-          <option disabled value="">
-            Select District
-          </option>
-          <option value="All">All</option>
-          {district.map((data) => (
-            <option key={data.id} value={data.id}>
-              {data.name}
+      <div className="flex flex-col gap-3 mt-3 mb-5 px-1 md:px-2">
+        {/* Sorted items */}
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
+          <select
+            // defaultValue="default"
+            value={changeUIDesign}
+            id="bloodGroup"
+            // value={bloodGroup}
+            onChange={(e) => setChangeUIDesign(e.target.value)}
+            // className="input-field text-sm font-medium"
+            className="input-field-availabledonors font-medium w-full"
+          >
+            <option disabled value="">
+              Select UI
             </option>
-          ))}
-        </select>
-        {/* Upazila select dropdown */}
-        <select
-          // defaultValue="default"
-          value={selectedUpazila}
-          onChange={(e) => setSelectedUpazila(e.target.value)}
-          className="input-field text-sm font-medium"
-          disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
-        >
-          <option disabled value="">
-            Select Upazila
-          </option>
-          <option value="All">All</option>
-          {filteredUpazilas.map((data) => (
-            <option key={data.id} value={data.name}>
-              {data.name}
-            </option>
-          ))}
-        </select>
-        <button
-          onClick={handleSearch}
-          className="btn-bg rounded-md px-3 text-sm py-1"
-        >
-          Search
-        </button>
-        <button
-          onClick={handleClearSearchText}
-          className="btn-bg rounded-md px-3 text-sm py-1"
-        >
-          Clear
-        </button>
-        <button
-          onClick={handleDownload}
-          className="btn-bg rounded-md px-3 text-sm py-1"
-        >
-          {hide ? "Downloading..." : "Download List"}
-        </button>
+            <option value="card">Card</option>
+            <option value="list">List</option>
+          </select>
 
-        <button
-          onClick={handleInstantRequest}
-          className="btn-bg rounded-md px-3 text-sm py-1"
-        >
-          Instant Request
-        </button>
+          <BloodGroupDropdown
+            blood={bloodGroup}
+            onChange={(e) => setBloodGroup(e.target.value)}
+            css={"input-field-availabledonors"}
+          />
+          <GenderDropDown
+            gender={selectedGender}
+            onChange={(e) => setSelectedGender(e.target.value)}
+            css={"input-field-availabledonors"}
+          />
+          <RegionDropdown
+            religious={userReligious}
+            onChange={(e) => setUserReligious(e.target.value)}
+            css={"input-field-availabledonors"}
+          />
+          {/* District select dropdown */}
+          <select
+            value={selectedDistrict}
+            onChange={(e) => {
+              const selectedDistrictId = e.target.value; // Get the district ID from the option value
+              setSelectedDistrict(selectedDistrictId); // Set the district ID for filtering upazilas
+
+              const selectedDistrictObj = district?.find(
+                (d) => d.id === selectedDistrictId
+              );
+              setSelectedDistrictName(selectedDistrictObj?.name || ""); // Store the district name in a separate state
+
+              setSelectedUpazila(""); // Reset selected upazila when district changes
+            }}
+            className="input-field-availabledonors text-sm font-medium"
+          >
+            <option disabled value="">
+              Select District
+            </option>
+            <option value="All">All</option>
+            {district.map((data) => (
+              <option key={data.id} value={data.id}>
+                {data.name}
+              </option>
+            ))}
+          </select>
+          {/* Upazila select dropdown */}
+          <select
+            // defaultValue="default"
+            value={selectedUpazila}
+            onChange={(e) => setSelectedUpazila(e.target.value)}
+            className="input-field-availabledonors text-sm font-medium"
+            disabled={!selectedDistrict} // Disable upazila dropdown until district is selected
+          >
+            <option disabled value="">
+              Select Upazila
+            </option>
+            <option value="All">All</option>
+            {filteredUpazilas.map((data) => (
+              <option key={data.id} value={data.name}>
+                {data.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Actions button */}
+        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+          <button
+            onClick={handleSearch}
+            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+          >
+            Search <FaSearch size={15} />
+          </button>
+          <button
+            onClick={handleClearSearchText}
+            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+          >
+            Clear All <MdClear size={15} />
+          </button>
+          <button
+            onClick={handleDownload}
+            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+          >
+            {hide ? "Downloading..." : "Download List"} <FaDownload size={15} />
+          </button>
+          <button
+            onClick={handleInstantRequest}
+            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+          >
+            Instant Request <FiSend size={15} />
+          </button>
+        </div>
         {/* <button onClick={handleDelete} className="btn btn-primary">
           Delete
         </button> */}
       </div>
+      {/* ------- end of filter section --- */}
       <div className="h-[70vh] overflow-auto">
-        {/* ------- end of filter section --- */}
         {availableDonor.length === 0 && !isLoading && (
           <div>
             <h1 className="text-center text-3xl font-semibold pt-10">
@@ -538,7 +527,11 @@ const AvailableDonorPage = () => {
             location={location}
           />
         ) : (
-          <ShowDonorAsCard ref={donorListRef} availableDonor={availableDonor} location={location} />
+          <ShowDonorAsCard
+            ref={donorListRef}
+            availableDonor={availableDonor}
+            location={location}
+          />
         )}
       </div>
     </MyContainer>

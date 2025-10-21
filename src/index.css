@@ -68,6 +68,28 @@ body {
   color: #000000;
 }
 
+.input-field-availabledonors {
+  border-radius: 0.5rem;
+  border: 1px solid #cfe1b9;
+  background-color: transparent;
+  font-size: 12px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  /* background-color: #d6e1c9; */
+  background-color: #cfe1b9;
+  color: #000000;
+  /* color: #87986A; */
+  transition-duration: 200ms;
+  height: 28px;
+  outline: none;
+}
+
+.input-field-availabledonors:focus {
+  box-shadow: 0 0 0 1px #87986a;
+  outline-offset: 1px;
+}
 .input-field {
   border-radius: 0.5rem;
   border: 1px solid #cfe1b9;

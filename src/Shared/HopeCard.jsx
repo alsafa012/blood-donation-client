@@ -8,6 +8,7 @@ import useLoggedUserInfo from "../Components/hooks/useLoggedUserInfo";
 import ShowBloodGroup from "./ShowBloodGroup";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import img from "../../src/assets/6.png";
 // const HopeCard = () => {
 const HopeCard = forwardRef((props, ref) => {
   const { user } = useAuth();
@@ -303,15 +304,18 @@ const HopeCard = forwardRef((props, ref) => {
           {/* Website logo */}
           <div className="flex flex-col items-center md:gap-2">
             <div
-              className="w-20 h-20 rounded-full border-2 border-red-500"
+              className="w-32 h-32 rounf opa"
               style={{
-                backgroundImage: `url("https://i.ibb.co/mtL872C/image.png")`,
+                // backgroundImage: `url("https://i.ibb.co.com/8nGN7yds/logo-with-heart-hand.png")`,
+                backgroundImage: `url(${img})`,
+                // backgroundImage: `url("https://ibb.co.com/spcbVT6R")`,
+                // src="https://i.ibb.co.com/S7vw7fm/logo-with-heart-hand.png"
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
             ></div>
-            <h4 className="text-lg md:text-2xl font-bold">Roktojoddha</h4>
-            <h4 className="text-lg md:text-2xl font-bold">রক্তযোদ্ধা</h4>
+            {/* <h4 className="text-lg md:text-2xl font-bold">Roktojoddha</h4>
+            <h4 className="text-lg md:text-2xl font-bold">রক্তযোদ্ধা</h4> */}
           </div>
         </div>
 

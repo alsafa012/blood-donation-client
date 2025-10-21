@@ -186,7 +186,7 @@ const DashboardLayout = () => {
               </li>
             </>
             {/* // )} */}
-            <div className="divider divider-info"></div>
+            <div className="border border-[#87986a] my-5"></div>
             {/* shared lists */}
             <li>
               <NavLink to="/">

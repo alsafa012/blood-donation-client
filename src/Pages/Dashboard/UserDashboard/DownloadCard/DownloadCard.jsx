@@ -31,6 +31,7 @@ import WebsiteTitle from "../../../../Shared/WebsiteTitle";
 import { useRef } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { FaDownload } from "react-icons/fa6";
 
 const DownloadCard = () => {
   const cardRef = useRef(null);
@@ -94,7 +95,7 @@ const DownloadCard = () => {
           className="bg-primary max-w-max mx-auto text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
           onClick={handleDownload}
         >
-          ডাউনলোড করুন →
+          ডাউনলোড করুন <FaDownload />
         </button>
 
         {/* Pass ref to HopeCard */}

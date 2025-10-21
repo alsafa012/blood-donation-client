@@ -14,6 +14,7 @@ import Reviews from "./Reviews";
 import AvailableDonorNavigate from "./AvailableDonorNavigate";
 import NavigateDonorCard from "./NavigateDonorCard";
 import NavigateRegistration from "./NavigateRegistration";
+import BloodBankHomeInfo from "./BloodBankHomeInfo";
 
 const HomePage = () => {
   // const [loggedUserInfo] = useLoggedUserInfo();
@@ -214,6 +215,7 @@ const HomePage = () => {
       </div>
       <AvailableDonorNavigate />
       <Blogs />
+      <BloodBankHomeInfo />
     </MyContainer>
   );
 };

@@ -11,13 +11,13 @@ const navData = [
   },
   {
     id: 2,
-    name: "Posts",
+    name: "Blood Request",
     navigate: "/posts",
   },
   {
     id: 3,
-    name: "Blogs",
-    navigate: "/blogs",
+    name: "Available Doner",
+    navigate: "/availableDonors",
   },
   {
     id: 4,
@@ -26,8 +26,8 @@ const navData = [
   },
   {
     id: 5,
-    name: "Available Doner",
-    navigate: "/availableDonors",
+    name: "Blogs",
+    navigate: "/blogs",
   },
 ];
 const NavbarSection = () => {
@@ -151,8 +151,10 @@ const NavbarSection = () => {
             </div>
           ) : (
             <div>
-              <Link to='/registration'>
-                <button className="btn-bg bg-primar rounded-md px-2 py-1">Login/Registration</button>
+              <Link to="/registration">
+                <button className="btn-bg bg-primar rounded-md px-2 py-1">
+                  Login/Registration
+                </button>
               </Link>
             </div>
           )}

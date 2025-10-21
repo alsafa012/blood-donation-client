@@ -15,7 +15,7 @@ const AvailableDonorNavigate = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative max-w-3xl  min-h-[50vh] w-full lg:w-[65%">
+      <div className="relative max-w-5xl min-h-[50vh] w-full lg:w-[65%">
         {/* Image behind the content */}
         <img
           src="https://i.ibb.co/KzbNkgSx/blood-2.jpg"

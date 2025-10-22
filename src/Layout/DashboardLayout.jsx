@@ -57,7 +57,7 @@ const DashboardLayout = () => {
 
   return (
     <MyContainer>
-      <div className="drawer lg:drawer-open min-h-screen">
+      <div className="drawer lg:drawer-open min-h-screen bg-[#E1F5DA">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content relative max-h-screen overflow-hidden">
           {/* Page content here */}

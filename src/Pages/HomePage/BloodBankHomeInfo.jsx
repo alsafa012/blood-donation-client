@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const bloodBanks = [
@@ -165,59 +164,56 @@ const bloodBanks = [
 ];
 const BloodBankHomeInfo = () => {
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4">
-      <div className="max-w-7xl mx-auto py-6 px-4">
-        <h2 className="text-xl lg:text-3xl font-bold mb-5">
-          Blood Banks in Bangladesh
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {bloodBanks?.slice(0, 6).map((bank, idx) => {
-            // Calculate how many blogs are left
-            const remainingBlogs = bloodBanks?.length - 3;
+    // <div className="max-w-7xl mx-auto py-6 px-4">
+    <div className="p-8 bg-[#E1F5DA]">
+      <h2 className="text-xl lg:text-3xl font-bold mb-5">
+        Blood Banks in Bangladesh
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-5">
+        {bloodBanks?.slice(0, 6).map((bank, idx) => {
+          // Calculate how many blogs are left
+          const remainingBlogs = bloodBanks?.length - 3;
 
-            // If it's the 4th item, show "+X more" card
-            if (idx === 5) {
-              return (
-                <Link
-                  to={"/blogs"}
-                  key="more-posts"
-                  // onClick={() => (window.location.href = "/blogs")}
-                  className="flex items-center justify-center bg-gray-100 border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
-                >
-                  <span className="text-lg lg:text-2xl font-semibold text-red-500">
-                    +{remainingBlogs} more
-                  </span>
-                </Link>
-              );
-            }
-
+          // If it's the 4th item, show "+X more" card
+          if (idx === 5) {
             return (
-              <div
-                key={idx}
-                className="p-5 border rounded-lg shadow hover:shadow-lg transition"
+              <Link
+                to={"/bloodBanks"}
+                key="more-posts"
+                // onClick={() => (window.location.href = "/blogs")}
+                className="flex items-center justify-center bg-gray-50 p-border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
               >
-                <h3 className="text-xl font-semibold mb-2">{bank.name}</h3>
-                <p>
-                  <span className="font-semibold">Division:</span>{" "}
-                  {bank.division}
-                </p>
-                <p>
-                  <span className="font-semibold">District:</span>{" "}
-                  {bank.district}
-                </p>
-                <p>
-                  <span className="font-semibold">Address:</span> {bank.address}
-                </p>
-                <p>
-                  <span className="font-semibold">Phone:</span> {bank.phone}
-                </p>
-                <p>
-                  <span className="font-semibold">Email:</span> {bank.email}
-                </p>
-              </div>
+                <span className="text-lg lg:text-2xl font-semibold text-green-700">
+                  +{remainingBlogs} more
+                </span>
+              </Link>
             );
-          })}
-        </div>
+          }
+
+          return (
+            <div
+              key={idx}
+              className="p-2 md:p-3 bg-white p-border rounded-lg shadow hover:shadow-sm transition"
+            >
+              <h3 className="text-xl font-semibold mb-2">{bank.name}</h3>
+              <p>
+                <span className="font-semibold">Division:</span> {bank.division}
+              </p>
+              <p>
+                <span className="font-semibold">District:</span> {bank.district}
+              </p>
+              <p>
+                <span className="font-semibold">Address:</span> {bank.address}
+              </p>
+              <p>
+                <span className="font-semibold">Phone:</span> {bank.phone}
+              </p>
+              <p>
+                <span className="font-semibold">Email:</span> {bank.email}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

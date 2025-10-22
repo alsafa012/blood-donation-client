@@ -2,7 +2,6 @@ import useAllUsersInfo from "../../../../Components/hooks/useAllUsersInfo";
 import useAuth from "../../../../Components/hooks/useAuth";
 import WebsiteTitle from "../../../../Shared/WebsiteTitle";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import ShowBloodGroup from "../../../../Shared/ShowBloodGroup";
 import { FaRegEdit } from "react-icons/fa";
@@ -105,7 +104,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="text-black max-h-screen overflow-auto">
+    <div className="text-black max-h-screen h-screen overflow-auto bg-[#E1F5DA]">
       <WebsiteTitle name={"রক্তযোদ্ধা || My Profile"}></WebsiteTitle>
       {/* <p>user dashboard</p> */}
       <div className="">
@@ -301,7 +300,7 @@ const UserProfile = () => {
           {filterData?.map((info) => (
             <div
               key={info._id}
-              className="mb-8 p-6 rounded-lg shadow-lg bg-white"
+              className="mb-8 p-6 rounded-lg shadow-lg bg-whit bg-[#E1F5DA]"
             >
               <div className="flex flex-col md:flex-row gap-2 md:gap-5">
                 {/* Image Section */}

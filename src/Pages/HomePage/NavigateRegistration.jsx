@@ -13,7 +13,7 @@ const NavigateRegistration = () => {
       <div
         className={`${
           user ? "hidden" : "block"
-        } w-[60%] mx-auto bg-red-5 bg-[#CEE9BE bg-[#E1F5DA] p-10 my-5 rounded-md`}
+        } w-[60%] mx-auto bg-red-5 bg-[#CEE9BE bg-[#E1F5DA] p-10 rounded-md`}
       >
         <h1 className="text-2xl font-semibold text-center">
           রক্তদানে আগ্রহী হলে রেজিস্ট্রেশন করুন{" "}

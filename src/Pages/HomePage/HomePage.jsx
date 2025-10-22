@@ -15,6 +15,7 @@ import AvailableDonorNavigate from "./AvailableDonorNavigate";
 import NavigateDonorCard from "./NavigateDonorCard";
 import NavigateRegistration from "./NavigateRegistration";
 import BloodBankHomeInfo from "./BloodBankHomeInfo";
+import Footer from "../../Components/Footer/Footer";
 
 const HomePage = () => {
   // const [loggedUserInfo] = useLoggedUserInfo();
@@ -201,21 +202,24 @@ const HomePage = () => {
       >
         Click
       </button>
-      <Banner />
-      <NavigateDonorCard />
-      <NavigateRegistration />
-      <Reviews />
-      <ReviewSection />
-      <div className="my-10">
-        <img
-          src="https://i.ibb.co/BHZ7rPVK/blood-3.jpg"
-          className="mx-auto"
-          alt=""
-        />
+      <div className="bg-[#E1F5DA space-y-5">
+        <Banner />
+        <NavigateDonorCard />
+        <NavigateRegistration />
+        <Reviews />
+        {/* <ReviewSection /> */}
+        <div className="my-10">
+          <img
+            src="https://i.ibb.co/BHZ7rPVK/blood-3.jpg"
+            className="mx-auto "
+            alt=""
+          />
+        </div>
+        <AvailableDonorNavigate />
+        <Blogs />
+        <BloodBankHomeInfo />
       </div>
-      <AvailableDonorNavigate />
-      <Blogs />
-      <BloodBankHomeInfo />
+      <Footer />
     </MyContainer>
   );
 };

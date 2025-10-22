@@ -21,8 +21,8 @@ const MyActivities = () => {
   ];
 
   return (
-    <div className="min-h-screen max-h-screen overflow-y-auto">
-      <div className="h-[60px] md:h-[60px] sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-sm">
+    <div className="min-h-screen max-h-screen overflow-y-auto bg-[#E1F5DA]">
+      <div className="h-[60px] md:h-[60px] sticky top-0 z-10 dark:bg-gray-800 shadow-sm bg-[#CFE1B9]">
         <div className="flex justify-center h-full overflow-x-auto border-b border-[#cfe1b9] dark:border-gray-700">
           {tabs.map((tab) => (
             <button

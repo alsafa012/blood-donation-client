@@ -16,7 +16,7 @@ const navData = [
   },
   {
     id: 3,
-    name: "Available Doner",
+    name: "Available Donor",
     navigate: "/availableDonors",
   },
   {
@@ -184,7 +184,7 @@ const NavbarSection = () => {
       <div className={`md:hidden`}>
         <ul
           className={`flex overflow-hidden flex-col gap-7 justify-center transition-all duration-300 items-center bg-primary bg-[#CFE1B9 border absolute w-full ${
-            toggle ? "h-[220px]" : "h-0"
+            toggle ? "h-[300px]" : "h-0"
           }`}
         >
           {navData.map((info) => (

@@ -49,12 +49,12 @@ const BloodBankPage = () => {
         <input
           type="text"
           placeholder="Search by name or district"
-          className="flex-1 p-3 border rounded shadow focus:outline-none focus:ring-2 focus:ring-[#CFE1B9]"
+          className="flex-1 p-3 p-border rounded shadow focus:outline-none focus:ring-2 focus:ring-[#CFE1B9]"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
-          className="p-3 border rounded shadow focus:outline-none focus:ring-2 focus:ring-[#CFE1B9]"
+          className="p-3 p-border rounded shadow focus:outline-none focus:ring-2 focus:ring-[#CFE1B9]"
           value={division}
           onChange={(e) => setDivision(e.target.value)}
         >
@@ -64,14 +64,14 @@ const BloodBankPage = () => {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-5">
         {filteredBanks.length === 0 ? (
           <p className="col-span-full text-center text-gray-500">
             No blood banks found
           </p>
         ) : (
           filteredBanks.map((bank, idx) => (
-            <div key={idx} className="p-5 border rounded-lg shadow hover:shadow-lg transition">
+            <div key={idx} className="p-2 md:p-3 p-border rounded-lg shadow hover:shadow-lg transition">
               <h3 className="text-xl font-semibold mb-2">{bank.name}</h3>
               <p><span className="font-semibold">Division:</span> {bank.division}</p>
               <p><span className="font-semibold">District:</span> {bank.district}</p>

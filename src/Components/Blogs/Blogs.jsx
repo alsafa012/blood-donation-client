@@ -160,7 +160,7 @@ const Blogs = () => {
     setLanguage(language === "en" ? "bn" : "en");
   };
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4">
+    <div className="max-w-7x mx-auto p-8 bg-[#E1F5DA]">
       {/* Header */}
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-3xl font-bold">
@@ -230,9 +230,9 @@ const Blogs = () => {
                 to={"/blogs"}
                 key="more-posts"
                 // onClick={() => (window.location.href = "/blogs")}
-                className="flex items-center justify-center bg-gray-100 border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
+                className="flex items-center justify-center bg-gray-50 p-border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
               >
-                <span className="text-lg lg:text-2xl font-semibold text-red-500">
+                <span className="text-lg lg:text-2xl font-semibold text-green-700">
                   +{remainingBlogs} more
                 </span>
               </Link>
@@ -243,7 +243,7 @@ const Blogs = () => {
           return (
             <div
               key={post.id}
-              className="bg-white border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300"
+              className="bg-white p-border rounded-md shadow-lg overflow-hidden hover:shadow-xl transition duration-300"
             >
               <img
                 src={post.image}

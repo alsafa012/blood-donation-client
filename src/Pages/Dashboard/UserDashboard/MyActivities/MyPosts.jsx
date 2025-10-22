@@ -218,9 +218,9 @@ const MyPosts = ({ location }) => {
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 overflow-auto">
         {myPosts?.map((post, ind) => (
-          <div className="p-border rounded-sm max-h-max" key={post._id}>
+          <div className="p-border bg-whit bg-[#E1F5DA] rounded-sm max-h-max" key={post._id}>
             {/* image and info */}
-            <div className="flex justify-between border-b mx-2 px-1 py-2">
+            <div className="flex justify-between border-b border-b-[#cfe1b9] mx-2 px-1 py-2">
               <div className="flex gap-2 md:gap-4">
                 <Link to={`/availableDonors/${post?.creator_id}`}>
                   <img

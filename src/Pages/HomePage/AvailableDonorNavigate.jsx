@@ -15,7 +15,7 @@ const AvailableDonorNavigate = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="relative max-w-5xl min-h-[50vh] w-full lg:w-[65%">
+      <div className="relative min-h-[50vh] w-full lg:w-[65%">
         {/* Image behind the content */}
         <img
           src="https://i.ibb.co/KzbNkgSx/blood-2.jpg"
@@ -24,19 +24,21 @@ const AvailableDonorNavigate = () => {
         />
 
         {/* Content area */}
-        <div className="relative text-white z-10 p-8">
-          <h2 className="text-3xl font-bold">Available Donor</h2>
-          <p className="text-lg">
-            Are you looking for a ready donor? <br />
-            Who is ready to give blood now?
-          </p>
+        <div className="md:w-[50%] h-full flex justify-center items-cente">
+          <div className="relative text-white z-10 p-8">
+            <h2 className="text-3xl font-bold">Available Donor</h2>
+            <p className="text-lg">
+              Are you looking for a ready donor? <br />
+              Who is ready to give blood now?
+            </p>
 
-          <button
-            className="btn-bg px-6 py-2 mt-4 rounded-md font-semibold"
-            onClick={NavigateAddReviewPage}
-          >
-            Get Donor
-          </button>
+            <button
+              className="btn-bg px-6 py-2 mt-4 rounded-md font-semibold"
+              onClick={NavigateAddReviewPage}
+            >
+              Get Donor
+            </button>
+          </div>
         </div>
       </div>
     </div>

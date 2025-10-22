@@ -398,7 +398,7 @@ const AvailableDonorPage = () => {
     <MyContainer>
       <WebsiteTitle name={"রক্তযোদ্ধা || Available Donors"} />
       {/* filter section */}
-      <div className="flex flex-col gap-3 mt-3 mb-5 px-1 md:px-2">
+      <div className="flex flex-col gap-3 mt-2 mb-3 px-1 md:px-2">
         {/* Sorted items */}
         <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
           <select
@@ -478,28 +478,28 @@ const AvailableDonorPage = () => {
           </select>
         </div>
         {/* Actions button */}
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+        <div className="grid grid-cols-3 lg:grid-cols-3 gap-2 md:gap-3">
           <button
             onClick={handleSearch}
-            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+            className="hidden btn-bg rounded-md px-[2px] md:px-3 text-[12px] py-[2px] md:py-1 flex justify-center items-center gap-[3px] md:gap-[2px]"
           >
             Search <FaSearch size={15} />
           </button>
           <button
             onClick={handleClearSearchText}
-            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+            className="btn-bg rounded-md px-[2px] md:px-3 text-[12px] py-[2px] md:py-1 flex justify-center items-center gap-[3px] md:gap-[2px]"
           >
             Clear All <MdClear size={15} />
           </button>
           <button
             onClick={handleDownload}
-            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+            className="btn-bg rounded-md px-[2px] md:px-3 text-[12px] py-[2px] md:py-1 flex justify-center items-center gap-[3px] md:gap-[2px]"
           >
             {hide ? "Downloading..." : "Download List"} <FaDownload size={15} />
           </button>
           <button
             onClick={handleInstantRequest}
-            className="btn-bg rounded-md px-3 text-[12px] py-1 flex justify-center items-center gap-[2px]"
+            className="btn-bg rounded-md px-[2px] md:px-3 text-[12px] py-[2px] md:py-1 flex justify-center items-center gap-[3px] md:gap-[2px]"
           >
             Instant Request <FiSend size={15} />
           </button>
@@ -509,7 +509,7 @@ const AvailableDonorPage = () => {
         </button> */}
       </div>
       {/* ------- end of filter section --- */}
-      <div className="h-[70vh] overflow-auto">
+      <div className="h-[70vh] overflow-auto pb-2">
         {availableDonor.length === 0 && !isLoading && (
           <div>
             <h1 className="text-center text-3xl font-semibold pt-10">

@@ -179,7 +179,7 @@ const BlogPage = () => {
         {blogPosts[language].map((post) => (
           <div
             key={post.id}
-            className="bg-white border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300"
+            className="bg-white p-border rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300"
           >
             <img
               src={post.image}

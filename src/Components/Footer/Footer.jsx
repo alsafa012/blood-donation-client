@@ -10,9 +10,7 @@ const Footer = () => {
         <div className="p-5 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-800">
           {/* About Section */}
           <div>
-            <h2 className="text-2xl font-bold text-black mb-3">
-              Roktojoddha
-            </h2>
+            <h2 className="text-2xl font-bold text-black mb-3">Roktojoddha</h2>
             <p className="text-sm leading-relaxed">
               Roktojoddha” is a web-based platform that connects blood donors
               and recipients easily and efficiently. Join our community today
@@ -82,17 +80,18 @@ const Footer = () => {
             </h2>
             <ul className="text-sm space-y-2">
               <li className="flex items-center gap-2">
-                <FaPhoneAlt className="text-green-700" /> 01716626487,
-                01778951824
+                <FaPhoneAlt className="text-green-700" /> 017*****590,
+                018*****409
               </li>
               <li className="flex items-center gap-2">
                 <FaEnvelope className="text-green-700" />{" "}
-                support@Roktojoddha.com
+                support@roktojoddha.com
               </li>
               <li className="flex items-center gap-2">
                 <FaFacebook className="text-green-700" />
                 <a
-                  href="https://facebook.com/Roktojoddha"
+                  //   href="https://facebook.com/Roktojoddha"
+                  href="#"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:text-green-700"
@@ -106,10 +105,9 @@ const Footer = () => {
 
         {/* Divider */}
         <div className="border-t border-[#cfe1b9]"></div>
-
         {/* Bottom Credits */}
         <div className="text-center text-sm text-gray-700 py-3 px-1">
-          <p>© 2018-2025 Roktojoddha || All Rights Reserved.</p>
+          <p>© 2025 Roktojoddha || All Rights Reserved.</p>
           <p className="mt-1">
             Developed & Maintained by{" "}
             <a

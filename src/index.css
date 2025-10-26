@@ -203,3 +203,18 @@ input[type="number"] {
   background-color: #97a97c;
   z-index: 10;
 }
+
+/* Fix layout shifts during full-page capture */
+html, body {
+  scroll-behavior: auto !important;
+  /* overflow-y: scroll !important; */
+  overflow-x: hidden !important;
+  /* transform: none !important;
+  position: static !important; */
+}
+
+/* Disable shadows and transitions during capture */
+/* * {
+  box-shadow: none !important;
+  transition: none !important;
+} */

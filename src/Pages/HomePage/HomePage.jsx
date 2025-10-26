@@ -202,7 +202,7 @@ const HomePage = () => {
       >
         Click
       </button>
-      <div className="bg-[#E1F5DA space-y-5">
+      <div className="bg-[#E1F5DA space-y-5 overflow-hidden">
         <Banner />
         <NavigateDonorCard />
         <NavigateRegistration />

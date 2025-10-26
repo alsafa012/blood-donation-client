@@ -173,52 +173,10 @@ const Blogs = () => {
         >
           {language === "en" ? "বাংলা" : "English"}
         </button>
-        {/* <Link to={"/blogs"}>
-          <button className="btn-bg text-white px-4 py-2 rounded-lg shadow-md transition">
-            See more
-          </button>
-        </Link> */}
       </div>
 
       {/* Blog List */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6 xl:gap-5">
-        {/* {blogPosts[language].map((post) => (
-          <div
-            key={post.id}
-            className="bg-white border rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300"
-          >
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-5">
-              <h3 className="text-lg md:text-xl font-semibold mb-1">
-                {post.title}
-              </h3>
-              <p className="text-gray-500 text-sm mb-3">
-                {new Date(post.date).toLocaleDateString()}
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                {expandedPostId === post.id
-                  ? post.content
-                  : post.content.substring(0, 50) + "..."}
-              </p>
-              <button
-                onClick={() => togglePost(post.id)}
-                className="mt-3 text-sm text-red-500 hover:text-red-600 font-medium"
-              >
-                {expandedPostId === post.id
-                  ? language === "en"
-                    ? "See Less"
-                    : "কম দেখুন"
-                  : language === "en"
-                  ? "Read More"
-                  : "আরও পড়ুন"}
-              </button>
-            </div>
-          </div>
-        ))} */}
         {blogPosts[language].slice(0, 4).map((post, index) => {
           // Calculate how many blogs are left
           const remainingBlogs = blogPosts[language]?.length - 3;

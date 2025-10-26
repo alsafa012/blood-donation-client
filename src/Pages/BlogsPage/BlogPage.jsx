@@ -160,7 +160,7 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4">
+    <div className="max-w-screen-2xl mx-auto py-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-3xl font-bold">

@@ -15,7 +15,7 @@ const NavigateDonorCard = () => {
   };
   return (
     <div>
-      <div className="bg-[#E1F5DA] p-8 rounded-xl flex flex-col gap-5 md:gap-0 md:flex-row items-center justify-between">
+      <div className="bg-[#E1F5DA] p-8 flex flex-col gap-5 md:gap-0 md:flex-row items-center justify-between">
         <div className="md:w-auto lg:w-1/2 text-center md:text-left">
           <h2 className="text-xl max-w-max font-bold border-b border-dashed pb-2">
             রক্তযোদ্ধা ব্লাড কার্ড :

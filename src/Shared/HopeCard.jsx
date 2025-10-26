@@ -238,12 +238,12 @@ const HopeCard = forwardRef((props, ref) => {
 
               <div>
                 <h2 className="text-lg lg:text-2xl font-bold">
-                  {user?.displayName || "Ridoy"}
+                  {user?.displayName || "Name"}
                 </h2>
                 <p className="text-sm lg:text-md text-gray-600">
                   Age:{" "}
                   <span className="font-semibold">
-                    {loggedUserInfo?.user_age || "25"}
+                    {loggedUserInfo?.user_age || "**"}
                   </span>
                 </p>
               </div>
@@ -264,7 +264,7 @@ const HopeCard = forwardRef((props, ref) => {
                   {user ? (
                     <ShowBloodGroup blood={loggedUserInfo?.bloodGroup} />
                   ) : (
-                    "A+"
+                    "**"
                   )}
                 </span>
               </p>

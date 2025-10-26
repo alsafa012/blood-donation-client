@@ -33,10 +33,10 @@ const AvailableDonorNavigate = () => {
             </p>
 
             <button
-              className="btn-bg px-6 py-2 mt-4 rounded-md font-semibold"
+              className="btn-bg px-4 py-1 mt-4 rounded-md font-semibold"
               onClick={NavigateAddReviewPage}
             >
-              Get Donor
+              Get Donor →
             </button>
           </div>
         </div>

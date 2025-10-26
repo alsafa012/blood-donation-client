@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import { IoIosNotifications } from "react-icons/io";
+import { FaClock } from "react-icons/fa6";
+import moment from "moment";
 const navData = [
   {
     id: 1,
@@ -35,6 +36,7 @@ const NavbarSection = () => {
   const { user, userSignOut } = useAuth();
   const [openDropdown, setOpenDropdown] = useState(false);
   const navigate = useNavigate();
+  const [currentTime, setCurrentTime] = useState(moment());
   // const items = ["Profile", "Dashboard", "Log Out"];
   const items = [
     {
@@ -76,7 +78,7 @@ const NavbarSection = () => {
   };
   return (
     <nav className="max-w-screen-2xl mx-auto bg-primary sticky top-0 border-b border-[rgb(210,216,211)] z-50">
-      <div className="md:h-[70px] grid grid-cols-2 md:grid-cols-4 items-center px-3 py-5">
+      <div className="md:h-[70px grid grid-cols-2 md:grid-cols-4 items-center px-3 py-3">
         {/* logo div */}
         <div className="col-span-1 flex gap-1 items-center relative">
           <img
@@ -84,8 +86,8 @@ const NavbarSection = () => {
             src="https://i.ibb.co.com/S7vw7fm/logo-with-heart-hand.png"
             alt=""
           />
-          <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">রক্তযোদ্ধা</h1>
-          {/* <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">Roktojoddha</h1> */}
+          {/* <h1 className="text-2xl font-bold p-text pl-9 md:pl-9">রক্তযোদ্ধা</h1> */}
+          <h1 className="text-2xl font-bold p-tex pl-9 md:pl-9">Roktojoddha</h1>
         </div>
         {/* lists */}
         <div className="hidden md:block text-center mx-auto w-ful col-span-2">
@@ -111,16 +113,30 @@ const NavbarSection = () => {
         <div className="col-span-1 flex justify-end items-center gap-2">
           {/* profile icon */}
           {user ? (
-            <div className="relative w-fit text-black flex items-center gap-3">
-              <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
+            <div className="relative w-fit text-black flex items-start flre gap-1">
+              {/* todo: Notification Alert */}
+              {/* <button className="border relative hover:bg-[#dff3c6] p-1 cursor-pointer rounded-full">
                 <IoIosNotifications size={25} />
                 <span className="absolute -top-3 -right-1">10</span>
-              </button>
+              </button> */}
+              {/* <DigitalClock /> */}
+              <div className="hidde font-mono">
+                <p className="inline-flex items-center gap-1">
+                  <FaClock size={15} className="text-white" />
+                  <span className="text-[12px]">
+                    {currentTime.format("hh:mm A")}
+                  </span>
+                </p>
+                {/* Date */}
+                <p className="text-[11px]">
+                  {currentTime.format("dddd, MMMM Do YYYY")}
+                </p>
+              </div>
               <div onClick={() => setOpenDropdown(!openDropdown)}>
                 <img
                   // width={40}
                   // height={40}
-                  className="size-8 md:size-8 rounded-full cursor-pointer bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
+                  className="size-8 md:size-10 rounded-full cursor-pointer bg-slate-500 object-cover duration-500 hover:scale-x-[98%] hover:opacity-80"
                   src={user?.photoURL}
                   alt="avatar"
                 />

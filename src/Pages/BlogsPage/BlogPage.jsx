@@ -14,7 +14,7 @@ const blogPosts = {
       title: "How to Prepare for Blood Donation",
       content: `Preparing for blood donation is crucial to ensure a smooth process. Stay hydrated, eat a healthy meal, and avoid heavy exercise before donating.`,
       date: "2023-02-15",
-      image: "https://images.unsplash.com/photo-1600959907703-125ba1d5c4c6",
+      image: "https://unsplash.com/photos/text-Btja3lr5ldk",
     },
     {
       id: 3,

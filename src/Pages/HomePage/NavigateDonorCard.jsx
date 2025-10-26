@@ -17,17 +17,18 @@ const NavigateDonorCard = () => {
     <div>
       <div className="bg-[#E1F5DA] p-8 flex flex-col gap-5 md:gap-0 md:flex-row items-center justify-between">
         <div className="md:w-auto lg:w-1/2 text-center md:text-left">
-          <h2 className="text-xl max-w-max font-bold border-b border-dashed pb-2">
-            রক্তযোদ্ধা ব্লাড কার্ড :
+          <h2 className="text-xl max-w-max font-bold border-b border-dashed border-[#cfe1b9] pb-2">
+            Roktojoddha Blood Card :{/* রক্তযোদ্ধা ব্লাড কার্ড : */}
           </h2>
           <p className="text-gray-600 my-3 text-xs">
-            এখনি ডাউনলোড করে ফেলুন আপনার কার্ডটি
+            {/* এখনি ডাউনলোড করে ফেলুন আপনার কার্ডটি */}
+            Download your card now
           </p>
           <button
-            className="bg-primary text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
+            className="bg-primar btn-bg text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
             onClick={NavigateCardDownloadPage}
           >
-            ডাউনলোড করুন →
+            Download →{/* ডাউনলোড করুন → */}
           </button>
         </div>
         <div className="md:w-auto lg:w-1/2">

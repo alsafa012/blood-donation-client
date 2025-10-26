@@ -15,7 +15,25 @@ const NavigateRegistration = () => {
           user ? "hidden" : "block"
         } w-[60%] mx-auto bg-[#CEE9BE bg-[#E1F5DA] p-10`}
       >
-        <h1 className="text-2xl font-semibold text-center">
+        <h1 className="text-2xl font-semibold text-center mb-4">
+          If you are interested in donating blood, register{" "}
+          <span className="text-lg block mt-2">and become a Roktojoddha.</span>
+        </h1>
+        <p className="text-sm text-gray-700 my-5">
+          Roktojoddha is not a single organization; it is a platform for blood
+          donors. It exists for the convenience of individuals and organizations
+          alike. Its purpose is to bring together blood donors and various
+          blood-related organizations on a single platform, making the process
+          of giving and receiving blood easier. If you are a blood donor,
+          register on the Roktojoddha website today.
+        </p>
+        <button
+          className="bg-primar btn-bg mx-auto text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
+          onClick={NavigateRegistrationPage}
+        >
+          Register →
+        </button>
+        {/* <h1 className="text-2xl font-semibold text-center">
           রক্তদানে আগ্রহী হলে রেজিস্ট্রেশন করুন{" "}
           <span className="text-lg">হয়ে যান রক্তযোদ্ধা</span>
         </h1>
@@ -31,7 +49,7 @@ const NavigateRegistration = () => {
           onClick={NavigateRegistrationPage}
         >
           রেজিস্ট্রেশন করুন →
-        </button>
+        </button> */}
       </div>
     </MyContainer>
   );

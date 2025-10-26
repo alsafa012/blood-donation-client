@@ -40,15 +40,18 @@ const Reviews = () => {
     <div className="bg-red-5 bg-[#E1F5DA] p-8 flex flex-col gap-5 md:gap-0 md:flex-row md:items-center md:justify-between">
       {/* Left Section */}
       <div className="md:w-1/2 text-center md:text-left">
-        <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2>
+        {/* <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2> */}
+        <h2 className="text-xl font-bold border-b border-dashed border-[#cfe1b9] max-w-max">Roktojoddha Users’ Opinions :</h2>
         <p className="text-gray-600 my-3 text-xs">
-          রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন
+          {/* রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন */}
+          Share your opinion about Roktojoddha
         </p>
         <button
-          className="bg-primary mx-auto md:mx-0 text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
+          className="bg-primar btn-bg mx-auto md:mx-0 text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
           onClick={NavigateAddReviewPage}
         >
-          মতামত দিন →
+          {/* মতামত দিন → */}
+          Give your opinion →
         </button>
       </div>
 

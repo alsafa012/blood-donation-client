@@ -160,10 +160,10 @@ const BlogPage = () => {
   };
 
   return (
-    <div className="max-w-screen-2xl mx-auto py-6">
+    <div className="my-5 px-2">
       {/* Header */}
       <div className="flex justify-between items-center mb-5">
-        <h2 className="text-3xl font-bold">
+        <h2 className="text-xl md:text-2xl font-bold">
           {language === "en" ? "Blog Posts" : "ব্লগ পোস্ট"}
         </h2>
         <button
@@ -175,7 +175,7 @@ const BlogPage = () => {
       </div>
 
       {/* Blog List */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6 xl:gap-5">
         {blogPosts[language].map((post) => (
           <div
             key={post.id}
@@ -187,11 +187,11 @@ const BlogPage = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-5">
-              <h3 className="text-lg md:text-xl font-semibold mb-1">{post.title}</h3>
+              <h3 className="text-lg font-semibold mb-1">{post.title}</h3>
               <p className="text-gray-500 text-sm mb-3">
                 {new Date(post.date).toLocaleDateString()}
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 text-sm leading-relaxed">
                 {expandedPostId === post.id
                   ? post.content
                   : post.content.substring(0, 50) + "..."}

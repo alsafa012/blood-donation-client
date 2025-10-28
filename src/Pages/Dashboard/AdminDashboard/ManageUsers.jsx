@@ -27,7 +27,7 @@ const ManageUsers = () => {
   const [searchData, setSearchData] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
-  const location = useLocation()
+  const location = useLocation();
   const [availableStatus, setAvailableStatus] = useState("");
   const [accountStatus, setAccountStatus] = useState("");
   const [reportStatus, setReportStatus] = useState("");
@@ -37,7 +37,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `https://blood-donation-server-ebon.vercel.app/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}&reportStatus=${reportStatus}`
+          `http://localhost:5000/users?search=${searchData}&blood=${bloodGroup}&gender=${selectedGender}&accountStatus=${accountStatus}&availableStatus=${availableStatus}&reportStatus=${reportStatus}`
         );
 
         // Group reports by user ID
@@ -81,20 +81,19 @@ const ManageUsers = () => {
     id,
     accountStatus,
     activeStatus,
-    showImage
+    showImage,
+    user_role
   ) => {
     console.log(id);
     const accountStatusUpdate = {
       user_activeStatus: activeStatus,
       account_status: !accountStatus,
       showImage: showImage,
+      user_role:user_role
     };
 
     axios
-      .patch(
-        `https://blood-donation-server-ebon.vercel.app/users/${id}`,
-        accountStatusUpdate
-      )
+      .patch(`http://localhost:5000/users/${id}`, accountStatusUpdate)
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           // Optimistic UI update: Update user status immediately in the local state
@@ -158,6 +157,86 @@ const ManageUsers = () => {
     setAvailableStatus("");
     setAccountStatus("");
   };
+
+  const handleMakeAdmin = async (userId, currentRole, user) => {
+    console.log(currentRole);
+    // determine new role
+    const newRoleValue = currentRole === "admin" ? "donor" : "admin";
+
+    // create updated user object (if needed for display)
+    const updatedUser = {
+      ...user,
+      user_role: newRoleValue,
+    };
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to make ${user.user_name} a ${newRoleValue}.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Yes, make ${newRoleValue}`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axios.patch(
+            `http://localhost:5000/users/${userId}`,
+            updatedUser
+          );
+
+          if (res.status === 200) {
+            Swal.fire({
+              title: "Updated!",
+              text: `${user.user_name} is now a ${newRoleValue}.`,
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            });
+
+            // Optional: update UI instantly
+            // setUsers((prev) =>
+            //   prev.map((u) =>
+            //     u._id === userId ? { ...u, user_role: newRoleValue } : u
+            //   )
+            // );
+          } else {
+            Swal.fire({
+              title: "Failed!",
+              text: "User not found or could not be updated.",
+              icon: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Error updating user role:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong while updating the user.",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      const res = await axios.delete(`http://localhost:5000/users/${userId}`);
+
+      if (res.data.success) {
+        alert("✅ User deleted successfully!");
+        // Optional: remove from UI immediately
+        // setUsers((prev) => prev.filter((user) => user._id !== userId));
+        refetchUser();
+      } else {
+        alert("⚠️ Failed to delete user — user not found.");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("❌ Something went wrong while deleting the user.");
+    }
+  };
+
   return (
     <MyContainer>
       <div className="bg-[#B5C99A sticky top-0 z-10 bg-[#CFE1B9] text-lg md:text-[24px] font-bold pl-2 py-4 flex gap-10 items-center w-full lg:min-h-[10vh] lg:max-h-[10vh]">
@@ -194,9 +273,12 @@ const ManageUsers = () => {
                   <th className="px-6 py-4 text-sm font-medium">
                     Active Status
                   </th>
+                  <th className="px-6 py-4 text-sm font-medium">Role</th>
                   <th className="px-6 py-4 text-sm font-medium">
                     Account Status
                   </th>
+                  <th className="px-6 py-4 text-sm font-medium">Delete User</th>
+                  <th className="px-6 py-4 text-sm font-medium">View posts</th>
                   <th className="px-6 py-4 text-sm font-medium">Actions</th>
                 </tr>
               </thead>
@@ -275,7 +357,20 @@ const ManageUsers = () => {
                         </span>
                       </td>
                       {/* Account status */}
-
+                      <td className="px-4 py-2 text-sm font-medium text-gray-800">
+                        <div>
+                          <span
+                            className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full capitalize ${
+                              user?.user_role == "admin"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
+                            }`}
+                          >
+                            {user?.user_role}
+                          </span>
+                        </div>
+                      </td>
+                      {/* Account status */}
                       <td className="px-4 py-2 text-sm font-medium text-gray-800">
                         <div>
                           <span
@@ -289,7 +384,25 @@ const ManageUsers = () => {
                           </span>
                         </div>
                       </td>
-
+                      {/* Action btn */}
+                      <td className="px-4 py-2 text-sm font-medium text-gray-800">
+                        <button
+                          onClick={() => handleDeleteUser(user?._id)}
+                          className="p-border px-1 rounded-md py-1"
+                        >
+                          Delete User
+                        </button>
+                      </td>
+                      <td className="px-4 py-2 text-sm font-medium text-gray-800">
+                        <Link
+                          to={`/dashboard/admin/viewAllPostsByUser/${user._id}`}
+                          state={location?.pathname}
+                        >
+                          <button className="p-border px-1 rounded-md py-1">
+                            View posts
+                          </button>
+                        </Link>
+                      </td>
                       {/* Actions */}
                       <td className="px-4 py-2 space-x-3">
                         <div className="flex flex-col items-center gap-1 justify-center">
@@ -305,13 +418,32 @@ const ManageUsers = () => {
                                 user?._id,
                                 user?.account_status,
                                 user?.user_activeStatus,
-                                user?.showImage
+                                user?.showImage,
+                                user?.user_role
                               )
                             }
                             className="text-blue-600 hover:underline whitespace-nowrap"
                           >
                             change account status
                             {/* {user?.account_status ? "Deactivate" : "Activate"} */}
+                          </button>
+                          {/* <button
+                       
+                            className="text-blue-600 hover:underline whitespace-nowrap"
+                          >
+                            {user?.user_role == "admin"
+                              ? "make as donor"
+                              : "Make as admin"}
+                          </button> */}
+                          <button
+                            onClick={() =>
+                              handleMakeAdmin(user?._id, user?.user_role, user)
+                            }
+                            className="text-blue-600 hover:underline whitespace-nowrap"
+                          >
+                            {user?.user_role === "admin"
+                              ? "Make as Donor"
+                              : "Make as Admin"}
                           </button>
                         </div>
                       </td>

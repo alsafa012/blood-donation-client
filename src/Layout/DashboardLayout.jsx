@@ -184,6 +184,20 @@ const DashboardLayout = () => {
                   <MdOutlineManageAccounts size={25} /> Manage Users
                 </NavLink>
               </li>
+              <li className="hidden">
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "nav-lists-border nav-text cursor-pointer pb-[6px] bg-[#bfd3a4]"
+                      : "cursor-pointer pb-[6px]"
+                  }
+                  to="/dashboard/admin/viewAllPostsByUser"
+                >
+                  <MdOutlineManageAccounts size={25} /> Manage posts
+                </NavLink>
+              </li>
             </>
             {/* // )} */}
             <div className="border border-[#87986a] my-5"></div>

@@ -21,6 +21,7 @@ import UpdatePostPage from "../Pages/AllPostPage/UpdatePostPage";
 import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
 import BlogPage from "../Pages/BlogsPage/BlogPage";
 import BloodBankInfo from "../Pages/BloodBankInfo/BloodBankInfo";
+import ViewAllPostsByUser from "../Pages/Dashboard/AdminDashboard/ViewAllPostsByUser";
 
 const myCreatedRouter = createBrowserRouter([
   // https://blood-donation-server-ebon.vercel.app
@@ -67,7 +68,7 @@ const myCreatedRouter = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/allPosts/${params.id}`
+            `http://localhost:5000/allPosts/${params.id}`
           ),
       },
       {
@@ -79,7 +80,7 @@ const myCreatedRouter = createBrowserRouter([
         element: <ShowAvailableDonorDetails />,
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/available-donor/${params.id}`
+            `http://localhost:5000/available-donor/${params.id}`
           ),
       },
       {
@@ -87,7 +88,7 @@ const myCreatedRouter = createBrowserRouter([
         element: <ShowSelectedPostDetails />,
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/single-post-details/${params.id}`
+            `http://localhost:5000/single-post-details/${params.id}`
           ),
       },
       {
@@ -95,7 +96,7 @@ const myCreatedRouter = createBrowserRouter([
         element: <UpdateUserProfile />,
         loader: ({ params }) =>
           fetch(
-            `https://blood-donation-server-ebon.vercel.app/users/${params.id}`
+            `http://localhost:5000/users/${params.id}`
           ),
       },
     ],
@@ -127,7 +128,7 @@ const myCreatedRouter = createBrowserRouter([
         path: "/dashboard/cardDownload",
         element: (
           <PrivateRoute>
-            <DownloadCard />
+            <DownloadCard />,
           </PrivateRoute>
         ),
       },
@@ -147,6 +148,14 @@ const myCreatedRouter = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ManageUsers />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/viewAllPostsByUser/:userId",
+        element: (
+          <PrivateRoute>
+            <ViewAllPostsByUser />
           </PrivateRoute>
         ),
       },

@@ -18,7 +18,7 @@ const MyReports = () => {
     queryKey: ["myReports", loggedUserInfo?._id],
     queryFn: async () => {
       const response = await axios.get(
-        `https://blood-donation-server-ebon.vercel.app/myReports?reported_by=${loggedUserInfo._id}`
+        `http://localhost:5000/myReports?reported_by=${loggedUserInfo._id}`
       );
       return response.data;
     },
@@ -53,7 +53,7 @@ const MyReports = () => {
         <h2 className="text-2xl font-bold mb-4"> My Reports</h2>
         <p className="text-gray-700 mb-6">
           You’ve made <span className="font-semibold">{reports?.length}</span>{" "}
-          post
+          report
           {reports?.length !== 1 ? "s" : ""} on blood requests.
         </p>
       </div>

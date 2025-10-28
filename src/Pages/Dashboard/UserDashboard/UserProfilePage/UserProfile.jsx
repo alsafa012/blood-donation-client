@@ -20,12 +20,19 @@ const UserProfile = () => {
     (item) => item.user_email === user?.email
   );
   // console.log(filterData);
-  const handleUpdateStatus = (id, activeStatus, accountStatus, showImage) => {
+  const handleUpdateStatus = (
+    id,
+    activeStatus,
+    accountStatus,
+    showImage,
+    user_role
+  ) => {
     // console.log(id);
     const updatedStatus = {
       user_activeStatus: activeStatus === "active" ? "inactive" : "active",
       account_status: accountStatus,
       showImage: showImage,
+      user_role: user_role,
     };
     axiosPublic
       .patch(`/users/${id}`, updatedStatus)
@@ -392,7 +399,8 @@ const UserProfile = () => {
                               info?._id,
                               info?.user_activeStatus,
                               info?.account_status,
-                              info?.showImage
+                              info?.showImage,
+                              info?.user_role
                             )
                           }
                           className={`flex h-fit w-8 items-center rounded-sm hover:-skew-y-3 ${

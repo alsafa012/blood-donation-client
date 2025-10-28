@@ -188,8 +188,14 @@ const MyPosts = ({ location }) => {
   return (
     <div className="min-h-[80vh] px-2 md:px-2 my-3 overflow-y-auto">
       {/* <p className="text-5xl">{myPosts.length}</p> */}
+      <h2 className="text-2xl font-bold mb-4">My Posts</h2>
+      <p className="text-gray-700 mb-6">
+        You’ve made <span className="font-semibold">{myPosts?.length}</span>{" "}
+        request
+        {myPosts?.length !== 1 ? "s" : ""} on Roktojoddha.
+      </p>
       {myPosts?.length === 0 && (
-        <div className="flex px-5 md:px-0 justify-center items-center min-h-[80vh]">
+        <div className="flex px-5 md:px-0 justify-center items-center min-h-[80vh">
           <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center border-t-4 border-red-500">
             <div className="flex justify-center mb-4 text-red-500 text-5xl">
               <FaTint />
@@ -210,15 +216,12 @@ const MyPosts = ({ location }) => {
           </div>
         </div>
       )}
-      <h2 className="text-2xl font-bold mb-4">My Posts</h2>
-      <p className="text-gray-700 mb-6">
-        You’ve made <span className="font-semibold">{myPosts?.length}</span>{" "}
-        post
-        {myPosts?.length !== 1 ? "s" : ""} on blood requests.
-      </p>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5 my-5 overflow-auto">
         {myPosts?.map((post, ind) => (
-          <div className="p-border bg-whit bg-[#E1F5DA] rounded-sm max-h-max" key={post._id}>
+          <div
+            className="p-border bg-whit bg-[#E1F5DA] rounded-sm max-h-max"
+            key={post._id}
+          >
             {/* image and info */}
             <div className="flex justify-between border-b border-b-[#cfe1b9] mx-2 px-1 py-2">
               <div className="flex gap-2 md:gap-4">

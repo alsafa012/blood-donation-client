@@ -198,13 +198,13 @@ const AllPostPage = () => {
         {allPostsInfo?.length === 0 ? (
           <div className="col-span-4 md:col-span-2">
             <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
-              <h1 className="text-2xl font-semibold">No Post Available</h1>
+              <h1 className="text-2xl font-semibold">No Request Available</h1>
               <Link
                 onClick={NavigateCreatePostPage}
                 // to={"/createPost"}
                 className="inline-flex items-center gap-1 hover:underline underline-offset-4 hover:text-[#578456] max-w-max"
               >
-                Add Request <TbHandClick size={20} />
+                Add a Request <TbHandClick size={20} />
               </Link>
             </div>
           </div>

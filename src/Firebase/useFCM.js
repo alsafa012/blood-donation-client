@@ -7,7 +7,7 @@ import { messaging, getToken,onMessage } from "./firebase.config";
 const saveToken = async (token) => {
   try {
     const userId = "user-id-here"; // Replace with the current user ID
-    await axios.post("https://blood-donation-server-ebon.vercel.app/save-token", { userId, token });
+    await axios.post("http://localhost:5000/save-token", { userId, token });
     console.log("Token saved successfully:", token);
   } catch (error) {
     console.error("Error saving token:", error);

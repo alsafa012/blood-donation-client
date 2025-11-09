@@ -14,7 +14,9 @@ const ViewAllPostsByUser = () => {
   console.log(location);
 
   useEffect(() => {
-    fetch(`https://blood-donation-server-ebon.vercel.app/allpostinfobyuserid/${userId}`)
+    fetch(
+      `https://blood-donation-server-ebon.vercel.app/allpostinfobyuserid/${userId}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setAllPOsts(data);
@@ -32,15 +34,23 @@ const ViewAllPostsByUser = () => {
       >
         <FaArrowLeft /> Go Back
       </Link>
-      <div className="grid grid-cols-2 gap-5 px-2 my-3">
-        {/* content */}
-        {allPosts?.length === 0 && (
-          <p className="text-gray-700 mb-6">
-            You’ve made{" "}
-            <span className="font-semibold">{allPosts?.length}</span> request
+      <div className="px-2 my-3">
+        {allPosts?.length === 0 ? (
+          <p className="text-gray-700 mb-">
+            User made <span className="font-semibold">{allPosts?.length}</span>
+            requests
+            {allPosts?.length !== 1 ? "s" : ""} on Roktojoddha.
+          </p>
+        ) : (
+          <p className="text-gray-700 mb-">
+            User made <span className="font-semibold">{allPosts?.length}</span>{" "}
+            request
             {allPosts?.length !== 1 ? "s" : ""} on Roktojoddha.
           </p>
         )}
+      </div>
+      <div className="grid grid-cols-2 gap-5 px-2 my-3">
+        {/* content */}
         {allPosts?.map((info, ind) => (
           <div
             key={ind}

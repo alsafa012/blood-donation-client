@@ -30,6 +30,7 @@ const AllPostPage = () => {
   const [showComments1, setShowComments1] = useState([]);
   const [selectedPostDetail, setSelectedPostDetail] = useState({});
   const [loggedUserInfo] = useLoggedUserInfo();
+  console.log(loggedUserInfo);
   const axiosPublic = useAxiosPublic();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showSelectedImage, setShowSelectedImage] = useState(false);

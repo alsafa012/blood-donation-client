@@ -125,7 +125,11 @@ const RegistrationPage = () => {
     const address = form.address.value;
     const password = form.password.value;
     const re_password = form.re_password.value;
-    let photoUrl = "https://i.ibb.co/mtL872C/image.png"; // Default profile image
+    let photoUrl =
+      userGender === "Male"
+        ? "https://i.ibb.co/mtL872C/image.png"
+        : "https://i.ibb.co.com/270Pssg6/women-hijab.jpg"; // Default profile image
+    // let photoUrl = "https://i.ibb.co/mtL872C/image.png"; // Default profile image
 
     const errors = {};
 

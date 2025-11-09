@@ -28,7 +28,7 @@ const NavigateRegistration = () => {
           register on the Roktojoddha website today.
         </p>
         <button
-          className="bg-primar btn-bg mx-auto text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
+          className="bg-primar btn-bg mx-auto text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2 hover:-skew-y-3 transition"
           onClick={NavigateRegistrationPage}
         >
           Register →

@@ -25,7 +25,7 @@ const NavigateDonorCard = () => {
             Download your card now
           </p>
           <button
-            className="bg-primar btn-bg text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
+            className="bg-primar btn-bg text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2 hover:-skew-y-3 transition"
             onClick={NavigateCardDownloadPage}
           >
             Download →{/* ডাউনলোড করুন → */}

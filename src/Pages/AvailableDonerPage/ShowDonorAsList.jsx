@@ -3,14 +3,6 @@ import MyContainer from "../../Shared/MyContainer";
 import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import { forwardRef } from "react";
 const ShowDonorAsList = forwardRef(({ donorList, hide, location }, ref) => {
-  const fakeData = Array.from({ length: 55 }, (_, i) => ({
-    _id: `id${i + 1}`,
-    user_name: `User ${i + 1}`,
-    bloodGroup: ["A+", "B+", "O+", "AB+"][i % 4],
-    phone_number: `01${Math.floor(100000000 + Math.random() * 900000000)}`,
-    user_religious: ["Islam", "Hinduism", "Christianity", "Buddhism"][i % 4],
-    user_gender: i % 2 === 0 ? "Male" : "Female",
-  }));
   return (
     <MyContainer>
       <div className="overflow-x-auto mx-auto pb-4">

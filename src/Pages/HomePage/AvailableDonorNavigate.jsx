@@ -33,7 +33,7 @@ const AvailableDonorNavigate = () => {
             </p>
 
             <button
-              className="btn-bg px-4 py-1 mt-4 rounded-md font-semibold"
+              className="btn-bg px-4 py-1 mt-4 rounded-md font-semibold hover:-skew-y-3 transition"
               onClick={NavigateAddReviewPage}
             >
               Get Donor →

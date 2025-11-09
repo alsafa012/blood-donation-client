@@ -388,7 +388,7 @@ const ManageUsers = () => {
                       <td className="px-4 py-2 text-sm font-medium text-gray-800">
                         <button
                           onClick={() => handleDeleteUser(user?._id)}
-                          className="p-border px-1 rounded-md py-1"
+                          className="p-border px-1 rounded-md py-1 hover:-skew-y-3 transition"
                         >
                           Delete User
                         </button>
@@ -398,7 +398,7 @@ const ManageUsers = () => {
                           to={`/dashboard/admin/viewAllPostsByUser/${user._id}`}
                           state={location?.pathname}
                         >
-                          <button className="p-border px-1 rounded-md py-1">
+                          <button className="p-border px-1 rounded-md py-1 hover:-skew-y-3 transition">
                             View posts
                           </button>
                         </Link>

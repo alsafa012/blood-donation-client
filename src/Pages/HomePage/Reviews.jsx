@@ -49,7 +49,7 @@ const Reviews = () => {
           Share your opinion about Roktojoddha
         </p>
         <button
-          className="bg-primar btn-bg mx-auto md:mx-0 text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2"
+          className="bg-primar btn-bg mx-auto md:mx-0 text-white px-4 py-1 rounded-md font-semibold flex items-center gap-2 hover:-skew-y-3 transition"
           onClick={NavigateAddReviewPage}
         >
           {/* মতামত দিন → */}

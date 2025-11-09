@@ -14,7 +14,7 @@ const DonorReport = ({ donorId, showReportForm, setShowReportForm }) => {
     const checkReportStatus = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/hasReported?reported_by=${loggedUserInfo?._id}&reported_to=${donorId}`
+          `https://blood-donation-server-ebon.vercel.app/hasReported?reported_by=${loggedUserInfo?._id}&reported_to=${donorId}`
         );
         setHasReported(res.data.reported);
       } catch (error) {
@@ -60,7 +60,7 @@ const DonorReport = ({ donorId, showReportForm, setShowReportForm }) => {
       if (result.isConfirmed) {
         try {
           const res = await axios.post(
-            "http://localhost:5000/reportDonor",
+            "https://blood-donation-server-ebon.vercel.app/reportDonor",
             reportInfo
           );
           if (res.data.acknowledged) {

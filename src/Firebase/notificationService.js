@@ -30,7 +30,7 @@ export const requestNotificationPermission = async (userId) => {
 const saveTokenToDatabase = async (userId, token) => {
   // Implement your logic to save the token in your database
   // For example, send a POST request to your backend API with userId and token
-  await fetch("http://localhost:5000/save-token", {
+  await fetch("https://blood-donation-server-ebon.vercel.app/save-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

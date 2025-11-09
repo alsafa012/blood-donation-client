@@ -41,7 +41,9 @@ const Reviews = () => {
       {/* Left Section */}
       <div className="md:w-1/2 text-center md:text-left">
         {/* <h2 className="text-xl font-bold">রক্তযোদ্ধাদের মতামত :</h2> */}
-        <h2 className="text-xl font-bold border-b border-dashed border-[#cfe1b9] max-w-max">Roktojoddha Users’ Opinions :</h2>
+        <h2 className="text-xl font-bold border-b border-dashed border-[#cfe1b9] max-w-max">
+          Roktojoddha Users’ Opinions :
+        </h2>
         <p className="text-gray-600 my-3 text-xs">
           {/* রক্তযোদ্ধা সম্পর্কে আপনার মতামত দিন */}
           Share your opinion about Roktojoddha
@@ -56,9 +58,36 @@ const Reviews = () => {
       </div>
 
       {/* Right Section - Show all reviews */}
-      <div className="md:w-1/2 hid">
+      {reviewInfo?.length === 0 && (
+        <div className="w-full flex flex-col items-center justify-center py-10">
+          {/* <div className="w-full flex flex-col items-center justify-center py-10 bg-gradient-to-r from-green-50 to-green-100 rounded-xl shadow-sm p-border"> */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12 text-green-500 mb-3"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11.25 9.75h1.5m-6.75 0h1.5m9 0h1.5m-12.75 6h15M3 4.5h18a.75.75 0 01.75.75v14.25a.75.75 0 01-.75.75H3a.75.75 0 01-.75-.75V5.25A.75.75 0 013 4.5z"
+            />
+          </svg>
+          <p className="text-lg font-semibold text-gray-700">No Reviews Yet</p>
+          <p className="text-sm text-gray-500">
+            Be the first to leave a review!
+          </p>
+        </div>
+      )}
+
+      <div
+        className={`md:w-1/2 ${reviewInfo?.length === 0 ? "hidden" : "block"}`}
+      >
         <div className="bg-white flex min-h-[40vh] max-h-[40vh shadow-lg rounded-lg overflow-hidden">
           {/* <div className="relative flex"> */}
+
           {reviewInfo?.map((review) => (
             <div
               key={review._id}

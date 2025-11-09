@@ -14,7 +14,7 @@ const ViewAllPostsByUser = () => {
   console.log(location);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/allpostinfobyuserid/${userId}`)
+    fetch(`https://blood-donation-server-ebon.vercel.app/allpostinfobyuserid/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         setAllPOsts(data);

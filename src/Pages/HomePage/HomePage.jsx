@@ -6,6 +6,8 @@ import MyContainer from "../../Shared/MyContainer";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 // import { requestNotificationPermission } from "../../Firebase/notificationService";
 // import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
+import img1 from "../../../src/assets/av2.png";
+// import img2 from "../../../src/assets/av2.png"
 import {
   onMessageListener,
   requestForToken,
@@ -202,16 +204,17 @@ const HomePage = () => {
       >
         Click
       </button>
-      <div className="bg-[#E1F5DA space-y-5 overflow-hidden">
+      <div className="bg-[#E1F5DA space-y-3 overflow-hidden">
         <Banner />
         <NavigateDonorCard />
         <NavigateRegistration />
         <Reviews />
         {/* <ReviewSection /> */}
-        <div className="my-10">
+        <div className="">
           <img
-            src="https://i.ibb.co/BHZ7rPVK/blood-3.jpg"
-            className="mx-auto "
+            // src="https://i.ibb.co/BHZ7rPVK/blood-3.jpg"
+            src={img1}
+            className="mx-auto bg-[#E1F5DA] w-full"
             alt=""
           />
         </div>

@@ -209,7 +209,7 @@ const Blogs = () => {
                 // onClick={() => (window.location.href = "/blogs")}
                 className="flex items-center justify-center bg-gray-50 p-border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
               >
-                <span className="text-lg lg:text-2xl font-semibold text-green-700">
+                <span className="text-lg lg:text-2xl font-semibold p-text">
                   +{remainingBlogs} more
                 </span>
               </Link>
@@ -241,7 +241,7 @@ const Blogs = () => {
                 </p>
                 <button
                   onClick={() => togglePost(post.id)}
-                  className="mt-2 text-xs md:text-sm text-red-500 hover:text-red-600 font-medium"
+                  className="mt-2 text-xs md:text-sm p-text hover:underline font-medium"
                 >
                   {expandedPostId === post.id
                     ? language === "en"

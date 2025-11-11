@@ -136,6 +136,7 @@ const ShowAvailableDonorDetails = () => {
                   <button
                     className="md:hover:rotate-45 duration-300 rounded-full"
                     onClick={handleReportClick}
+                    title="Report"
                   >
                     <MdOutlineReport size={28} />
                   </button>

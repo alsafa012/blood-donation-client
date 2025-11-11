@@ -183,7 +183,7 @@ const BloodBankHomeInfo = () => {
                 // onClick={() => (window.location.href = "/blogs")}
                 className="flex items-center justify-center bg-gray-50 p-border rounded-lg shadow-lg cursor-pointer hover:bg-gray-200 transition duration-300"
               >
-                <span className="text-lg lg:text-2xl font-semibold text-green-700">
+                <span className="text-lg lg:text-2xl font-semibold p-text">
                   +{remainingBlogs} more
                 </span>
               </Link>

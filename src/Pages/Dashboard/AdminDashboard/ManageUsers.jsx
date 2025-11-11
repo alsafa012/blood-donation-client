@@ -257,13 +257,13 @@ const ManageUsers = () => {
         </div>
       </div>
       <div className="">
-        <div className="min-h-[95vh] max-h-[95vh] lg:min-h-[90vh] lg:max-h-[90vh] overflow-auto bg-white shadow-lg rounded-lg border border-gray-200">
+        <div className="min-h-[95vh] max-h-[95vh] lg:min-h-[90vh] lg:max-h-[90vh] overflow-auto bg-white shadow-lg border border-gray-200">
           {userReportsMap.length === 0 ? (
             <div className="text-xl md:text-2xl lg:text-4xl xl:text-5xl min-h-[50vh] flex justify-center items-center">
               <h2 className="">No data found</h2>
             </div>
           ) : (
-            <table className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg">
+            <table className="min-w-full text-sm table-auto border-collapse bg-white shadow-md">
               <thead>
                 <tr className="text-left bg-gray-100 text-gray-700 whitespace-nowrap">
                   <th className="px-6 py-4 text-sm font-medium">User Image</th>
@@ -289,7 +289,7 @@ const ManageUsers = () => {
                   return (
                     <tr
                       key={user._id}
-                      className="border-b hover:bg-gray-50 transition-colors duration-300"
+                      className="border-b border-[#cfe1b9] text-sm hover:bg-gray-50 transition-colors duration-300"
                     >
                       {/* image */}
                       <td className="px-4 py-2">
@@ -303,7 +303,7 @@ const ManageUsers = () => {
                               className="w-12 h-12 rounded-lg object-cover"
                             />
                             <div className="text-sm">
-                              <p className="text-nowrap text-base">
+                              <p className="text-nowrap text-sm">
                                 {" "}
                                 {user.user_name}
                               </p>
@@ -388,7 +388,7 @@ const ManageUsers = () => {
                       <td className="px-4 py-2 text-sm font-medium text-gray-800">
                         <button
                           onClick={() => handleDeleteUser(user?._id)}
-                          className="p-border px-1 rounded-md py-1 hover:-skew-y-3 transition"
+                          className="p-border text-xs px-1 rounded-md py-1 hover:-skew-y-3 transition"
                         >
                           Delete User
                         </button>
@@ -398,7 +398,7 @@ const ManageUsers = () => {
                           to={`/dashboard/admin/viewAllPostsByUser/${user._id}`}
                           state={location?.pathname}
                         >
-                          <button className="p-border px-1 rounded-md py-1 hover:-skew-y-3 transition">
+                          <button className="p-border text-xs px-1 rounded-md py-1 hover:-skew-y-3 transition">
                             View posts
                           </button>
                         </Link>

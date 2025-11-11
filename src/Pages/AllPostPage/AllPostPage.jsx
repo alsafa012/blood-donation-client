@@ -57,6 +57,13 @@ const AllPostPage = () => {
   };
   const handleSendComment = () => {
     //  alert("handleSendComment")
+    if (!loggedUserInfo?._id) {
+      return Swal.fire({
+        title: "Error",
+        text: "You must be logged in to cmment.",
+        icon: "error",
+      });
+    }
     const commentTextAreaValue = document.getElementById("comment_box");
     const textAreaValue = commentTextAreaValue.value;
     const commentData = {
@@ -169,7 +176,7 @@ const AllPostPage = () => {
       <WebsiteTitle name={"রক্তযোদ্ধা || Posts"} />
       <div className="w-full grid grid-cols-4 lg:gap-3 mx-auto relative max-h-[85vh] overflow-auto">
         {/* left sidebar */}
-        <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
+        <div className="hidden md:block text-justify text-justify col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
           <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
             💉 রক্তদান করার আগে মনে রাখুন
           </h2>
@@ -619,7 +626,7 @@ const AllPostPage = () => {
         {/* ---------------------- */}
 
         {/* right sidebar */}
-        <div className="hidden md:block col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
+        <div className="hidden md:block text-justify col-span-1 sticky top-2 right-0 p-4 lg:p-5 min-h-[80vh] max-h-[80vh] overflow-auto bg-white shadow-lg rounded-md">
           <h2 className="text-lg font-bold text-red-600 border-b pb-2 mb-3">
             💉 রক্তদানের পর করণীয়
           </h2>

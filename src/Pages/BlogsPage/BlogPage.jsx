@@ -217,7 +217,7 @@ const BlogPage = () => {
               </p>
               <button
                 onClick={() => togglePost(post.id)}
-                className="mt-3 text-sm text-red-500 hover:text-red-600 font-medium"
+                className="mt-3 text-sm p-text hover:underline font-medium"
               >
                 {expandedPostId === post.id
                   ? language === "en"

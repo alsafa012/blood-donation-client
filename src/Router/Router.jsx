@@ -22,6 +22,7 @@ import AvailableDonorPage from "../Pages/AvailableDonerPage/AvailableDonorPage";
 import BlogPage from "../Pages/BlogsPage/BlogPage";
 import BloodBankInfo from "../Pages/BloodBankInfo/BloodBankInfo";
 import ViewAllPostsByUser from "../Pages/Dashboard/AdminDashboard/ViewAllPostsByUser";
+import RoktojoddhaInformation from "../Components/RoktojoddhaInformation/RoktojoddhaInformation";
 
 const myCreatedRouter = createBrowserRouter([
   // https://blood-donation-server-ebon.vercel.app
@@ -50,6 +51,10 @@ const myCreatedRouter = createBrowserRouter([
       {
         path: "/bloodBanks",
         element: <BloodBankInfo />,
+      },
+      {
+        path: "/roktojoddhaInfoPage",
+        element: <RoktojoddhaInformation />,
       },
       {
         path: "/createPost",

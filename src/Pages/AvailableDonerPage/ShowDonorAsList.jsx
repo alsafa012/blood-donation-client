@@ -13,20 +13,20 @@ const ShowDonorAsList = forwardRef(({ donorList, hide, location }, ref) => {
           className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg"
         >
           <thead>
-            <tr className="bg-gray-200 text-gray-700">
+            <tr className="bg-primary text-gray-700">
               <th className="py-2 px-4 text-left">Sl No.</th>
               <th className="py-2 px-4 text-left">Name</th>
               <th className="py-2 px-4 text-left">Blood Group</th>
               <th className="py-2 px-4 text-left">Phone Number</th>
+              <th className="py-2 px-4 text-left">Religion</th>
               <th className="py-2 px-4 text-left">Sex</th>
-              <th className="py-2 px-4 text-left">Region</th>
               <th className="py-2 px-4 text-left">Address</th>
               {!hide && <th className="py-2 px-4 text-left">Action</th>}
             </tr>
           </thead>
           <tbody>
             {donorList?.map((info, ind) => (
-              <tr key={info?._id} className="border-b hover:bg-gray-100">
+              <tr key={info?._id} className="border-b border-[#cfe1b9] hover:bg-gray-100">
                 <td className="py-2 px-4 w-[130px]">{ind + 1 || "0"}</td>
                 <td className="py-2 px-4">{info?.user_name || ""}</td>
                 <td className="py-2 px-4">
@@ -41,7 +41,7 @@ const ShowDonorAsList = forwardRef(({ donorList, hide, location }, ref) => {
                     <Link
                       to={`/availableDonors/${info?._id}`}
                       state={location?.pathname}
-                      className="hover:underline"
+                      className="hover:underline p-text"
                     >
                       View details
                     </Link>

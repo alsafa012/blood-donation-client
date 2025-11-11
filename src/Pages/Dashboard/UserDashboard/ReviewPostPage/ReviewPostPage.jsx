@@ -30,14 +30,7 @@ const ReviewPostPage = () => {
   );
   const [reviewInfo, refetchReviews] = useAllReviewInfo();
   console.log("reviewInfo", reviewInfo);
-  // const { data: reviewInfo = [], refetch: refetchReviews } = useQuery({
-  //   queryKey: [],
-  //   queryFn: async () => {
-  //     const res = await axiosPublic.get(`/reviews`);
-  //     return res.data;
-  //   },
-  // });
-  // separate current user’s review and others
+
   const userReview = reviewInfo.find((r) => r.reviewer_email === user?.email);
   const otherReviews = reviewInfo.filter(
     (r) => r.reviewer_email !== user?.email
@@ -45,6 +38,16 @@ const ReviewPostPage = () => {
 
   const handleMakeReview = async (e) => {
     e.preventDefault();
+    if (userReview) {
+      Swal.fire({
+        title: "Already Reviewed!",
+        text: "You have already submitted a review.",
+        icon: "info",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     // const formData = e.target;
     const { _id, user_name, user_email, user_image } = loggedUserInfo;
     const reviewInfo = {
@@ -196,7 +199,7 @@ const ReviewPostPage = () => {
             required
           />
         </div>
-        <button className="btn-bg px-2 md:px-8 py-1 md:py-2 rounded-md">
+        <button className="btn-bg px-2 md:px-8 py-1 md:py-1 rounded-md">
           Submit
         </button>
       </form>

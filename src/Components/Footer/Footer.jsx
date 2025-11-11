@@ -11,14 +11,14 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <h2 className="text-2xl font-bold text-black mb-3">Roktojoddha</h2>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-justify">
               Roktojoddha” is a web-based platform that connects blood donors
               and recipients easily and efficiently. Join our community today
               and help save lives by becoming a blood donor.
             </p>
             <Link
-              to="/about"
-              className="mt-3 inline-flex items-center gap-2 text-green-700 font-medium hover:gap-3 transition-all"
+              to="/roktojoddhaInfoPage"
+              className="mt-3 inline-flex items-center gap-2 p-text font-medium hover:gap-3 transition-all"
             >
               Learn more <FaArrowRight />
             </Link>
@@ -33,7 +33,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:text-green-700 transition-colors flex items-center gap-2"
+                  className="hover:p-text transition-colors flex items-center gap-2"
                 >
                   🏠 <span>Home</span>
                 </Link>
@@ -41,7 +41,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/availableDonors"
-                  className="hover:text-green-700 transition-colors flex items-center gap-2"
+                  className="hover:p-text transition-colors flex items-center gap-2"
                 >
                   🩸 <span>Available Donors</span>
                 </Link>
@@ -49,7 +49,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/posts"
-                  className="hover:text-green-700 transition-colors flex items-center gap-2"
+                  className="hover:p-text transition-colors flex items-center gap-2"
                 >
                   📢 <span>Blood Requests</span>
                 </Link>
@@ -57,7 +57,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/bloodBanks"
-                  className="hover:text-green-700 transition-colors flex items-center gap-2"
+                  className="hover:p-text transition-colors flex items-center gap-2"
                 >
                   🏥 <span>Blood Banks</span>
                 </Link>
@@ -65,7 +65,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/blogs"
-                  className="hover:text-green-700 transition-colors flex items-center gap-2"
+                  className="hover:p-text transition-colors flex items-center gap-2"
                 >
                   📰 <span>Blogs</span>
                 </Link>
@@ -80,21 +80,19 @@ const Footer = () => {
             </h2>
             <ul className="text-sm space-y-2">
               <li className="flex items-center gap-2">
-                <FaPhoneAlt className="text-green-700" /> 017*****590,
-                018*****409
+                <FaPhoneAlt className="p-text" /> 017*****590, 018*****409
               </li>
               <li className="flex items-center gap-2">
-                <FaEnvelope className="text-green-700" />{" "}
-                support@roktojoddha.com
+                <FaEnvelope className="p-text" /> support@roktojoddha.com
               </li>
               <li className="flex items-center gap-2">
-                <FaFacebook className="text-green-700" />
+                <FaFacebook className="p-text" />
                 <a
                   //   href="https://facebook.com/Roktojoddha"
                   href="#"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-green-700"
+                  className="hover:p-text"
                 >
                   facebook.com/Roktojoddha
                 </a>
@@ -114,7 +112,7 @@ const Footer = () => {
               href="https://alsafaridoy.vercel.app/"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-green-700 hover:underline"
+              className="font-medium p-text hover:underline"
             >
               Ridoy IT Solution
             </a>

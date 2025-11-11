@@ -17,7 +17,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   const [loggedUserInfo] = useLoggedUserInfo();
-  // console.log(loggedUserInfo);
+  console.log(loggedUserInfo);
   useEffect(() => {
     if (user) {
       if (user?.email === loggedUserInfo?.user_email) {
@@ -92,10 +92,9 @@ const DashboardLayout = () => {
                     src={user?.photoURL}
                     alt="user_img.png"
                   />
-                  <p className="font-medium text-center p-2">
-                    {/* {user && isAdmin ? "Admin" : "Customer"} */}
+                  <p className="font-medium text-center p-2 capitalize">
+                    {loggedUserInfo?.user_role}
                   </p>
-                  {/* <p className="font-medium text-center p-2">{userRole}</p> */}
                 </div>
               )}
               {user && (
@@ -156,6 +155,7 @@ const DashboardLayout = () => {
                   <MdOutlineRateReview size={25} /> Download Card
                 </NavLink>
               </li>
+              {/* {loggedUserInfo?.user_role === "admin" && ( */}
               <li>
                 <NavLink
                   className={({ isActive, isPending }) =>
@@ -170,6 +170,8 @@ const DashboardLayout = () => {
                   <BiSolidHomeHeart size={25} /> Admin Home
                 </NavLink>
               </li>
+              {/* )} */}
+              {/* {loggedUserInfo?.user_role === "admin" && ( */}
               <li>
                 <NavLink
                   className={({ isActive, isPending }) =>
@@ -184,6 +186,7 @@ const DashboardLayout = () => {
                   <MdOutlineManageAccounts size={25} /> Manage Users
                 </NavLink>
               </li>
+              {/*  )} */}
               <li className="hidden">
                 <NavLink
                   className={({ isActive, isPending }) =>

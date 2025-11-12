@@ -304,7 +304,7 @@ const HopeCard = forwardRef((props, ref) => {
           {/* Website logo */}
           <div className="flex flex-col items-center md:gap-2">
             <div
-              className="w-32 h-32 rounf opa"
+              className="w-32 h-32"
               style={{
                 // backgroundImage: `url("https://i.ibb.co.com/8nGN7yds/logo-with-heart-hand.png")`,
                 backgroundImage: `url(${img})`,

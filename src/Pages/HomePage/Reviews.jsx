@@ -5,10 +5,12 @@ import ShowBloodGroup from "../../Shared/ShowBloodGroup";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { useCallback, useState } from "react";
 import StarRattingSvg from "../../Shared/StarRattingSvg";
+import useAllUsersInfo from "../../Components/hooks/useAllUsersInfo";
 
 const Reviews = () => {
   const { user } = useAuth();
   const [reviewInfo] = useAllReviewInfo();
+  const [allUsers] = useAllUsersInfo();
   const navigate = useNavigate();
   const [currentSlider, setCurrentSlider] = useState(0);
   // console.log(reviewInfo);
@@ -86,45 +88,51 @@ const Reviews = () => {
         className={`md:w-1/2 ${reviewInfo?.length === 0 ? "hidden" : "block"}`}
       >
         <div className="bg-white flex min-h-[40vh] max-h-[40vh shadow-lg rounded-lg overflow-hidden">
-          {/* <div className="relative flex"> */}
+          {reviewInfo?.map((review) => {
+            // find the actual user by matching IDs
+            const matchedUser = allUsers?.find(
+              (user) => user._id === review.reviewer_id
+            );
 
-          {reviewInfo?.map((review) => (
-            <div
-              key={review._id}
-              style={{ transform: `translateX(-${currentSlider * 100}%)` }}
-              className={`w-ful max-w-ful min-w-[100%] flex flex-col items-cente p-6 space-x-4 p- transition-transform duration-300 transform`}
-            >
-              <img
-                src={review.reviewer_image}
-                alt={review.reviewer_name}
-                className="w-24 h-24 object-cover rounded-full border-2 border-red-500"
-              />
-              <div>
-                <h5 className="font-semibold mt-3">
-                  {review.reviewer_name},{" "}
-                  <small>
-                    <ShowBloodGroup blood={review?.reviewer_bloodGroup} />
-                  </small>
-                </h5>
-                <StarRattingSvg ratting={review?.rating} />
-                <small>19/2, Dhaka, Mohammadpur</small>
-                <p className=" max-h-[200px] overflow-auto p-1 -ml-1">
-                  {review?.review_content?.split("\n")?.map((com, ind) =>
-                    com?.trim() !== "" ? (
-                      <span className="text-[16px] block" key={ind}>
-                        {com}
-                      </span>
-                    ) : (
-                      <br key={ind} />
-                    )
-                  )}
-                </p>
-                {/* <p className="text-gray-600 mt-5">{review.review_content}</p> */}
+            return (
+              <div
+                key={review._id}
+                style={{ transform: `translateX(-${currentSlider * 100}%)` }}
+                className={`w-ful max-w-ful min-w-[100%] flex flex-col items-cente p-6 space-x-4 p- transition-transform duration-300 transform`}
+              >
+                <img
+                  src={matchedUser?.user_image}
+                  alt={matchedUser?.user_name}
+                  className="w-24 h-24 object-cover rounded-full border-2 border-red-500"
+                />
+                <div>
+                  <h5 className="font-semibold mt-3">
+                    {review.reviewer_name},{" "}
+                    <small>
+                      <ShowBloodGroup blood={matchedUser?.bloodGroup} />
+                    </small>
+                  </h5>
+                  <StarRattingSvg ratting={review?.rating} />
+                  <small>{matchedUser?.user_full_address}</small>
+                  <p className=" max-h-[200px] overflow-auto p-1 -ml-1 text-justify">
+                    {review?.review_content?.split("\n")?.map((com, ind) =>
+                      com?.trim() !== "" ? (
+                        <span className="text-[16px] block" key={ind}>
+                          {com}
+                        </span>
+                      ) : (
+                        <br key={ind} />
+                      )
+                    )}
+                  </p>
+                  {/* <p className="text-gray-600 mt-5">{review.review_content}</p> */}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           {/* </div> */}
         </div>
+
         {/* Slider Controls */}
         <div className="flex items-center gap-5 justify-between mt-5">
           <p className="text-lg font-medium text-center px-4 p-border rounded-md py-1">

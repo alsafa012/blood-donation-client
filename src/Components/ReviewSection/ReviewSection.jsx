@@ -14,8 +14,7 @@ const ReviewSection = () => {
         "alsafa024@gmail.com",
         "rjridoy012@gmail.com",
       ],
-      // email: formInput.email.value,
-      subject: formInput.subject.value,
+      // subject: formInput.subject.value,
       body: `
         My name is ${loggedUserInfo?.user_name}.\n
         ${formInput.body.value}\n
@@ -26,8 +25,7 @@ const ReviewSection = () => {
         Messenger: ${loggedUserInfo?.user_messenger}
       `,
     };
-    // console.log(formData);
-
+    console.log(formData);
     fetch("https://yourmailsender.pythonanywhere.com/send/mail/", {
       method: "POST",
       headers: {
@@ -78,7 +76,6 @@ const ReviewSection = () => {
           cols={5}
           placeholder="body"
           name="body"
-          required
         />
         <button className="btn w-full">Send</button>
       </form>

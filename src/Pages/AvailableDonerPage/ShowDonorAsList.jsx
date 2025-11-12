@@ -26,16 +26,24 @@ const ShowDonorAsList = forwardRef(({ donorList, hide, location }, ref) => {
           </thead>
           <tbody>
             {donorList?.map((info, ind) => (
-              <tr key={info?._id} className="border-b border-[#cfe1b9] hover:bg-gray-100">
+              <tr
+                key={info?._id}
+                className="border-b border-[#cfe1b9] hover:bg-gray-100"
+              >
                 <td className="py-2 px-4 w-[130px]">{ind + 1 || "0"}</td>
                 <td className="py-2 px-4">{info?.user_name || ""}</td>
                 <td className="py-2 px-4">
                   <ShowBloodGroup blood={info?.bloodGroup || ""} />
                 </td>
-                <td className="py-2 px-4">{info?.phone_number || ""}</td>
+                <td className="py-2 px-4">
+                  {info?.phone_number || ""}
+                  {info?.alternative_phone_number && ","}
+                  {info?.alternative_phone_number &&
+                    info?.alternative_phone_number}
+                </td>
                 <td className="py-2 px-4">{info?.user_religious || ""}</td>
                 <td className="py-2 px-4">{info?.user_gender || ""}</td>
-                <td className="py-2 px-4">{info?.user_address || ""}</td>
+                <td className="py-2 px-4">{info?.user_full_address || ""}</td>
                 {!hide && (
                   <td className="py-2 px-4">
                     <Link

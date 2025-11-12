@@ -1,14 +1,7 @@
 import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
 import { useEffect, useRef, useState } from "react";
 import MyContainer from "../../Shared/MyContainer";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import axios from "axios";
-import ShowBloodGroup from "../../Shared/ShowBloodGroup";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import WebsiteTitle from "../../Shared/WebsiteTitle";
 import LoadingAnimation from "../../Shared/LoadingAnimation";
 import ShowDonorAsList from "./ShowDonorAsList";
@@ -22,6 +15,8 @@ import { FaDownload } from "react-icons/fa6";
 import { MdClear } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
+import useLoggedUserInfo from "../../Components/hooks/useLoggedUserInfo";
+import Swal from "sweetalert2";
 const district = [
   { id: "1", division_id: "1", name: "Dhaka", bn_name: "কুমিল্লা" },
   { id: "2", division_id: "1", name: "Feni", bn_name: "ফেনী" },
@@ -70,18 +65,16 @@ const upazila = [
     url: "sadar.feni.gov.bd",
   },
 ];
-const fakeData = Array.from({ length: 55 }, (_, i) => ({
-  _id: `id${i + 1}`,
-  user_name: `User ${i + 1}`,
-  bloodGroup: ["A+", "B+", "O+", "AB+"][i % 4],
-  phone_number: `01${Math.floor(100000000 + Math.random() * 900000000)}`,
-  user_religious: ["Islam", "Hinduism", "Christianity", "Buddhism"][i % 4],
-  user_gender: i % 2 === 0 ? "Male" : "Female",
-}));
+// const fakeData = Array.from({ length: 55 }, (_, i) => ({
+//   _id: `id${i + 1}`,
+//   user_name: `User ${i + 1}`,
+//   bloodGroup: ["A+", "B+", "O+", "AB+"][i % 4],
+//   phone_number: `01${Math.floor(100000000 + Math.random() * 900000000)}`,
+//   user_religious: ["Islam", "Hinduism", "Christianity", "Buddhism"][i % 4],
+//   user_gender: i % 2 === 0 ? "Male" : "Female",
+// }));
 const AvailableDonorPage = () => {
   const donorListRef = useRef();
-  // console.log(donorListRef);
-  // console.log(donorListRef.current);
 
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -93,7 +86,7 @@ const AvailableDonorPage = () => {
   const [hide, setHide] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  console.log("searchParams", searchParams);
+  // console.log("searchParams", searchParams);
   const [bloodGroup, setBloodGroup] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
   const [userReligious, setUserReligious] = useState("");
@@ -102,9 +95,8 @@ const AvailableDonorPage = () => {
   const [selectedDistrictName, setSelectedDistrictName] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedUpazila, setSelectedUpazila] = useState("");
-  // console.log(selectedDistrict);
-  // console.log("selectedDistrictName", selectedDistrictName);
-  // console.log("selectedDistrict", selectedUpazila);
+  const [loggedUserInfo] = useLoggedUserInfo();
+  // console.log("loggedUserInfo", loggedUserInfo);
   const filteredUpazilas = upazila?.filter(
     (upz) => upz.district_id === selectedDistrict
   );
@@ -275,10 +267,14 @@ const AvailableDonorPage = () => {
           <td class="py-2 px-4">${start + ind + 1}</td>
           <td class="py-2 px-4">${info?.user_name || ""}</td>
           <td class="py-2 px-4">${info?.bloodGroup || ""}</td>
-          <td class="py-2 px-4">${info?.phone_number || ""}</td>
+          <td class="py-2 px-4">${info?.phone_number || ""}   ${
+            info?.alternative_phone_number && ","
+          } ${
+            info?.alternative_phone_number && info?.alternative_phone_number
+          }</td>
           <td class="py-2 px-4">${info?.user_religious || ""}</td>
           <td class="py-2 px-4">${info?.user_gender || ""}</td>
-          <td class="py-2 px-4">${info?.user_address || ""}</td>
+          <td class="py-2 px-4">${info?.user_full_address || ""}</td>
         `;
           tbody.appendChild(row);
         });
@@ -311,10 +307,76 @@ const AvailableDonorPage = () => {
     // setHide(false);
   };
 
-  const handleInstantRequest = () => {
-    alert("Functionality not ready");
-    const getEmail = availableDonor?.map((email) => email.user_email);
-    console.log("getEmail", getEmail);
+  // const availableDonorList = availableDonor?.map((email) => email.user_email);
+  // console.log("availableDonorList", availableDonorList);
+
+  const handleSendInstantEmail = (e) => {
+    e.preventDefault();
+    // Check if blood group is selected
+    if (!bloodGroup) {
+      return Swal.fire({
+        title: "Error!",
+        text: "Please select a blood group before sending emails.",
+        icon: "error",
+      });
+    }
+
+    // Filter donors by the selected blood group
+    // const filteredDonors = availableDonor?.filter(
+    //   (donor) => donor.user_bloodGroup === bloodGroup
+    // );
+
+    // // If no donors found for that group
+    // if (!filteredDonors || filteredDonors.length === 0) {
+    //   return Swal.fire({
+    //     title: "No Donors Found!",
+    //     text: `No available donors with blood group ${bloodGroup}.`,
+    //     icon: "warning",
+    //   });
+    // }
+
+    // Extract emails from filtered donors
+    const availableDonorList = availableDonor?.map((donor) => donor.user_email);
+    const formData = {
+      // email: [
+      //   "alsafa012@gmail.com",
+      //   "alsafa024@gmail.com",
+      //   "rjridoy012@gmail.com",
+      // ],
+      email: availableDonorList,
+      // subject: formInput.subject.value,
+      body: `
+        My name is ${loggedUserInfo?.user_name}.\n
+        I need emergency ${bloodGroup} blood.
+
+        If you can donate, please contact me via:
+        📞 Phone: ${loggedUserInfo?.phone_number}
+        📧 Email: ${loggedUserInfo?.user_email}
+        💬 WhatsApp: ${loggedUserInfo?.user_whatsapp}
+        💻 Messenger: ${loggedUserInfo?.user_messenger}
+       
+      `,
+    };
+    // console.log(formData);
+    fetch("https://yourmailsender.pythonanywhere.com/send/mail/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
   };
 
   // const handleDownload = async () => {
@@ -498,7 +560,7 @@ const AvailableDonorPage = () => {
             {hide ? "Downloading..." : "Download List"} <FaDownload size={15} />
           </button>
           <button
-            onClick={handleInstantRequest}
+            onClick={handleSendInstantEmail}
             className="btn-bg rounded-md px-[2px] md:px-3 text-[12px] py-[2px] md:py-1 flex justify-center items-center gap-[3px] md:gap-[2px]"
           >
             Instant Request <FiSend size={15} />

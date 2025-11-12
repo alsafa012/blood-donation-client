@@ -7,6 +7,7 @@ import WebsiteTitle from "../../Shared/WebsiteTitle";
 import MyContainer from "../../Shared/MyContainer";
 import { requestNotificationPermission } from "../../Firebase/notificationService";
 import axios from "axios";
+import img from "../../../src/assets/logo.png";
 const LoginPage = () => {
   // const from = location?.state?.from?.pathname || "/";
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,6 @@ const LoginPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
-
   // Function to handle login
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -70,12 +70,13 @@ const LoginPage = () => {
         <WebsiteTitle name={"Login Page"}></WebsiteTitle>
         {/* <PageTitle title="Login"></PageTitle> */}
         <div className="backdrop-blur-xl w-full min-h-screen flex justify-center items-center">
-          <div className="relative p-border w-4/5 md:w-1/2 lg:w-1/3 mx-auto p-5 rounded-xl overflow-hidden">
+          <div className="relative border border-[#578456] p-borde w-4/5 md:w-1/2 lg:w-1/3 mx-auto p-5 rounded-xl overflow-hidden">
             {/* <p className="text-3xl font-bold mb-6 text-center mt-5">Login Here..</p> */}
             <div className="flex justify-center mx-auto">
               <img
-                className="w-auto h-7 sm:h-8"
-                src="https://merakiui.com/images/logo.svg"
+                className="h-20"
+                // src="https://merakiui.com/images/logo.svg"
+                src={img}
                 alt=""
               />
             </div>
@@ -102,7 +103,7 @@ const LoginPage = () => {
               {/* new email */}
               <div className="relative w-full">
                 <input
-                  className="peer w-full h-[50px] bg-none bg-transparent border-b border-b-[#1B8EF8] px-2 pt-4 text-[#1B8EF8] focus:outline-none dark:bg-blue-500/20"
+                  className="peer w-full h-[50px] bg-none bg-transparent border-b border-b-[#578456] px-2 pt-4 text-gray-700 focus:outline-none dark:bg-blue-500/20"
                   type="text"
                   name="email"
                   id="navigate_ui_input_55"
@@ -110,7 +111,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                 />
                 <label
-                  className="absolute left-2 top-0.5 text-xs text-[#1B8EF8] duration-300 peer-placeholder-shown:left-2 peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-2 peer-focus:top-0.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-[#1B8EF8]"
+                  className="absolute left-2 top-0.5 text-xs text-[#578456] duration-300 peer-placeholder-shown:left-2 peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-2 peer-focus:top-0.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-[#578456]"
                   htmlFor="navigate_ui_input_55"
                 >
                   Email or Phone number
@@ -119,7 +120,7 @@ const LoginPage = () => {
               {/* new Pass */}
               <div className="relative w-full">
                 <input
-                  className="peer w-full h-[50px] bg-none bg-transparent border-b border-b-[#1B8EF8] px-2 pt-4 text-[#1B8EF8] focus:outline-none dark:bg-blue-500/20"
+                  className="peer w-full h-[50px] bg-none bg-transparent border-b border-b-[#578456] px-2 pt-4 text-gray-700 focus:outline-none dark:bg-blue-500/20"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="navigate_ui_input_55"
@@ -127,7 +128,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                 />
                 <label
-                  className="absolute left-2 top-0.5 text-xs text-[#1B8EF8] duration-300 peer-placeholder-shown:left-2 peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-2 peer-focus:top-0.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-[#1B8EF8]"
+                  className="absolute left-2 top-0.5 text-xs text-[#578456] duration-300 peer-placeholder-shown:left-2 peer-placeholder-shown:top-[50%] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:left-2 peer-focus:top-0.5 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-[#578456]"
                   htmlFor="navigate_ui_input_55"
                 >
                   Password

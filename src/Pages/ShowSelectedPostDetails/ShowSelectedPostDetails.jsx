@@ -51,7 +51,7 @@ const ShowSelectedPostDetails = () => {
   const selectedPostDetails = useLoaderData();
   console.log(selectedPostDetails);
   console.log(location);
-  console.log("navigate", navigate);
+  // console.log("navigate", navigate);
 
   // useState(() => {
   //   if (id) {

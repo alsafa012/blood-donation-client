@@ -89,7 +89,7 @@ const DashboardLayout = () => {
                 <div className="w-full my-3">
                   <img
                     className="rounded-full h-[100px] w-[100px] object-cover mx-auto"
-                    src={user?.photoURL}
+                    src={loggedUserInfo?.user_image}
                     alt="user_img.png"
                   />
                   <p className="font-medium text-center p-2 capitalize">
@@ -155,7 +155,7 @@ const DashboardLayout = () => {
                   <MdOutlineRateReview size={25} /> Download Card
                 </NavLink>
               </li>
-              {/* {loggedUserInfo?.user_role === "admin" && ( */}
+              {loggedUserInfo?.user_role === "admin" && (
               <li>
                 <NavLink
                   className={({ isActive, isPending }) =>
@@ -170,8 +170,8 @@ const DashboardLayout = () => {
                   <BiSolidHomeHeart size={25} /> Admin Home
                 </NavLink>
               </li>
-              {/* )} */}
-              {/* {loggedUserInfo?.user_role === "admin" && ( */}
+              )}
+              {loggedUserInfo?.user_role === "admin" && (
               <li>
                 <NavLink
                   className={({ isActive, isPending }) =>
@@ -186,7 +186,7 @@ const DashboardLayout = () => {
                   <MdOutlineManageAccounts size={25} /> Manage Users
                 </NavLink>
               </li>
-              {/*  )} */}
+               )}
               <li className="hidden">
                 <NavLink
                   className={({ isActive, isPending }) =>

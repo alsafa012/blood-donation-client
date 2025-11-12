@@ -22,7 +22,7 @@ const ShowAvailableDonorDetails = () => {
   const [showReportForm, setShowReportForm] = useState(false);
 
   const location = useLocation();
-  // console.log("location", location);
+  console.log("location", location);
   // const navigate = useNavigate();
 
   const handleReportClick = async () => {

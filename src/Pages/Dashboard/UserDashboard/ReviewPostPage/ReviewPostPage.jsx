@@ -214,7 +214,10 @@ const ReviewPostPage = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="flex gap-2 items-center">
-                    <Link to={`/availableDonors/${userReview.reviewer_id}`}>
+                    <Link
+                      to={`/availableDonors/${userReview.reviewer_id}`}
+                      state={location?.pathname}
+                    >
                       <img
                         src={userReview?.reviewer_image}
                         alt="Reviewer"
